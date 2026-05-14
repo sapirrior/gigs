@@ -1,20 +1,24 @@
-# Our Goal: Simplifying Information Access
+# Our Goal: A Modern Manual Standard
 
-The `gig` engine and the `gigs` project aim to make technical information intuitive to access and easy to create.
+The `gig` engine and the `gigs` project aim to make complete technical information intuitive to access and easy to create.
 
 ## Rooted in Tradition
 
-`gig` enhances the established conventions of traditional Unix manual pages, making them more interactive and visually engaging while retaining their structured approach.
+`gig` enhances the established conventions of traditional Unix manual pages, providing a modern interface while maintaining the same level of informative depth and structural rigor.
 
-## Not a Replacement
+## The GIG Standard
 
-`gig` is an aid to existing tools like `man` and `info`, not a replacement. It provides a modern alternative that complements a terminal-centric workflow.
+A GIG is more than just help; it is a professional reference manual. We provide a modern alternative that respects the user's workflow by making complex data easier to navigate without sacrificing completeness.
 
 ## Core Objectives
 
-- **Simplify Access** : Provide a visually appealing, interactive documentation viewer.
+- **Informative Depth** : Provide complete and reliable technical documentation.
 - **Ease Creation** : Offer an intuitive syntax that allows authors to focus on content.
 - **Enhance Readability** : Use structured layout and styling for digestible information.
-- **Foster Understanding** : Encourage well-organized, concise, and user-centric guides.
+- **Consistent Structure** : Maintain the fundamental manual hierarchy (`NAME`, `SYNOPSIS`, `DESCRIPTION`).
+
+## A Humble Intent
+
+The GIG project is built on respect for the long-standing traditions of Unix documentation. We do not seek to replace or disrespect any existing tools, authors, or systems. GIG is not trying to be the "best" or "ultimate" tool; it is simply an effort to provide a simple, modern manual that is easy to write and pleasant to read. We are here to complement the ecosystem, not to compete with it.
 
 `gig` is a companion in your terminal workflow, designed to streamline learning and referencing.

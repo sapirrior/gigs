@@ -17,8 +17,8 @@ $ gig view example.gg
 . It showcases block types, inline styling, and table formatting to help
   authors understand how to craft effective documentation.
 
-. Manual pages like this one are designed for quick reference, providing
-  **concise** and **structured** information.
+. Manual pages like this one are designed for deep technical reference,
+  providing **complete** and **structured** information.
 
 # BLOCK TYPES
 ## Primary Section Header

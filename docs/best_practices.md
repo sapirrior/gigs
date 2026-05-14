@@ -1,6 +1,15 @@
 # Best Practices: Crafting Effective GIG Pages
 
-Creating high-quality `gig` pages involves clear structure, concise writing, and consistent application of Unix documentation conventions.
+Creating high-quality `gig` pages involves clear structure, concise writing, and absolute technical fidelity.
+
+## The Manual Page Standard
+
+Every `gig` page must be treated as a professional reference manual. 
+
+### Informative Completeness
+- **Manual-Grade Depth**: The information provided must be complete. A user should be able to rely on a GIG as their primary technical reference for a tool or topic.
+- **Fundamental Pillars**: Every GIG must include the `NAME`, `SYNOPSIS`, and `DESCRIPTION` sections. These are non-negotiable for structural consistency.
+- **Bounded Freedom**: Contributors are free to expand a GIG with new headers (e.g., `EXAMPLES`, `NOTES`, `TIPS`) or modern context. However, you must ensure that your additions do not make the page "fully different" in approach or structure from the rest of the collection.
 
 ## Emulating Manual Page Structure
 
