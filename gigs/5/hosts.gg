@@ -1,37 +1,43 @@
 @name    "hosts"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. hosts - static table lookup for hostnames
+. hosts(5) - static table lookup for hostnames
+
+# SYNOPSIS
+. /etc/hosts
 
 # DESCRIPTION
-. This file is a simple text file that associates IP addresses with
-  hostnames, one line per IP address. It is used for local name
-  resolution before (or alongside) DNS.
+. The `/etc/hosts` file associates IP addresses with hostnames. It
+  is used for local name resolution and is typically queried before
+  DNS (depending on `nsswitch.conf`).
 
 # FORMAT
 . Each line should have the following format:
+
 ! IP_address  canonical_hostname  [aliases...]
 
 - IP_address : An IPv4 or IPv6 address.
-- canonical_hostname : The primary hostname.
-- aliases : Optional alternative names for the same host.
+
+- canonical_hostname : The primary hostname for the IP.
+
+- aliases : Optional alternative names (e.g., short names).
 
 # NOTES
-. Fields are separated by any number of blanks and/or tab characters.
-. The character `#` indicates the start of a comment; text after it
-  is ignored until the end of the line.
-. Hostnames can contain only alphanumeric characters, minus signs (-),
-  and periods (.).
+. Fields are separated by spaces or tabs.
+
+. The `#` character starts a comment.
+
+. Hostnames should contain only alphanumeric characters, dots, and
+  minus signs.
 
 # EXAMPLES
-. A typical hosts file:
 ! 127.0.0.1       localhost
 ! ::1             localhost ip6-localhost ip6-loopback
-! 192.168.1.10    myserver.local  myserver web01
+! 192.168.1.10    server01.local server01
 
 # SEE ALSO
-. hostname(1), resolver(5)
+. hostname(1), resolv.conf(5), nsswitch.conf(5), resolver(5)

@@ -1,73 +1,63 @@
 @name    "gg"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. gg - General Interactive Guide file format
+. gg(5) - General Interactive Guide file format
+
+# SYNOPSIS
+. <name>.gg
 
 # DESCRIPTION
-. `.gg` files are plain-text documentation files designed to be rendered by
-  the `gig` engine. The format emulates the structure of Unix manual pages
-  while providing interactive features, semantic highlighting, and
-  responsive layouts.
+. The `.gg` format is a lightweight, semantic markup language used to
+  author General Interactive Guides (GIGs). It is designed to be
+  "Easier to Write and Easier to Read" than traditional man pages.
 
-. A `.gg` file is divided into two main parts: the **Metadata Zone** and
-  the **Content Zone**, separated by a triple-dash (`---`).
+# STRUCTURE
+. A `.gg` file consists of two zones separated by a triple-dash (`---`).
 
-# METADATA ZONE
-. The Metadata Zone must appear at the very top of the file. Each line
-  consists of a key starting with `@`, followed by whitespace, and a
-  double-quoted string value.
+## Metadata Zone
+. Key-value pairs at the top of the file. Required keys include
+  `@name` and `@section`.
 
-- @name    : The lookup name of the guide.
-- @section : The manual section (1-9, n, l).
-- @version : The version of the guide (optional).
-- @author  : The author or organization (optional).
-- @updated : Last update date in YYYY-MM-DD (optional).
+## Content Zone
+. The main body of the guide, structured using block triggers.
 
-# CONTENT ZONE
-. The Content Zone uses "first-character triggers" to define block types.
+# BLOCK TRIGGERS
+- #  : Primary Section Header (e.g., `# NAME`).
 
-## Block Triggers
-- `# ` : Primary Header (Level 0). Renders in bold cream.
-- `## ` : Secondary Header (Level 1). Renders in bold sand.
-- `. ` : Body Text. Standard paragraph with 10% indent and auto-wrap.
-- `! ` : Literal. Sage green, 15% indent, **no wrapping**.
-- `* ` : Bullet. Grey bullet point, 15% indent.
-- `- ` : Definition. `Term : Description` format.
-- `| ` : Table Row. Column separator is `|`. First row is the header.
-- `$ ` : Shell Command. Sage green, 15% indent.
-- `> ` : Quote/Note. Olive green, italicized, 15% indent.
+- ## : Secondary Subheader.
 
-## The Continuation Rule
-. To continue a block (like a long paragraph or bullet point) on a new line,
-  start the line with at least one space. This appends the text to the
-  preceding block rather than starting a new one.
+- .  : Body Text (Auto-wrapped paragraphs).
+
+- !  : Literal Block (Non-wrapped, sage green).
+
+- *  : Bulleted List item.
+
+- -  : Definition List item (`Term : Description`).
+
+- |  : Table Row.
+
+- $  : Shell Command.
+
+- >  : Quote or Important Note (Italicized, olive green).
+
+# CONTINUATION RULE
+. For multi-line blocks, subsequent lines must start with at least
+  one space to signal they append to the current block.
 
 # INLINE STYLING
-. The `gig` engine automatically highlights the following patterns:
-
-- **Strong Emphasis** : `**text**`
-- Commands : `` `command` `` (Sage Green)
-- Placeholders : `<variable>` (Terracotta)
-- Options : `[optional]` (Grey)
-- Links : `{link(section)}` (Slate Blue)
-- Strings : `"quoted string"` (Terracotta)
-- Flags : `--help` or `-v` (Sage Green)
+. The engine automatically highlights:
+  * **Bold** : `**text**`
+  * Commands : `` `ls` ``
+  * Required Vars : `<var>`
+  * Optional Vars : `[opt]`
+  * Links : `{link(section)}`
 
 # EXAMPLES
-. A minimal valid `.gg` file:
-
-! @name    "test"
-! @section "1"
-! ---
-! # NAME
-! . test(1) - a simple test guide
-!
-! # DESCRIPTION
-! . This is a minimal example of a .gg file.
+. See `docs/example.gg` for a complete demonstration of all features.
 
 # SEE ALSO
-. gig(1)
+. gig(1), introduction(7), best_practices(7)

@@ -1,33 +1,34 @@
 @name    "services"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. services - internet network services list
+. services(5) - internet network services list
+
+# SYNOPSIS
+. /etc/services
 
 # DESCRIPTION
-. The `services` file maps human-friendly service names to port
-  numbers and protocol types.
+. The `/etc/services` file provides a mapping between friendly service
+  names and their underlying port numbers and protocol types.
 
 # FORMAT
-. Each line has the following format:
-! service-name  port/protocol  [aliases...]
+. Each line consists of three fields:
 
-- service-name : Case-sensitive name of the service (e.g., `ssh`).
-- port/protocol : Port number and protocol (e.g., `22/tcp`).
-- aliases : Optional alternative names for the service.
+! service_name  port/protocol  [aliases...]
 
-# NOTES
-. Fields are separated by spaces or tabs.
-. Comments start with `#`.
+- service_name : The friendly name of the service (e.g., `ssh`).
+
+- port/protocol : The numeric port and protocol (e.g., `22/tcp`).
+
+- aliases : Optional alternative names.
 
 # EXAMPLES
-. Standard service entries:
-! ssh             22/tcp
-! http            80/tcp          www www-http
-! https           443/tcp         sslsrv
+! ssh             22/tcp                          # SSH Remote Login Protocol
+! http            80/tcp          www             # WorldWideWeb HTTP
+! https           443/tcp                         # HTTP over TLS/SSL
 
 # SEE ALSO
-. protocols(5), listen(2)
+. protocols(5), getservent(3), listen(2)

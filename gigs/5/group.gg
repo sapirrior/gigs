@@ -1,28 +1,38 @@
 @name    "group"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. group - user group file
+. group(5) - user group file
+
+# SYNOPSIS
+. /etc/group
 
 # DESCRIPTION
 . The `/etc/group` file is a text file that defines the groups to which
-  users belong.
+  users belong on the system.
 
 # FORMAT
 . Each line consists of four fields separated by colons (`:`):
+
 ! group_name:password:GID:user_list
 
 - group_name : The name of the group.
-- password : Encrypted password (rarely used, usually empty or `x`).
-- GID : Numeric Group ID.
-- user_list : Comma-separated list of usernames in the group.
+
+- password : Usually `x`. Historically an encrypted group password,
+  but rarely used now.
+
+- GID : The numeric Group ID.
+
+- user_list : A comma-separated list of usernames who are members of
+  this group. Note that a user's primary group (defined in
+  `/etc/passwd`) does not need to be listed here.
 
 # EXAMPLES
-. A group with multiple members:
-! developers:x:1002:alice,bob,charlie
+. A group with several developers:
+! developers:x:1005:alice,bob,charlie
 
 # SEE ALSO
-. groups(1), passwd(5), gshadow(5)
+. groups(1), passwd(5), gshadow(5), nsswitch.conf(5)

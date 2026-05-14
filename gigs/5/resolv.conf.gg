@@ -1,39 +1,44 @@
 @name    "resolv.conf"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. resolv.conf - resolver configuration file
+. resolv.conf(5) - resolver configuration file
+
+# SYNOPSIS
+. /etc/resolv.conf
 
 # DESCRIPTION
 . The `resolv.conf` file is used by the C library resolver to translate
-  hostnames into IP addresses. It defines which DNS servers to query
-  and how to search for local domains.
+  hostnames into IP addresses. It defines DNS servers and search rules.
 
 # DIRECTIVES
-- nameserver IP : The IPv4 or IPv6 address of a DNS server to query.
-  Up to three servers can be listed. They are queried in order.
+- nameserver IP : The IPv4 or IPv6 address of a DNS server. Up to three
+  can be listed. They are queried in the order they appear.
 
-- search DOMAIN : Defines a search list for hostname lookups. If a name
-  is not fully qualified, it will be tried with these suffixes.
+- domain DOMAIN : The local domain name. Mutually exclusive with `search`.
 
-- domain DOMAIN : Local domain name. Usually mutually exclusive with
-  the `search` directive.
+- search DOMAIN... : A list of domains to search for short hostnames.
+  Tried in the order they are listed.
 
-- options OPTIONS : Tweak resolver variables (e.g., `timeout:n`,
-  `attempts:n`, `rotate` for round-robin).
+- options OPT... : Tweak resolver behavior:
+  * rotate : Use round-robin between nameservers.
+  * timeout:n : Seconds to wait for a response (Default: 5).
+  * attempts:n : Retries before giving up (Default: 2).
+  * ndots:n : Dots required in a name to try absolute query first (Default: 1).
 
 # NOTES
-. On modern systems, this file is often managed by `systemd-resolved` or
-  `NetworkManager`. Manual changes may be overwritten.
+. On modern systems, this file is often managed by `systemd-resolved`
+  or `NetworkManager`. Manual changes may be overwritten.
 
 # EXAMPLES
-. A typical configuration:
+. A typical performance-tuned configuration:
 ! nameserver 8.8.8.8
 ! nameserver 1.1.1.1
-! search local.network example.com
+! search local.net example.com
+! options rotate timeout:1 attempts:2
 
 # SEE ALSO
 . gethostbyname(3), hosts(5), nsswitch.conf(5)

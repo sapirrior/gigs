@@ -1,25 +1,29 @@
 @name    "motd"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. motd - message of the day
+. motd(5) - message of the day
+
+# SYNOPSIS
+. /etc/motd
 
 # DESCRIPTION
-. The contents of `/etc/motd` are displayed by `login(1)` after a
-  successful login but before the shell starts.
+. The `/etc/motd` file contains a message that is displayed to users
+  after they have successfully logged in.
 
-# NOTES
-. It is traditionally used for system-wide announcements.
-. Some systems generate dynamic content via `/etc/update-motd.d/`.
-. For messages shown BEFORE login, see `issue(5)`.
+. On modern systems (especially Ubuntu/Debian), the MOTD is often
+  generated dynamically by scripts in `/etc/update-motd.d/`.
+
+# USAGE
+. Administrators use this file to broadcast system news, maintenance
+  schedules, or usage policies to all users.
 
 # EXAMPLES
-. A simple motd file:
-! Welcome to the production server!
-! Scheduled maintenance: Sunday at 02:00 UTC.
+! *** NOTICE ***
+! System will be down for maintenance on Sunday at 02:00 UTC.
 
 # SEE ALSO
-. login(1), issue(5)
+. issue(5), login(1)

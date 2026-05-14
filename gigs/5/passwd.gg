@@ -1,32 +1,56 @@
 @name    "passwd"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. passwd - password file
+. passwd(5) - the password file
+
+# SYNOPSIS
+. /etc/passwd
 
 # DESCRIPTION
 . The `/etc/passwd` file is a text file that contains a list of the
-  system's accounts, providing for each account the login name, user ID,
-  group ID, home directory, and shell.
+  system's accounts. It provides the essential information used by
+  utilities to identify users and their environment.
+
+. On modern systems, this file is world-readable but contains no
+  sensitive password data (which is stored in `/etc/shadow`).
 
 # FORMAT
 . Each line consists of seven fields separated by colons (`:`):
+
 ! name:password:UID:GID:GECOS:directory:shell
 
-- name : Login name (username).
-- password : Usually `x` (password is in `/etc/shadow`).
+- name : Login name (username). Must be unique and follow system
+  naming conventions.
+
+- password : Usually `x`. Historically held the encrypted password,
+  but now signals that the hash is in `/etc/shadow`.
+
 - UID : User ID number.
-- GID : Primary group ID number.
-- GECOS : User information (e.g., full name).
-- directory : Home directory.
-- shell : Login shell (e.g., `/bin/bash`).
+  * 0 : The root superuser (bypasses all permission checks).
+  * 65534 : The `nobody` account (least privilege, used for NFS).
+
+- GID : Primary Group ID number (references `/etc/group`).
+
+- GECOS : General user information. Most tools expect a
+  comma-separated format:
+  * Full Name, Room Number, Work Phone, Home Phone, Other.
+  * An ampersand (`&`) in this field is expanded to the username.
+
+- directory : The user's home directory (e.g., `/home/username`).
+
+- shell : The login shell program (e.g., `/bin/bash`). If set to
+  `/usr/sbin/nologin` or `/bin/false`, the user cannot log in.
 
 # EXAMPLES
 . A standard user entry:
-! alice:x:1001:1001:Alice Smith:/home/alice:/bin/bash
+! alice:x:1001:1001:Alice Smith,404,555-0123,,:/home/alice:/bin/bash
+
+. The root user entry:
+! root:x:0:0:root:/root:/bin/bash
 
 # SEE ALSO
-. login(1), group(5), shadow(5)
+. login(1), chsh(1), group(5), shadow(5), nsswitch.conf(5)

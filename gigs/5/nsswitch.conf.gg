@@ -1,30 +1,53 @@
 @name    "nsswitch.conf"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. nsswitch.conf - name service switch configuration file
+. nsswitch.conf(5) - Name Service Switch configuration file
+
+# SYNOPSIS
+. /etc/nsswitch.conf
 
 # DESCRIPTION
-. The `nsswitch.conf` file determines the sources and order for
-  resolving system databases (users, hosts, etc.).
+. The `nsswitch.conf` file defines the order and method for looking up
+  system databases like users, groups, and hostnames.
 
-# FORMAT
-. Each line consists of a database name and a list of sources:
-! database: source1 [action1] source2 ...
+# DATABASES
+- passwd / group / shadow : User and group account information.
 
-- database : Category of info (e.g., `passwd`, `hosts`).
-- source : Service to query (e.g., `files`, `dns`).
-- action : Optional criteria to modify behavior (e.g., `[NOTFOUND=return]`).
+- hosts : Hostnames and IP addresses.
+
+- services / protocols : Network service and protocol names.
+
+# SOURCES
+- files : Query local files (e.g., `/etc/passwd`, `/etc/hosts`).
+
+- dns : Query the Domain Name Service (used for `hosts`).
+
+- sss : Query the System Security Services Daemon (LDAP/AD).
+
+- myhostname : Resolves the local system's hostname.
+
+# ACTION CODES [STATUS=ACTION]
+. You can control the lookup flow based on the result:
+
+- SUCCESS : Entry found. (Default: `return`)
+
+- NOTFOUND : Entry doesn't exist. (Default: `continue`)
+
+- UNAVAIL : Source is down or file is missing. (Default: `continue`)
+
+- TRYAGAIN : Source is busy. (Default: `continue`)
+
+## Example: [NOTFOUND=return]
+. This stops the search if the source explicitly says the entry
+  doesn't exist, preventing fall-through to DNS for local names.
 
 # EXAMPLES
-. Common configuration:
-! passwd:         files
-! group:          files
-! hosts:          files dns
-! networks:       files
+! hosts: files mdns4_minimal [NOTFOUND=return] dns myhostname
+! passwd: sss files
 
 # SEE ALSO
-. hosts(5), passwd(5), resolv.conf(5)
+. passwd(5), hosts(5), resolv.conf(5)

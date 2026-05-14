@@ -1,34 +1,37 @@
 @name    "issue"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. issue - pre-login message and identification file
+. issue(5) - pre-login message and identification file
+
+# SYNOPSIS
+. /etc/issue
 
 # DESCRIPTION
-. The `/etc/issue` file is a text file which contains a message or
-  system identification to be printed before the login prompt on
-  terminals (TTYs).
+. The `/etc/issue` file contains text to be displayed before the login
+  prompt. It often includes system identification or warnings.
 
 # ESCAPE SEQUENCES
-. `issue` supports special escape sequences to display system info:
+. Many `getty` implementations support escape codes:
 
-- \n : Node name (hostname).
-- \r : OS release version.
+- \n : Hostname of the machine.
+
+- \o : Domain name.
+
+- \r : Kernel release version.
+
 - \t : Current time.
-- \d : Current date.
-- \l : Name of the current TTY line.
 
-# NOTES
-. For remote Telnet logins, `/etc/issue.net` is used.
-. For messages shown AFTER a successful login, see `motd(5)`.
+- \u : Number of current users logged in.
+
+- \v : OS version and build date.
 
 # EXAMPLES
-. A customized issue file:
-! Welcome to \n (\l)
-! Kernel \r on \t
+! Welcome to \n (\s \r \m)
+! Login:
 
 # SEE ALSO
-. motd(5), getty(8)
+. motd(5), login(1), agetty(8)

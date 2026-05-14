@@ -1,34 +1,49 @@
 @name    "shadow"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. shadow - shadowed password file
+. shadow(5) - shadowed password file
+
+# SYNOPSIS
+. /etc/shadow
 
 # DESCRIPTION
-. The `/etc/shadow` file contains encrypted password information for
-  user accounts and optional aging information. This file is usually
-  readable only by the root user.
+. The `/etc/shadow` file contains encrypted password hashes and
+  account aging information. It is usually readable only by the root
+  user to prevent brute-force attacks on the hashes.
 
 # FORMAT
 . Each line consists of nine fields separated by colons (`:`):
+
 ! name:password:lastchg:min:max:warn:inactive:expire:reserved
 
 - name : Login name (username).
-- password : The encrypted password (or lock string like `!` or `*`).
-- lastchg : Days since Jan 1, 1970, that password was last changed.
-- min : Minimum days before password can be changed.
-- max : Maximum days after which password must be changed.
-- warn : Days before expiration that user is warned.
-- inactive : Days after expiration before account is disabled.
-- expire : Absolute date (days since Epoch) when account expires.
+
+- password : The encrypted password hash. Format is `$id$salt$hash`.
+  * `$6$` : SHA-512 (modern standard).
+  * `!` : Account is locked.
+  * `*` : Account is disabled for interactive login (service accounts).
+
+- lastchg : Days since Jan 1, 1970, when the password was last changed.
+
+- min : Minimum days before the password can be changed.
+
+- max : Maximum days after which the password must be changed.
+
+- warn : Days before expiration that the user is warned.
+
+- inactive : Days after expiration before the account is disabled.
+
+- expire : Absolute date (days since Epoch) when the account expires.
+
 - reserved : Reserved for future use.
 
-# EXAMPLES
-. A typical shadow entry:
-! alice:$6$salt$hash:19850:0:90:7:30::
+# SECURITY NOTE
+. Even if an account is locked (`!`), a user might still be able to
+  log in via other methods (e.g., SSH keys).
 
 # SEE ALSO
-. passwd(1), passwd(5), chage(1)
+. passwd(1), chage(1), passwd(5), crypt(3)

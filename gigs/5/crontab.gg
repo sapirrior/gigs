@@ -1,36 +1,56 @@
 @name    "crontab"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. crontab - tables for driving cron
+. crontab(5) - tables for driving cron
+
+# SYNOPSIS
+. /etc/crontab
+. /var/spool/cron/crontabs/<user>
 
 # DESCRIPTION
 . A `crontab` file contains instructions to the `cron` daemon to run
   commands at specific times.
 
-# FORMAT
-. A crontab line has five time and date fields, followed by a command:
+# ENVIRONMENT VARIABLES
+. Variables defined at the top of the file affect all subsequent jobs:
+
+- SHELL : The shell used to run commands (Default: `/bin/sh`).
+
+- PATH : The list of directories searched for binaries.
+
+- MAILTO : The email address where output is sent. Set to `""` to
+  disable email notifications.
+
+# JOB FORMAT
+. A crontab line has five time fields followed by the command:
+
 ! minute hour day_of_month month day_of_week command
 
-- minute : 0-59
-- hour : 0-23
-- day_of_month : 1-31
-- month : 1-12 (or names)
-- day_of_week : 0-7 (0 or 7 is Sunday)
-- command : The shell command to execute.
+- minute (0-59), hour (0-23), day (1-31), month (1-12), dow (0-7).
 
-# SPECIAL CHARACTERS
-- * : Any value (wildcard).
-- , : List of values (e.g., `1,3,5`).
-- - : Range of values (e.g., `1-5`).
-- / : Step values (e.g., `*/10`).
+# SPECIAL SHORTCUTS
+. Instead of numbers, you can use these shortcuts:
+
+- @reboot : Run once, at startup.
+
+- @hourly : Run once an hour (0 * * * *).
+
+- @daily / @midnight : Run once a day (0 0 * * *).
+
+- @weekly : Run once a week (0 0 * * 0).
+
+- @monthly : Run once a month (0 0 1 * *).
 
 # EXAMPLES
-. Run a backup every Monday at 4:30 AM:
+. Backup at 4:30 AM every Monday:
 ! 30 04 * * 1 /usr/bin/backup.sh
+
+. Run an initialization script at every boot:
+! @reboot /home/user/bin/init.sh
 
 # SEE ALSO
 . crontab(1), cron(8)

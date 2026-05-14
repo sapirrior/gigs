@@ -1,30 +1,35 @@
 @name    "protocols"
 @section "5"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
-. protocols - protocols definition file
+. protocols(5) - protocols definition file
+
+# SYNOPSIS
+. /etc/protocols
 
 # DESCRIPTION
-. The `protocols` file describes the DARPA internet protocols available
-  in the TCP/IP subsystem.
+. The `/etc/protocols` file describes the various DARPA Internet
+  protocols that are available from the TCP/IP subsystem.
 
 # FORMAT
-. Each line has the following format:
-! protocol  number  [aliases...]
+. Each line consists of three fields:
 
-- protocol : Native name for the protocol (e.g., `tcp`, `udp`).
-- number : Official IANA-assigned number in the IP header.
-- aliases : Optional alternative names.
+! protocol_name  number  aliases
+
+- protocol_name : The official name for the protocol (e.g., `tcp`).
+
+- number : The protocol number as assigned by IANA.
+
+- aliases : Alternative names for the protocol.
 
 # EXAMPLES
-. Standard protocol entries:
-! ip              0       IP
-! icmp            1       ICMP
-! tcp             6       TCP
-! udp             17      UDP
+! ip      0     IP      # internet protocol, pseudo protocol number
+! icmp    1     ICMP    # internet control message protocol
+! tcp     6     TCP     # transmission control protocol
+! udp     17    UDP     # user datagram protocol
 
 # SEE ALSO
 . services(5), getprotoent(3)
