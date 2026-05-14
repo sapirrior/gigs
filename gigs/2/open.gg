@@ -1,0 +1,48 @@
+@name    "open"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. open(2) - open and possibly create a file
+
+# SYNOPSIS
+! #include <sys/types.h>
+! #include <sys/stat.h>
+! #include <fcntl.h>
+$ int open(const char *pathname, int flags);
+$ int open(const char *pathname, int flags, mode_t mode);
+
+# ACCESS MODES
+. Must include exactly one of:
+- O_RDONLY : Open for reading only.
+- O_WRONLY : Open for writing only.
+- O_RDWR : Open for reading and writing.
+
+# CREATION FLAGS
+- O_CREAT : Create file if it doesn't exist. Requires `mode`.
+- O_EXCL : With `O_CREAT`, fail if file exists (`EEXIST`).
+- O_TRUNC : If file exists and is regular, truncate to 0.
+- O_DIRECTORY : Fail if path is not a directory.
+- O_NOFOLLOW : Fail if path is a symbolic link.
+
+# STATUS FLAGS
+- O_APPEND : Append mode; offset moved to EOF before each write.
+- O_NONBLOCK : Non-blocking mode.
+- O_SYNC : Synchronous I/O; wait for physical write to disk.
+- O_CLOEXEC : Close file descriptor on `exec()`.
+
+# RETURN VALUE
+- fd : A non-negative integer (file descriptor) on success.
+- -1 : On error; `errno` is set.
+
+# ERRORS
+- EACCES : Permission denied.
+- EEXIST : `O_CREAT | O_EXCL` used and file exists.
+- EISDIR : Path is a directory but write access requested.
+- ENOENT : File or directory does not exist.
+- EMFILE : Process limit on open files reached.
+
+# SEE ALSO
+. close(2), read(2), write(2), creat(2), fcntl(2)

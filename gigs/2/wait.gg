@@ -1,0 +1,43 @@
+@name    "wait"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. wait(2) - wait for process to change state
+
+# SYNOPSIS
+! #include <sys/types.h>
+! #include <sys/wait.h>
+$ pid_t wait(int *wstatus);
+$ pid_t waitpid(pid_t pid, int *wstatus, int options);
+
+# DESCRIPTION
+. `wait()` suspends execution of the caller until one of its children
+  terminates. This call collects the exit status to prevent zombies.
+
+# STATUS MACROS
+. Use these on the `wstatus` integer:
+- WIFEXITED(s) : True if the child terminated normally.
+- WEXITSTATUS(s) : Returns the exit code (requires `WIFEXITED`).
+- WIFSIGNALED(s) : True if child was killed by a signal.
+- WTERMSIG(s) : Returns the signal number (requires `WIFSIGNALED`).
+- WIFSTOPPED(s) : True if child is currently stopped.
+
+# WAITPID OPTIONS
+- WNOHANG : Return immediately if no child has exited.
+- WUNTRACED : Also return if a child has stopped (but not traced).
+- WCONTINUED : Also return if a stopped child has been resumed.
+
+# RETURN VALUE
+- >0 : PID of the child that changed state.
+- 0 : (WNOHANG only) No child state changed.
+- -1 : On error (e.g., no children).
+
+# ERRORS
+- ECHILD : The process has no children to wait for.
+- EINTR : The call was interrupted by a signal.
+
+# SEE ALSO
+. fork(2), _exit(2), sigaction(2)

@@ -1,0 +1,35 @@
+@name    "exit"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. _exit(2) - terminate the calling process
+
+# SYNOPSIS
+! #include <unistd.h>
+$ void _exit(int status);
+
+# DESCRIPTION
+. `_exit()` terminates the calling process immediately. The argument
+  `status` is returned to the parent as the exit status.
+
+# CONSEQUENCES
+- Children : Inherited by process 1 (`init` or `systemd`).
+- Parent : Sent a `SIGCHLD` signal.
+- File Descriptors : All open descriptors are closed.
+- Shared Memory : Detached from all segments.
+- Locks : Process-associated locks are released.
+
+# ZOMBIES
+. If the parent does not call `wait(2)`, the process becomes a "zombie"
+  (`[defunct]`). It consumes a PID and a kernel process table entry but
+  no other resources.
+
+# NOTES
+. `_exit()` does NOT flush stdio buffers (like `printf`) or call
+  `atexit` handlers. Use `exit(3)` for normal application exit.
+
+# SEE ALSO
+. exit(3), _Exit(2), wait(2), fork(2)

@@ -1,0 +1,39 @@
+@name    "write"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. write(2) - write to a file descriptor
+
+# SYNOPSIS
+! #include <unistd.h>
+$ ssize_t write(int fd, const void *buf, size_t count);
+
+# DESCRIPTION
+. `write()` writes up to `count` bytes from `buf` to `fd`. The number
+  of bytes written is returned.
+
+# ATOMICITY
+. On Linux, writes to pipes or FIFOs are guaranteed to be atomic if the
+  size is less than `PIPE_BUF` (typically 4096 bytes).
+
+# BEHAVIOR NOTES
+- Append Mode : If `O_APPEND` was used, the offset is moved to the end
+  of the file atomically before the write.
+- Partial Writes : May happen due to lack of space or hitting resource
+  limits (`RLIMIT_FSIZE`).
+
+# RETURN VALUE
+- >=0 : Number of bytes written.
+- -1 : Error; `errno` is set.
+
+# ERRORS
+- EBADF : `fd` is not valid or not open for writing.
+- EFBIG : File exceeds system-imposed maximum size.
+- ENOSPC : No space left on the device.
+- EPIPE : Writing to a pipe/socket whose reading end is closed.
+
+# SEE ALSO
+. open(2), read(2), pwrite(2), fsync(2)

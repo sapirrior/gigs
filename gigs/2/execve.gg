@@ -1,0 +1,47 @@
+@name    "execve"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. execve(2) - execute program
+
+# SYNOPSIS
+! #include <unistd.h>
+$ int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+# DESCRIPTION
+. `execve()` executes the program referred to by `pathname`. This
+  causes the current process image to be replaced by a new program.
+  Stack, heap, and data segments are newly initialized.
+
+. The `argv` argument is an array of strings passed as arguments.
+  By convention, `argv[0]` is the filename. The `envp` argument is an
+  array of `key=value` environment strings. Both must end with `NULL`.
+
+# INTERPRETER SCRIPTS
+. If `pathname` refers to a script starting with `#!`, the kernel
+  executes the specified interpreter.
+! #!/bin/sh
+. The interpreter is called as: `interpreter [optional-arg] pathname arg...`
+
+# EFFECT ON PROCESS STATE
+- Signals : Disposition of caught signals is reset to default. Ignored
+  signals remain ignored.
+- File Descriptors : Remain open unless the `FD_CLOEXEC` flag was set.
+- Memory Mappings : All mappings are unmapped.
+- Thread State : All threads except the caller vanish.
+
+# RETURN VALUE
+. `execve()` does not return on success. On error, -1 is returned.
+
+# ERRORS
+- EACCES : Search permission denied or file is not a regular file.
+- E2BIG : Argument or environment list is too large.
+- ENOENT : The file `pathname` or interpreter does not exist.
+- ENOEXEC : Executable is not in a recognized format.
+- ETXTBSY : Executable is open for writing by another process.
+
+# SEE ALSO
+. fork(2), execl(3), execp(3), fexecve(3)

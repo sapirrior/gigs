@@ -1,0 +1,37 @@
+@name    "read"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. read(2) - read from a file descriptor
+
+# SYNOPSIS
+! #include <unistd.h>
+$ ssize_t read(int fd, void *buf, size_t count);
+
+# DESCRIPTION
+. `read()` attempts to read up to `count` bytes from `fd` into `buf`.
+  The file offset is advanced by the number of bytes read.
+
+# BEHAVIOR NOTES
+- End of File : Returns 0 when the end of the file is reached.
+- Partial Reads : May return fewer than `count` bytes (e.g., from a
+  pipe, socket, or terminal). This is not an error.
+- Signal Interruption : If interrupted by a signal before any data is
+  read, it fails with `EINTR`.
+
+# RETURN VALUE
+- >0 : Number of bytes read.
+- 0 : End of file.
+- -1 : Error; `errno` is set.
+
+# ERRORS
+- EAGAIN : Non-blocking I/O and no data available.
+- EBADF : `fd` is not valid or not open for reading.
+- EFAULT : `buf` points outside accessible memory.
+- EINTR : Call interrupted by a signal handler.
+
+# SEE ALSO
+. open(2), write(2), pread(2), readv(2)

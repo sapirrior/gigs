@@ -1,0 +1,44 @@
+@name    "socket"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. socket(2) - create an endpoint for communication
+
+# SYNOPSIS
+! #include <sys/socket.h>
+$ int socket(int domain, int type, int protocol);
+
+# DOMAINS
+- AF_UNIX : Local communication (Inter-Process).
+- AF_INET : IPv4 Internet protocols.
+- AF_INET6 : IPv6 Internet protocols.
+- AF_NETLINK : Kernel user-space interface.
+- AF_PACKET : Low-level packet interface.
+
+# TYPES
+- SOCK_STREAM : Reliable, sequenced byte streams (TCP).
+- SOCK_DGRAM : Connectionless, unreliable datagrams (UDP).
+- SOCK_RAW : Raw network protocol access.
+- SOCK_SEQPACKET : Reliable, sequenced packet streams.
+
+# FLAGS (ORed with type)
+- SOCK_NONBLOCK : Non-blocking I/O.
+- SOCK_CLOEXEC : Close-on-exec.
+
+# PROTOCOLS
+. Usually 0 (default). For `AF_INET`, `IPPROTO_TCP` or `IPPROTO_UDP`.
+
+# RETURN VALUE
+- fd : A non-negative integer (file descriptor).
+- -1 : Error; `errno` is set.
+
+# ERRORS
+- EAFNOSUPPORT : Address family not supported.
+- EPROTONOSUPPORT : Protocol type not supported in this domain.
+- EMFILE : Process limit on file descriptors reached.
+
+# SEE ALSO
+. bind(2), connect(2), listen(2), accept(2), ip(7)

@@ -1,0 +1,46 @@
+@name    "mmap"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. mmap(2) - map files or devices into memory
+
+# SYNOPSIS
+! #include <sys/mman.h>
+$ void *mmap(void *addr, size_t length, int prot, int flags,
+$            int fd, off_t offset);
+
+# DESCRIPTION
+. `mmap()` creates a new mapping in the virtual address space of the
+  calling process.
+
+# PROTECTION (prot)
+- PROT_READ : Pages may be read.
+- PROT_WRITE : Pages may be written.
+- PROT_EXEC : Pages may be executed.
+- PROT_NONE : Pages may not be accessed (causes `SIGSEGV`).
+
+# TYPE FLAGS (must choose one)
+- MAP_SHARED : Updates are visible to other processes and the file.
+- MAP_PRIVATE : Private copy-on-write mapping.
+
+# OTHER FLAGS
+- MAP_ANONYMOUS : Mapping is not backed by a file (set `fd` to -1).
+- MAP_FIXED : Use `addr` exactly (overwrites existing mappings).
+- MAP_POPULATE : Prefault pages (read-ahead).
+- MAP_LOCKED : Lock pages in RAM (like `mlock`).
+
+# RETURN VALUE
+- pointer : Start address of the mapped region.
+- MAP_FAILED : Error; `(void *) -1` is returned and `errno` is set.
+
+# ERRORS
+- EACCES : File not open for requested protection.
+- EINVAL : Invalid alignment or parameters.
+- ENOMEM : Process limit on mappings reached.
+- ETXTBSY : `MAP_DENYWRITE` set and file is open for writing.
+
+# SEE ALSO
+. munmap(2), mprotect(2), msync(2), brk(2)

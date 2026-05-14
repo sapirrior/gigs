@@ -1,0 +1,38 @@
+@name    "close"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. close(2) - close a file descriptor
+
+# SYNOPSIS
+! #include <unistd.h>
+$ int close(int fd);
+
+# DESCRIPTION
+. `close()` closes a file descriptor so it can be reused. It releases
+  associated resources (locks, etc.).
+
+# REFERENCE COUNTING
+. A file description (the internal kernel object) is only destroyed
+  when the last file descriptor referring to it is closed. This is
+  critical when multiple descriptors share the same description (e.g.,
+  after `dup(2)` or `fork(2)`).
+
+# ERROR HANDLING
+. Always check the return value of `close()`. An error like `EIO` may
+  indicate a failure to commit data to a remote filesystem (NFS).
+
+# RETURN VALUE
+- 0 : Success.
+- -1 : Error; `errno` is set.
+
+# ERRORS
+- EBADF : `fd` is not a valid open file descriptor.
+- EINTR : Interrupted by a signal (the descriptor state is undefined).
+- EIO : An I/O error occurred.
+
+# SEE ALSO
+. open(2), dup(2), shutdown(2), fsync(2)

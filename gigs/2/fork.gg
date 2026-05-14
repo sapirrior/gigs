@@ -1,0 +1,57 @@
+@name    "fork"
+@section "2"
+@version "1.1.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. fork(2) - create a child process
+
+# SYNOPSIS
+! #include <sys/types.h>
+! #include <unistd.h>
+$ pid_t fork(void);
+
+# DESCRIPTION
+. `fork()` creates a new process by duplicating the calling process.
+  The new process is the child; the caller is the parent. Both run in
+  separate memory spaces. At the time of `fork()`, both spaces have the
+  same content.
+
+. Linux uses Copy-on-Write (COW) to optimize this duplication: physical
+  pages are shared until one process modifies them.
+
+# INHERITANCE
+. The child is an exact duplicate except for:
+- Process IDs : The child has its own unique PID and PPID (parent's PID).
+- Resource Usage : CPU time and resource counters are reset to zero.
+- Pending Signals : The child's set of pending signals is empty.
+- Memory Locks : Not inherited (`mlock`, `mlockall`).
+- Record Locks : `fcntl(2)` record locks are not inherited.
+- Timers : Interval timers (`alarm`, `setitimer`) are not inherited.
+
+. The child inherits:
+- File Descriptors : Copies of parent's descriptors, sharing the same
+  open file descriptions (and thus sharing file offsets).
+- Signal Mask : The signal mask and signal handlers are inherited.
+- Working Directory : Current and root (`chroot`) directories.
+- Credentials : User/Group IDs (real, effective, saved).
+- Environment : The `environ` array and all variables.
+- Resource Limits : All `rlimit` settings.
+
+# RETURN VALUE
+- 0 : Returned to the child process.
+- >0 : The PID of the child process, returned to the parent.
+- -1 : Returned to the parent on failure; no child is created.
+
+# ERRORS
+- EAGAIN : System-imposed limit on the number of processes reached.
+- ENOMEM : Failed to allocate kernel structures due to memory pressure.
+- ENOSYS : `fork()` is not supported on this platform (e.g., no MMU).
+
+# NOTES
+. In a multi-threaded process, the child only contains the thread that
+  called `fork()`.
+
+# SEE ALSO
+. execve(2), wait(2), clone(2), vfork(2)
