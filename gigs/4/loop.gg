@@ -1,0 +1,30 @@
+@name    "loop"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. loop(4) - loopback block devices
+
+# DESCRIPTION
+. Loop devices (`/dev/loop0`, `/dev/loop1`, etc.) are block devices that
+  allow a regular file to be treated as a physical disk or partition.
+
+# USAGE
+. Loop devices are essential for mounting disk images (ISO, IMG) as if
+  they were hardware drives.
+
+- Mounting an Image :
+  $ mount -o loop image.iso /mnt/point
+
+- Manual Setup :
+  The `` `losetup` `` utility is used to associate a file with a loop
+  device.
+
+# FILES
+- /dev/loop-control : Special device for dynamically adding/removing
+  loop devices.
+
+# SEE ALSO
+. mount(8), losetup(8), blkid(8)

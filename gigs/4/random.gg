@@ -1,0 +1,35 @@
+@name    "random"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. random(4) - kernel random number source devices
+
+# DESCRIPTION
+. The character special files `/dev/random` and `/dev/urandom` provide
+  an interface to the kernel's random number generator.
+
+# DEVICES
+- /dev/random : Historically the "blocking" device. It gathered
+  environmental noise (entropy) and would block if the pool was low.
+  In modern Linux (5.6+), it generally behaves like `/dev/urandom`.
+
+- /dev/urandom : The "unlimited" random device. It uses a
+  cryptographically secure pseudorandom number generator (CSPRNG)
+  and **never blocks**, even if entropy is low.
+
+# EXAMPLES
+. Generate 16 random bytes and output in hex:
+$ head -c 16 /dev/urandom | xxd -p
+
+. Create a file with 1MB of random data:
+$ dd if=/dev/urandom of=random_data bs=1M count=1
+
+# NOTES
+. For most cryptographic and general-purpose needs, `/dev/urandom` is
+  the preferred device.
+
+# SEE ALSO
+. getrandom(2), null(4), zero(4)

@@ -1,0 +1,30 @@
+@name    "rtc"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. rtc(4) - real-time clock (hardware clock)
+
+# DESCRIPTION
+. `/dev/rtc` (and `rtc0`, `rtc1`, etc.) provides access to the
+  Real-Time Clock (RTC), the battery-backed hardware chip that keeps
+  track of time while the system is powered off.
+
+# RTC VS SYSTEM CLOCK
+- RTC : A hardware chip. Slow to access, but persists across reboots.
+- System Clock : A software clock maintained by the kernel. Fast, but
+  resets on power loss.
+
+. At boot, the kernel reads the RTC to set the initial System Clock.
+
+# EXAMPLES
+. Read the hardware clock time:
+$ hwclock --show
+
+. Sync the hardware clock to the current system time:
+$ hwclock --systohc
+
+# SEE ALSO
+. hwclock(8), date(1), adjtimex(8)

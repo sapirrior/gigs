@@ -1,0 +1,29 @@
+@name    "zero"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. zero(4) - the null byte source
+
+# DESCRIPTION
+. `/dev/zero` is a character special file that provides an infinite
+  stream of null bytes (`\0`) when read, and discards all data
+  written to it.
+
+# BEHAVIOR
+- Reading : Reading from `/dev/zero` returns an infinite sequence of
+  null bytes (`\0`).
+- Writing : Any data written to `/dev/zero` is discarded (similar to
+  `/dev/null`).
+
+# EXAMPLES
+. Create a 10MB file filled with zeros:
+$ dd if=/dev/zero of=testfile bs=1M count=10
+
+. Overwrite a partition with zeros (WARNING: destructive):
+$ dd if=/dev/zero of=/dev/sdX
+
+# SEE ALSO
+. null(4), full(4), random(4)

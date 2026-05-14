@@ -1,0 +1,24 @@
+@name    "console"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. console(4) - system console
+
+# DESCRIPTION
+. `/dev/console` is the character special file where system-level
+  alerts and kernel messages are sent.
+
+# BEHAVIOR
+. The kernel sends messages to `/dev/console` during the boot process.
+  Once the system is up, it is typically redirected to the currently
+  active virtual console or a serial port.
+
+# NOTES
+. Use the `` `dmesg` `` command to view the kernel's message buffer,
+  which contains the output sent to the console.
+
+# SEE ALSO
+. tty(4), dmesg(1), wall(1)

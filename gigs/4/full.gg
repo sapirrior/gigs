@@ -1,0 +1,25 @@
+@name    "full"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. full(4) - the always full device
+
+# DESCRIPTION
+. `/dev/full` is a character special file that simulates a device or
+  filesystem that has run out of space.
+
+# BEHAVIOR
+- Writing : Any attempt to write to `/dev/full` fails with the error
+  **ENOSPC** ("No space left on device").
+- Reading : Reading from `/dev/full` returns an infinite stream of
+  null bytes (`\0`), identical to `/dev/zero`.
+
+# EXAMPLES
+. Test how a program handles "disk full" errors:
+$ command > /dev/full
+
+# SEE ALSO
+. null(4), zero(4)

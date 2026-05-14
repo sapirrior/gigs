@@ -1,0 +1,26 @@
+@name    "tty"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. tty(4) - controlling terminal
+
+# DESCRIPTION
+. The special file `/dev/tty` is a character file with major number 5
+  and minor number 0. It is a synonym for the controlling terminal of
+  the current process, if any.
+
+# USAGE
+. Programs often open `/dev/tty` to interact directly with the user,
+  bypassing standard input/output redirections.
+
+- Passwords : Tools like `` `ssh` `` or `` `sudo` `` use `/dev/tty` to
+  prompt for a password to ensure it is entered by a human at the
+  terminal.
+- Redirection : Even if you run `command > file`, the command can still
+  write a message to your screen by opening and writing to `/dev/tty`.
+
+# SEE ALSO
+. console(4), pts(4), stty(1)

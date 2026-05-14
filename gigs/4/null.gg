@@ -1,0 +1,30 @@
+@name    "null"
+@section "4"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. null(4) - the null device (bit bucket)
+
+# DESCRIPTION
+. `/dev/null` is a character special file that discards all data
+  written to it and returns an immediate End of File (EOF) when read.
+
+# BEHAVIOR
+- Writing : Any data written to `/dev/null` is discarded. The write
+  operation always succeeds.
+- Reading : Reading from `/dev/null` always returns 0 bytes (EOF).
+
+# EXAMPLES
+. Silence a command's standard output:
+$ command > /dev/null
+
+. Silence both standard output and standard error:
+$ command > /dev/null 2>&1
+
+. Test if a file is readable without printing content:
+$ cat file > /dev/null
+
+# SEE ALSO
+. zero(4), full(4), console(4)
