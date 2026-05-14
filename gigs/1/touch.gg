@@ -1,0 +1,45 @@
+@name    "touch"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. touch(1) - change file timestamps
+
+# SYNOPSIS
+$ touch [OPTION]... FILE...
+
+# DESCRIPTION
+. Update the access and modification times of each FILE to the current time.
+  A FILE argument that does not exist is created empty, unless -c or -h
+  is supplied.
+
+# OPTIONS
+- -a : Change only the access time.
+
+- -c, --no-create : Do not create any files.
+
+- -d, --date=STRING : Parse STRING and use it instead of current time.
+
+- -h, --no-dereference : Affect each symbolic link instead of any
+  referenced file.
+
+- -m : Change only the modification time.
+
+- -r, --reference=FILE : Use this file's times instead of current time.
+
+- -t STAMP : Use specified time [[CC]YY]MMDDhhmm[.ss] instead of current time.
+
+- --time=WORD : Specify which time to change (access, atime, use,
+  modify, mtime).
+
+# EXAMPLES
+. Create an empty file or update its timestamps to now:
+$ touch new_file.txt
+
+. Update only the modification time:
+$ touch -m file.txt
+
+. Set a specific timestamp:
+$ touch -t 202605141230.00 file.txt

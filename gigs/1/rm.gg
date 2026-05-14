@@ -1,0 +1,58 @@
+@name    "rm"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. rm(1) - remove files or directories
+
+# SYNOPSIS
+$ rm [OPTION]... [FILE]...
+
+# DESCRIPTION
+. Remove (unlink) the specified FILEs. By default, `rm` does not
+  remove directories.
+
+# OPTIONS
+- -f, --force : Ignore nonexistent files and arguments, never prompt.
+
+- -i : Prompt before every removal.
+
+- -I : Prompt once before removing more than three files, or when
+  removing recursively; less intrusive than -i.
+
+- --interactive[=WHEN] : Prompt according to WHEN (never, once, always).
+
+- --one-file-system : Skip any directory that is on a different file system.
+
+- --no-preserve-root : Do not treat '/' specially.
+
+- --preserve-root[=all] : Do not remove '/' (default).
+
+- -r, -R, --recursive : Remove directories and their contents recursively.
+
+- -d, --dir : Remove empty directories.
+
+- -v, --verbose : Explain what is being done.
+
+# NOTES
+. Any attempt to remove a file whose last name component is '.' or '..'
+  is rejected.
+
+. To remove a file starting with '-', use `--` or a relative path:
+$ rm -- -filename
+$ rm ./-filename
+
+# EXAMPLES
+. Remove a file:
+$ rm file.txt
+
+. Remove a directory and all its contents:
+$ rm -rf /path/to/directory/
+
+. Prompt before removing each file:
+$ rm -i *.log
+
+# SEE ALSO
+. shred(1), rmdir(1)

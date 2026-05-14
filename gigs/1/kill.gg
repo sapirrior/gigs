@@ -1,0 +1,39 @@
+@name    "kill"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. kill(1) - send a signal to a process
+
+# SYNOPSIS
+$ kill [-s sigspec | -n signum | -sigspec] pid | jobspec ...
+$ kill -l [sigspec]
+
+# DESCRIPTION
+. Send the processes identified by PID or JOBSPEC the signal named
+  by SIGSPEC or SIGNUM.
+
+# OPTIONS
+- -s sig : SIG is a signal name (e.g., KILL).
+
+- -n sig : SIG is a signal number (e.g., 9).
+
+- -l : List the signal names.
+
+# COMMON SIGNALS
+- 1 (HUP) : Hangup.
+- 2 (INT) : Interrupt (Ctrl+C).
+- 9 (KILL) : Kill (cannot be caught or ignored).
+- 15 (TERM) : Termination (default).
+
+# EXAMPLES
+. Terminate a process gracefully:
+$ kill 1234
+
+. Forcefully kill a process:
+$ kill -9 1234
+
+. List all available signals:
+$ kill -l

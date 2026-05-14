@@ -1,0 +1,36 @@
+@name    "uname"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. uname(1) - print system information
+
+# SYNOPSIS
+$ uname [OPTION]...
+
+# DESCRIPTION
+. Print certain system information. With no OPTION, same as -s.
+
+# OPTIONS
+- -a, --all : Print all information.
+
+- -s, --kernel-name : Print the kernel name.
+
+- -n, --nodename : Print the network node hostname.
+
+- -r, --kernel-release : Print the kernel release.
+
+- -v, --kernel-version : Print the kernel version.
+
+- -m, --machine : Print the machine hardware name.
+
+- -o, --operating-system : Print the operating system.
+
+# EXAMPLES
+. Print all system information:
+$ uname -a
+
+. Print the kernel release version:
+$ uname -r

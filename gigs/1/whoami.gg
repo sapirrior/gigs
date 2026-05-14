@@ -1,0 +1,19 @@
+@name    "whoami"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. whoami(1) - print effective user ID
+
+# SYNOPSIS
+$ whoami [OPTION]...
+
+# DESCRIPTION
+. Print the user name associated with the current effective user ID.
+  Same as `id -un`.
+
+# EXAMPLES
+. Show current user:
+$ whoami

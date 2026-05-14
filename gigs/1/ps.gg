@@ -1,0 +1,40 @@
+@name    "ps"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. ps(1) - report a snapshot of the current processes
+
+# SYNOPSIS
+$ ps [options]
+
+# DESCRIPTION
+. `ps` displays information about a selection of the active processes.
+
+# OPTIONS
+- -A, -e : Select all processes.
+
+- -a : Select all processes except session leaders and processes not
+  associated with a terminal.
+
+- -d : Select all processes except session leaders.
+
+- -f : Do full-format listing.
+
+- -u [userlist] : Select by effective user ID (EUID) or name.
+
+- x : Select processes without controlling ttys.
+
+# EXAMPLES
+. See every process on the system:
+$ ps -e
+$ ps -ef
+$ ps -eF
+
+. See every process running as root:
+$ ps -u root
+
+. See processes associated with this terminal:
+$ ps

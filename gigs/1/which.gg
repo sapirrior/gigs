@@ -1,0 +1,30 @@
+@name    "which"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. which(1) - locate a command
+
+# SYNOPSIS
+$ which [options] [--] COMMAND [...]
+
+# DESCRIPTION
+. `which` returns the pathnames of the files (or links) which would
+  be executed in the current environment, had its arguments been
+  given as commands in a strictly POSIX-conformant shell.
+
+# OPTIONS
+- -a, --all : Print all matching executables in PATH, not just the first.
+
+- --skip-dot : Skip directories in PATH that start with a dot.
+
+- --skip-tilde : Skip directories in PATH that start with a tilde.
+
+# EXAMPLES
+. Locate the path of the `ls` command:
+$ which ls
+
+. Show all occurrences of `python` in PATH:
+$ which -a python

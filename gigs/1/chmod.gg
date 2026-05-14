@@ -1,0 +1,48 @@
+@name    "chmod"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. chmod(1) - change file mode bits
+
+# SYNOPSIS
+$ chmod [OPTION]... MODE[,MODE]... FILE...
+$ chmod [OPTION]... OCTAL-MODE FILE...
+$ chmod [OPTION]... --reference=RFILE FILE...
+
+# DESCRIPTION
+. Change the mode (permissions) of each FILE to MODE.
+
+# OPTIONS
+- -c, --changes : Like verbose but report only when a change is made.
+
+- -f, --silent, --quiet : Suppress most error messages.
+
+- -v, --verbose : Output a diagnostic for every file processed.
+
+- --dereference : Affect the referent of each symbolic link.
+
+- -h, --no-dereference : Affect each symbolic link, rather than the referent.
+
+- --reference=RFILE : Use RFILE's mode instead of specifying MODE values.
+
+- -R, --recursive : Change files and directories recursively.
+
+# MODES
+. Each MODE is of the form `[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+`.
+
+- ugoa : User (owner), Group, Other, All.
+- -+= : Remove, Add, Set exactly.
+- rwxXst : Read, Write, Execute (or search for dir), Execute only if directory, Setuid/gid, Sticky bit.
+
+# EXAMPLES
+. Add execute permission for the user (owner):
+$ chmod u+x script.sh
+
+. Set permissions for all to read and execute, but only owner to write:
+$ chmod 755 program
+
+. Recursively give the owner full permissions, group and others read/execute:
+$ chmod -R u=rwx,go=rx my_directory

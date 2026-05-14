@@ -1,0 +1,40 @@
+@name    "tar"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. tar(1) - an archiving utility
+
+# SYNOPSIS
+$ tar [OPTION...] [FILE]...
+
+# DESCRIPTION
+. GNU `tar` saves many files together into a single tape or disk
+  archive, and can restore individual files from the archive.
+
+# OPERATION MODES
+- -A, --concatenate : Append tar files to an archive.
+- -c, --create : Create a new archive.
+- -d, --diff : Find differences between archive and file system.
+- -r, --append : Append files to the end of an archive.
+- -t, --list : List the contents of an archive.
+- -u, --update : Only append files newer than copy in archive.
+- -x, --extract : Extract files from an archive.
+
+# COMPRESSION OPTIONS
+- -a, --auto-compress : Use archive suffix to determine compression.
+- -j, --bzip2 : Filter the archive through bzip2.
+- -J, --xz : Filter the archive through xz.
+- -z, --gzip : Filter the archive through gzip.
+
+# EXAMPLES
+. Create a compressed archive:
+$ tar -czvf archive.tar.gz /path/to/dir
+
+. Extract a compressed archive:
+$ tar -xzvf archive.tar.gz
+
+. List the contents of an archive:
+$ tar -tvf archive.tar

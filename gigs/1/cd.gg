@@ -1,0 +1,55 @@
+@name    "cd"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. cd(1) - change the working directory
+
+# SYNOPSIS
+$ cd [-L|[-P [-e]] [-@]] [DIRECTORY]
+
+# DESCRIPTION
+. Change the current working directory to DIRECTORY. The default
+  DIRECTORY is the value of the HOME environment variable.
+
+. The variable CDPATH defines the search path for the directory
+  containing DIRECTORY. Alternative directory names in CDPATH are
+  separated by a colon (:).
+
+# OPTIONS
+- -L : Force symbolic links to be followed (default).
+
+- -P : Use the physical directory structure instead of following
+  symbolic links.
+
+- -e : If the -P option is supplied, and the current working directory
+  cannot be successfully determined after a successful directory change,
+  exit with a non-zero status.
+
+- -@ : On systems that support it, present a file with extended attributes
+  as a directory containing the attributes.
+
+# NOTES
+. An argument of `-` is equivalent to `$OLDPWD`.
+
+. If a non-empty directory name from CDPATH is used, or if `-` is the
+  first argument, and the directory change is successful, the absolute
+  pathname of the new working directory is written to the standard output.
+
+# EXAMPLES
+. Change to the home directory:
+$ cd
+
+. Change to a specific path:
+$ cd /usr/local/bin
+
+. Move up one directory level:
+$ cd ..
+
+. Return to the previous working directory:
+$ cd -
+
+# SEE ALSO
+. pwd(1), pushd(1), popd(1)

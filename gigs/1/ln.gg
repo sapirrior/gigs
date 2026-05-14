@@ -1,0 +1,38 @@
+@name    "ln"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. ln(1) - make links between files
+
+# SYNOPSIS
+$ ln [OPTION]... [-T] TARGET LINK_NAME
+$ ln [OPTION]... TARGET
+$ ln [OPTION]... TARGET... DIRECTORY
+
+# DESCRIPTION
+. Create a link to TARGET with the name LINK_NAME. Create hard links
+  by default, symbolic links with --symbolic.
+
+# OPTIONS
+- -f, --force : Remove existing destination files.
+
+- -i, --interactive : Prompt whether to remove destinations.
+
+- -r, --relative : Create links relative to link location (with -s).
+
+- -s, --symbolic : Make symbolic links instead of hard links.
+
+- -v, --verbose : Print name of each linked file.
+
+# EXAMPLES
+. Create a symbolic link to a file:
+$ ln -s source.txt link.txt
+
+. Create a hard link:
+$ ln source.txt hardlink.txt
+
+. Create a relative symbolic link:
+$ ln -sr ../source.txt link.txt

@@ -1,0 +1,31 @@
+@name    "pwd"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. pwd(1) - print name of current/working directory
+
+# SYNOPSIS
+$ pwd [OPTION]...
+
+# DESCRIPTION
+. Print the full filename of the current working directory.
+
+# OPTIONS
+- -L, --logical : Use PWD from environment, even if it contains symlinks.
+
+- -P, --physical : Avoid all symlinks (print the physical directory).
+
+# NOTES
+. Your shell may have its own built-in version of `pwd` which
+  supersedes this version. Both versions generally support the `-L`
+  and `-P` flags.
+
+# EXAMPLES
+. Print the current directory (default follows symlinks):
+$ pwd
+
+. Print the physical directory path, resolving any symlinks:
+$ pwd -P

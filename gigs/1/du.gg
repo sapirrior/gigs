@@ -1,0 +1,42 @@
+@name    "du"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. du(1) - estimate file space usage
+
+# SYNOPSIS
+$ du [OPTION]... [FILE]...
+
+# DESCRIPTION
+. Summarize disk usage of the set of FILEs, recursively for directories.
+
+# OPTIONS
+- -a, --all : Write counts for all files, not just directories.
+
+- -b, --bytes : Equivalent to `--apparent-size --block-size=1`.
+
+- -c, --total : Produce a grand total.
+
+- -d, --max-depth=N : Print the total for a directory only if it is N
+  or fewer levels below the command line argument.
+
+- -h, --human-readable : Print sizes in human readable format (e.g., 1K 234M).
+
+- -s, --summarize : Display only a total for each argument.
+
+- --time : Show time of the last modification of any file in the directory.
+
+- -x, --one-file-system : Skip directories on different file systems.
+
+# EXAMPLES
+. Show total size of the current directory:
+$ du -sh
+
+. Show size of all files and directories in the current path:
+$ du -ah
+
+. Show size of directories up to 2 levels deep:
+$ du -h --max-depth=2

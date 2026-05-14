@@ -1,0 +1,36 @@
+@name    "mkdir"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. mkdir(1) - make directories
+
+# SYNOPSIS
+$ mkdir [OPTION]... DIRECTORY...
+
+# DESCRIPTION
+. Create the DIRECTORY(ies), if they do not already exist.
+
+# OPTIONS
+- -m, --mode=MODE : Set file mode (as in chmod), not a=rwx - umask.
+
+- -p, --parents : No error if existing, make parent directories as needed.
+
+- -v, --verbose : Print a message for each created directory.
+
+- -Z, --context[=CTX] : Set SELinux or SMACK security context.
+
+# EXAMPLES
+. Create a single directory:
+$ mkdir projects
+
+. Create a nested directory structure:
+$ mkdir -p src/main/java/com/example
+
+. Create a directory with specific permissions:
+$ mkdir -m 755 public_html
+
+# SEE ALSO
+. rmdir(1), chmod(1)

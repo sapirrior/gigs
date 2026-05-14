@@ -1,0 +1,46 @@
+@name    "date"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. date(1) - print or set the system date and time
+
+# SYNOPSIS
+$ date [OPTION]... [+FORMAT]
+$ date [OPTION]... MMDDhhmm[[CC]YY][.ss]
+
+# DESCRIPTION
+. Display the current time in the given FORMAT, or set the system date.
+
+# OPTIONS
+- -d, --date=STRING : Display time described by STRING, not 'now'.
+
+- -I[FMT] : Output date/time in ISO 8601 format.
+
+- -r, --reference=FILE : Display the last modification time of FILE.
+
+- -s, --set=STRING : Set time described by STRING.
+
+- -u, --utc : Print or set Coordinated Universal Time (UTC).
+
+# FORMAT SEQUENCES
+- %Y : Year
+- %m : Month (01..12)
+- %d : Day of month (e.g., 01)
+- %H : Hour (00..23)
+- %M : Minute (00..59)
+- %S : Second (00..60)
+- %F : Full date (YYYY-MM-DD)
+- %T : Time (HH:MM:S)
+
+# EXAMPLES
+. Display current date in YYYY-MM-DD format:
+$ date +%F
+
+. Show time for a specific string:
+$ date -d "next Friday"
+
+. Show UTC time:
+$ date -u

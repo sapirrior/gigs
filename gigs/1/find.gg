@@ -1,0 +1,76 @@
+@name    "find"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. find(1) - search for files in a directory hierarchy
+
+# SYNOPSIS
+$ find [-H] [-L] [-P] [path...] [expression]
+
+# DESCRIPTION
+. Search the directory tree rooted at each given starting point by
+  evaluating the given expression from left to right. Default path is the
+  current directory; default expression is `-print`.
+
+# COMMON TESTS
+- -name PATTERN : Base of file name matches shell pattern PATTERN.
+
+- -iname PATTERN : Like -name, but the match is case insensitive.
+
+- -type C : File is of type C: block (b), character (c), directory (d),
+  named pipe (p), regular file (f), symbolic link (l), socket (s).
+
+- -size N[cwbkMG] : File uses N units of space.
+
+- -mtime N : File's data was last modified N*24 hours ago.
+
+- -newer FILE : File was modified more recently than FILE.
+
+- -user NAME : File is owned by user NAME.
+
+- -perm [-/]MODE : File permissions match MODE.
+
+# COMMON ACTIONS
+- -print : Print the full file name on the standard output, followed by
+  a newline.
+
+- -print0 : Print the full file name on the standard output, followed by
+  a null character.
+
+- -delete : Delete files; true if removal succeeded.
+
+- -exec COMMAND ; : Execute COMMAND; true if 0 status is returned.
+
+- -exec COMMAND {} + : Execute COMMAND with all matching files as arguments.
+
+- -ls : List current file in `ls -dils` format on standard output.
+
+# TRAVERSAL OPTIONS
+- -H : Do not follow symbolic links, except command line arguments.
+
+- -L : Follow symbolic links.
+
+- -P : Never follow symbolic links (default).
+
+- -maxdepth LEVELS : Descend at most LEVELS of directories.
+
+- -mindepth LEVELS : Do not apply tests or actions at levels less than LEVELS.
+
+# EXAMPLES
+. Find all directories named "src":
+$ find . -type d -name src
+
+. Find all files larger than 100 Megabytes:
+$ find / -type f -size +100M
+
+. Delete all temporary files ending in `.tmp`:
+$ find . -name "*.tmp" -delete
+
+. Execute a command on found files:
+$ find . -name "*.log" -exec gzip {} \;
+
+# SEE ALSO
+. locate(1), xargs(1), grep(1)

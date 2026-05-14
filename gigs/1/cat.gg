@@ -1,0 +1,50 @@
+@name    "cat"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. cat(1) - concatenate files and print on the standard output
+
+# SYNOPSIS
+$ cat [OPTION]... [FILE]...
+
+# DESCRIPTION
+. Concatenate FILE(s) to standard output. With no FILE, or when
+  FILE is -, it reads from standard input.
+
+# OPTIONS
+- -A, --show-all : Equivalent to -vET.
+
+- -b, --number-nonblank : Number nonempty output lines, overrides -n.
+
+- -e : Equivalent to -vE.
+
+- -E, --show-ends : Display $ at the end of each line.
+
+- -n, --number : Number all output lines.
+
+- -s, --squeeze-blank : Suppress repeated empty output lines.
+
+- -t : Equivalent to -vT.
+
+- -T, --show-tabs : Display TAB characters as ^I.
+
+- -v, --show-nonprinting : Use ^ and M- notation, except for LFD and TAB.
+
+# EXAMPLES
+. Display the contents of a file:
+$ cat file.txt
+
+. Concatenate multiple files into one:
+$ cat part1.txt part2.txt > full.txt
+
+. Number all output lines:
+$ cat -n file.txt
+
+. Create a new file from standard input (Ctrl+D to save):
+$ cat > newfile.txt
+
+# SEE ALSO
+. tac(1), more(1), less(1)

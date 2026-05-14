@@ -1,0 +1,41 @@
+@name    "diff"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. diff(1) - compare files line by line
+
+# SYNOPSIS
+$ diff [OPTION]... FILES
+
+# DESCRIPTION
+. Compare FILES line by line and output the differences.
+
+# OPTIONS
+- -q, --brief : Report only when files differ.
+
+- -s, --report-identical-files : Report when two files are the same.
+
+- -c, -C NUM : Output NUM lines of copied context.
+
+- -u, -U NUM : Output NUM lines of unified context.
+
+- -y, --side-by-side : Output in two columns.
+
+- -r, --recursive : Recursively compare any subdirectories found.
+
+- -i, --ignore-case : Ignore case differences in file contents.
+
+- -w, --ignore-all-space : Ignore all white space.
+
+# EXAMPLES
+. Compare two files:
+$ diff file1.txt file2.txt
+
+. Show differences in unified format:
+$ diff -u file1.txt file2.txt
+
+. Compare two directories recursively:
+$ diff -r dir1 dir2

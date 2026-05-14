@@ -1,0 +1,36 @@
+@name    "wc"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. wc(1) - print newline, word, and byte counts for each file
+
+# SYNOPSIS
+$ wc [OPTION]... [FILE]...
+
+# DESCRIPTION
+. Print newline, word, and byte counts for each FILE, and a total
+  line if more than one FILE is specified.
+
+# OPTIONS
+- -c, --bytes : Print the byte counts.
+
+- -m, --chars : Print the character counts.
+
+- -l, --lines : Print the newline counts.
+
+- -L, --max-line-length : Print the maximum display width.
+
+- -w, --words : Print the word counts.
+
+# EXAMPLES
+. Count lines in a file:
+$ wc -l file.txt
+
+. Count words and characters:
+$ wc -wc file.txt
+
+. Count lines in all .log files:
+$ wc -l *.log

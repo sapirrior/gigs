@@ -1,0 +1,41 @@
+@name    "head"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. head(1) - output the first part of files
+
+# SYNOPSIS
+$ head [OPTION]... [FILE]...
+
+# DESCRIPTION
+. Print the first 10 lines of each FILE to standard output. With more
+  than one FILE, precede each with a header giving the file name.
+
+# OPTIONS
+- -c, --bytes=[-]NUM : Print the first NUM bytes of each file.
+  With the leading '-', print all but the last NUM bytes.
+
+- -n, --lines=[-]NUM : Print the first NUM lines instead of the first 10.
+  With the leading '-', print all but the last NUM lines.
+
+- -q, --quiet, --silent : Never print headers giving file names.
+
+- -v, --verbose : Always print headers giving file names.
+
+- -z, --zero-terminated : Line delimiter is NUL, not newline.
+
+# EXAMPLES
+. Print the first 20 lines of a file:
+$ head -n 20 script.sh
+
+. Print all lines EXCEPT the last 5:
+$ head -n -5 summary.txt
+
+. Print the first 100 bytes of a file:
+$ head -c 100 binary.dat
+
+# SEE ALSO
+. tail(1), cat(1)
