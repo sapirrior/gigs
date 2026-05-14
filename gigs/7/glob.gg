@@ -1,0 +1,53 @@
+@name    "glob"
+@section "7"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. glob(7) - shell-style pathname expansion and pattern matching
+
+# DESCRIPTION
+. "Globbing" is the process of expanding a wildcard pattern into a list
+  of matching pathnames. This is a fundamental feature of Unix shells.
+
+# WILD CARDS
+- * : Matches any string, including an empty string.
+  Example: `*.txt` matches `file.txt`, `notes.txt`, and `.txt`.
+
+- ? : Matches any single character.
+  Example: `file?.txt` matches `file1.txt` but not `file10.txt`.
+
+- [...] : Matches any one of the characters enclosed in the brackets.
+  - Ranges: `[a-z]` matches any lowercase letter.
+  - Negation: `[!a-z]` matches any character **not** in the range.
+
+# PATHNAME RULES
+. Slashes (`/`) must be matched explicitly and cannot be matched by `*`,
+  `?`, or `[...]`.
+
+. Leading dots (`.`) in filenames (e.g., `.bashrc`) are hidden and must
+  be matched explicitly (e.g., `.*` or `.bash*`).
+
+# SPECIAL SEQUENCES (POSIX)
+. Modern shells support POSIX character classes within brackets:
+
+- [:alnum:] : Alphanumeric characters.
+- [:alpha:] : Alphabetic characters.
+- [:digit:] : Numeric digits.
+- [:lower:] : Lowercase letters.
+- [:upper:] : Uppercase letters.
+- [:space:] : Whitespace characters.
+
+# EXAMPLES
+. Match all C source files:
+! *.c
+
+. Match 'file1.txt', 'file2.txt', but not 'fileA.txt':
+! file[12].txt
+
+. Match all hidden files in the home directory:
+! ~/.*
+
+# SEE ALSO
+. ls(1), find(1), re_format(7)

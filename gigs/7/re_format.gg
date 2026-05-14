@@ -1,0 +1,55 @@
+@name    "re_format"
+@section "7"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. re_format(7) - POSIX regular expression formats (BRE and ERE)
+
+# DESCRIPTION
+. POSIX regular expressions come in two flavors: **Basic (BRE)** and
+  **Extended (ERE)**.
+
+# CORE METACHARACTERS
+. These characters have special meaning in both BRE and ERE.
+
+- . : Matches any single character except newline.
+- ^ : Matches the beginning of a line.
+- $ : Matches the end of a line.
+- [ ] : Matches any one character in the brackets (e.g., `[a-z]`).
+- [^ ] : Matches any one character **not** in the brackets.
+
+# BRE VS ERE
+. The primary difference is the use of metacharacters and escaping.
+
+| Feature | Basic (BRE) | Extended (ERE)
+| :--- | :--- | :---
+| Grouping | `\( \)` | `( )`
+| Alternation | (Unsupported) | `|`
+| 1 or more (+) | `\+` (Ext) | `+`
+| 0 or 1 (?) | `\?` (Ext) | `?`
+| Bounds | `\{n,m\}` | `{n,m}`
+
+# CHARACTER CLASSES
+. Use these inside bracket expressions (e.g., `[[:digit:]]`).
+
+- [:alnum:] : Alphanumeric
+- [:alpha:] : Alphabetic
+- [:digit:] : Numeric digits
+- [:lower:] : Lowercase
+- [:upper:] : Uppercase
+- [:space:] : Whitespace
+
+# EXAMPLES
+. Match a line starting with 'Hello':
+! ^Hello
+
+. Match an email address (Simplified ERE):
+! [a-z0-9.]+@[a-z0-9.]+
+
+. Match either 'cat' or 'dog' (ERE):
+! cat|dog
+
+# SEE ALSO
+. grep(1), sed(1), glob(7)

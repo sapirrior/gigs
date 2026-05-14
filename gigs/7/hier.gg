@@ -1,0 +1,49 @@
+@name    "hier"
+@section "7"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. hier(7) - description of the filesystem hierarchy
+
+# DESCRIPTION
+. This page outlines the structure of the filesystem for both standard
+  Linux systems and the Termux environment.
+
+# STANDARD LINUX (FHS)
+. Standard Linux distributions follow the Filesystem Hierarchy Standard
+  (FHS), where the root directory is `/`.
+
+- /bin : Essential command binaries for all users (e.g., `ls`, `cp`).
+- /sbin : Essential system binaries for administration (e.g., `fdisk`).
+- /etc : Host-specific system-wide configuration files.
+- /usr : Secondary hierarchy for user utilities and shared data.
+- /var : Variable data files such as logs and databases.
+- /home : Personal directories for users (e.g., `/home/username`).
+- /tmp : Temporary files, often cleared on reboot.
+- /dev : Device files providing interfaces to hardware.
+- /proc : Virtual filesystem for process and kernel information.
+
+# TERMUX ENVIRONMENT
+. Termux operates within a private data directory on Android. It uses
+  two main environment variables to define its hierarchy:
+
+- $HOME : Your personal workspace.
+  `/data/data/com.termux/files/home`
+- $PREFIX : The "system" root where all packages are installed.
+  `/data/data/com.termux/files/usr`
+
+## Termux Layout (Relative to $PREFIX)
+- .../bin : All binaries (equivalent to `/bin` and `/usr/bin`).
+- .../etc : Configuration files for packages.
+- .../lib : Shared libraries.
+- .../tmp : Temporary files.
+- .../var : Caches and log files.
+
+# NOTES
+. On Termux, scripts with `#!/bin/sh` must be patched using the
+  `` `termux-fix-shebang` `` tool or changed to point to `$PREFIX/bin/sh`.
+
+# SEE ALSO
+. file(1), find(1), mount(8)

@@ -1,0 +1,34 @@
+@name    "environ"
+@section "7"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. environ(7) - user environment variables
+
+# DESCRIPTION
+. The environment is a collection of "name=value" strings passed to a
+  process when it starts. A child process inherits the environment of
+  its parent.
+
+# COMMON VARIABLES
+- HOME : The user's home directory.
+- PATH : A colon-separated list of directories searched for commands.
+- USER : The name of the logged-in user.
+- SHELL : The path to the user's login shell.
+- TERM : The type of terminal being emulated (e.g., `xterm-256color`).
+- LANG : The default system locale and character encoding.
+- EDITOR : The user's preferred text editor (e.g., `vim`, `nano`).
+- PAGER : The utility for viewing long output (e.g., `less`).
+- PWD : The current working directory.
+
+# MODIFICATION
+. In most shells, you can set an environment variable using:
+$ export NAME=value
+
+. To view all current environment variables, use:
+$ env
+
+# SEE ALSO
+- env(1), printenv(1), setenv(3), getenv(3)

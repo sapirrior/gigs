@@ -1,0 +1,39 @@
+@name    "utf-8"
+@section "7"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. utf-8(7) - variable-width Unicode character encoding
+
+# DESCRIPTION
+. UTF-8 is the standard character encoding for Unix-like systems. It
+  can represent any Unicode character while remaining fully compatible
+  with ASCII.
+
+# BIT DISTRIBUTION
+. UTF-8 uses 1 to 4 bytes. The number of leading '1' bits in the first
+  byte indicates the length of the sequence.
+
+| Range (Hex) | Bytes | Byte 1 | Byte 2 | Byte 3 | Byte 4
+| :--- | :--- | :--- | :--- | :--- | :---
+| 0000-007F | 1 | 0xxxxxxx | | |
+| 0080-07FF | 2 | 110xxxxx | 10xxxxxx | |
+| 0800-FFFF | 3 | 1110xxxx | 10xxxxxx | 10xxxxxx |
+| 10000-10FFFF | 4 | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx
+
+# PROPERTIES
+- ASCII Compatibility : Code points U+0000 to U+007F are identical to
+  ASCII.
+- Self-Synchronizing : It is easy to find the start of a character.
+  Continuation bytes always start with `10`.
+- Safe for C : The NULL byte (`0x00`) and `/` (`0x2F`) never appear
+  inside a multi-byte sequence.
+
+# NOTES
+. For security, UTF-8 decoders must reject "overlong" sequences (e.g.,
+  encoding an ASCII 'A' using 2 bytes).
+
+# SEE ALSO
+. ascii(7), locale(7), unicode(7)
