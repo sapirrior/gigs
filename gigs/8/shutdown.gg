@@ -1,6 +1,6 @@
 @name    "shutdown"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,30 +8,36 @@
 . shutdown(8) - halt, power-off or reboot the machine
 
 # SYNOPSIS
-$ shutdown [options] [time] [message]
+. shutdown [options] [time] [message]
 
 # DESCRIPTION
 . `shutdown` is the preferred tool for scheduled power actions as it
-  notifies logged-in users and allows for a delay.
+  notifies logged-in users and allows for a delay before the action.
 
 # OPTIONS
 - -r, --reboot : Reboot after shutdown.
-- -P, --poweroff : Power off the machine (default).
-- -h, --halt : Halt the machine.
+
+- -P, --poweroff : Power off the machine (default action).
+
+- -H, --halt : Halt the machine.
+
 - -c : Cancel a pending scheduled shutdown.
+
 - -k : Send the warning message but do not actually shut down.
 
 # TIME FORMATS
 - now : Immediate action.
-- +m : Delay of <m> minutes (e.g., `+10`).
-- hh:mm : Absolute time in 24h format (e.g., `23:30`).
+
+- +m : Delay of <m> minutes from the current time (e.g., `+15`).
+
+- hh:mm : Absolute time in 24h format (e.g., `23:00`).
 
 # EXAMPLES
 . Immediate power off:
 $ sudo shutdown now
 
-. Reboot in 10 minutes with a custom message:
-$ sudo shutdown -r +10 "System maintenance starting soon."
+. Reboot at 11:30 PM with a warning:
+$ sudo shutdown -r 23:30 "Maintenance reboot"
 
 . Cancel a pending shutdown:
 $ sudo shutdown -c

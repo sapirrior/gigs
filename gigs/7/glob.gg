@@ -1,11 +1,14 @@
 @name    "glob"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . glob(7) - shell-style pathname expansion and pattern matching
+
+# SYNOPSIS
+. glob(7)
 
 # DESCRIPTION
 . "Globbing" is the process of expanding a wildcard pattern into a list
@@ -33,10 +36,15 @@
 . Modern shells support POSIX character classes within brackets:
 
 - [:alnum:] : Alphanumeric characters.
+
 - [:alpha:] : Alphabetic characters.
+
 - [:digit:] : Numeric digits.
+
 - [:lower:] : Lowercase letters.
+
 - [:upper:] : Uppercase letters.
+
 - [:space:] : Whitespace characters.
 
 # EXAMPLES

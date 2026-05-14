@@ -1,6 +1,6 @@
 @name    "systemctl"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,35 +8,56 @@
 . systemctl(8) - control the systemd system and service manager
 
 # SYNOPSIS
-$ systemctl [options] <command> [unit]
+. systemctl [options] <command> [unit]
 
 # DESCRIPTION
-. `systemctl` is the central tool for managing services (units) and
-  controlling the overall state of the system.
+. `systemctl` is the central administrative tool for managing `systemd`
+  units (services, sockets, mounts, etc.) and controlling the system
+  state.
 
-# SYSTEM COMMANDS
-- reboot : Restart the system.
-- poweroff : Shut down and power off the machine.
-- suspend : Put the system into sleep mode.
-- hibernate : Save state to disk and power off.
+# UNIT TYPES
+- .service : Background daemons.
 
-# SERVICE COMMANDS
-- start <unit> : Start a service.
-- stop <unit> : Stop a service.
-- restart <unit> : Restart a service.
-- status <unit> : Check if a service is running and view logs.
-- enable <unit> : Configure a service to start at boot.
-- disable <unit> : Prevent a service from starting at boot.
+- .target : Groups of other units (equivalent to runlevels).
+
+- .socket : IPC or network sockets for socket-based activation.
+
+- .mount / .automount : Filesystem mount points.
+
+# UNIT MANAGEMENT
+- start / stop : Start or stop a unit immediately.
+
+- restart : Stop and then start a unit.
+
+- status : View unit runtime status and recent logs.
+
+- enable / disable : Configure a unit to start (or not) at boot.
+
+- mask / unmask : Prevent a unit from being started manually or by
+  dependencies (stronger than disable).
+
+- is-active / is-enabled : Check the current state or boot configuration.
+
+# UNIT FILE COMMANDS
+- daemon-reload : Reload the manager configuration. Required after
+  manually editing unit files in `/etc/systemd/system/`.
+
+- edit <unit> : Open a drop-in snippet to override settings.
+
+- list-units : List active units currently in memory.
 
 # EXAMPLES
 . Restart the system:
 $ systemctl reboot
 
-. Check the status of the SSH service:
+. Check status of the SSH service:
 $ systemctl status sshd
 
-. Enable a service to start automatically:
-$ sudo systemctl enable nginx
+. Mask a service to prevent it from ever running:
+$ sudo systemctl mask nginx
+
+. Reload systemd after changing a .service file:
+$ sudo systemctl daemon-reload
 
 # SEE ALSO
-. journalctl(1), service(8), reboot(8)
+. journalctl(1), service(8), reboot(8), systemd.unit(5)

@@ -1,6 +1,6 @@
 @name    "chroot"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,27 +8,52 @@
 . chroot(8) - run command or shell with special root directory
 
 # SYNOPSIS
-$ chroot [option] <newroot> [command]
+. chroot [option] <newroot> [command]
 
 # DESCRIPTION
 . `chroot` runs a command or interactive shell with the specified
   directory as the root directory (`/`).
 
-# USAGE
-. The "New Root" directory must contain all necessary binaries and
-  libraries (e.g., `/bin/sh`, `/lib/...`) required to run the
-  specified command.
+. At the kernel level, this updates the process's root directory
+  pointer. All path resolution starting with `/` will henceforth be
+  relative to the new root.
+
+# REQUIREMENTS
+. To run a program inside a chroot "jail," you must manually recreate
+  the environment it expects:
+
+- Binaries : The executable (e.g., `/bin/sh`) must exist inside the jail.
+
+- Libraries : All shared libraries (`.so` files) required by the binary
+  must be copied to the corresponding `/lib` or `/usr/lib` paths inside
+  the jail. Use `` `ldd` `` to find these dependencies.
+
+- Devices : Minimal device nodes like `/dev/null`, `/dev/zero`, and
+  `/dev/random` are often required. These can be created using
+  `` `mknod` `` or by bind-mounting them from the host.
+
+# SECURITY & ESCAPES
+> **WARNING:** `chroot` is not a secure sandbox for root users.
+
+. While it provides filesystem isolation, a process with root privileges
+  can easily "escape" the jail using techniques like:
+
+- Double Chroot : A root process can call `chroot` into a subdirectory,
+  keeping its working directory outside the new root, then traverse up
+  to the real system root.
+
+- Device Access : If the jail allows access to raw disk devices, the root
+  user can mount the real root filesystem inside the jail.
+
+. For actual security sandboxing, consider using Linux Namespaces,
+  Containers (Docker/LXC), or BSD Jails.
 
 # EXAMPLES
 . Enter a recovery environment mounted at `/mnt/sysimage`:
 $ sudo chroot /mnt/sysimage /bin/bash
 
-. Run a shell in an isolated directory:
+. Run a shell in an isolated directory (must have `/bin/sh` and libs):
 $ sudo chroot /path/to/jail
 
-# NOTES
-. While `chroot` provides environment isolation, it is not a complete
-  security sandbox for root users.
-
 # SEE ALSO
-. pivot_root(8), docker(1), systemd-nspawn(1)
+. pivot_root(8), docker(1), systemd-nspawn(1), ldd(1)

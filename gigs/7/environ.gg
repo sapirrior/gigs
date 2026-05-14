@@ -1,27 +1,69 @@
 @name    "environ"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . environ(7) - user environment variables
 
+# SYNOPSIS
+. environ(7)
+
 # DESCRIPTION
 . The environment is a collection of "name=value" strings passed to a
-  process when it starts. A child process inherits the environment of
-  its parent.
+  new process when it starts. This environment is used to configure
+  program behavior without changing command-line arguments.
 
-# COMMON VARIABLES
+# TECHNICAL DETAILS
+. In the C programming language, the environment is available as an
+  array of pointers to strings, terminated by a NULL pointer.
+
+! extern char **environ;
+
+. When a process is created via `fork(2)`, it inherits a copy of its
+  parent's environment. When a program is executed via `execve(2)`, it
+  is typically provided with a new environment.
+
+# KEY VARIABLES
+## User Identity & Path
 - HOME : The user's home directory.
+
 - PATH : A colon-separated list of directories searched for commands.
+
 - USER : The name of the logged-in user.
+
 - SHELL : The path to the user's login shell.
-- TERM : The type of terminal being emulated (e.g., `xterm-256color`).
-- LANG : The default system locale and character encoding.
-- EDITOR : The user's preferred text editor (e.g., `vim`, `nano`).
-- PAGER : The utility for viewing long output (e.g., `less`).
+
 - PWD : The current working directory.
+
+## Localization (Locale)
+. The system determines locale settings (dates, currency, sorting)
+  based on these variables in order of priority:
+
+- LC_ALL : Overrides all other `LC_` variables and `LANG`.
+
+- LC_TIME, LC_COLLATE, etc. : Category-specific settings.
+
+- LANG : The default system locale if no `LC_` variables are set.
+
+## Dynamic Linker (ld.so)
+- LD_PRELOAD : A list of shared libraries to be loaded **before** all
+  others. Used to override functions for debugging or patching.
+
+- LD_LIBRARY_PATH : A colon-separated list of directories to search for
+  libraries before the standard system paths.
+
+> **Security Note:** `LD_PRELOAD` and `LD_LIBRARY_PATH` are ignored by
+  the linker when executing set-user-ID/set-group-ID programs to
+  prevent privilege escalation.
+
+## Development & Tools
+- EDITOR : The user's preferred text editor (e.g., `vim`, `nano`).
+
+- PAGER : The utility for viewing long output (e.g., `less`).
+
+- TERM : The type of terminal being emulated (e.g., `xterm-256color`).
 
 # MODIFICATION
 . In most shells, you can set an environment variable using:
@@ -31,4 +73,4 @@ $ export NAME=value
 $ env
 
 # SEE ALSO
-- env(1), printenv(1), setenv(3), getenv(3)
+. env(1), printenv(1), execve(2), getenv(3), setenv(3), putenv(3), locale(7)

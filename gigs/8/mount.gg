@@ -1,6 +1,6 @@
 @name    "mount"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,35 +8,57 @@
 . mount(8) - mount a filesystem
 
 # SYNOPSIS
-$ mount [-t fstype] [-o options] <device> <dir>
+. mount [-t fstype] [-o options] <device> <dir>
 
 # DESCRIPTION
 . The `mount` command attaches a filesystem found on a device to the
   system's file hierarchy at the specified directory (mount point).
 
-# OPTIONS
-- -a : Mount all filesystems listed in `/etc/fstab`.
-- -t <type> : Specify the filesystem type (e.g., `ext4`, `vfat`, `nfs`).
-- -o <options> : Comma-separated list of mount options.
-  * ro : Mount the filesystem read-only.
-  * rw : Mount the filesystem read-write (default).
-  * remount : Attempt to remount an already-mounted filesystem.
-  * loop : Mount a file as a block device (e.g., ISO images).
-  * noexec : Do not allow direct execution of binaries on the disk.
+# COMMON OPTIONS (-o)
+- defaults : Uses `rw`, `suid`, `dev`, `exec`, `auto`, `nouser`, and `async`.
+
+- ro / rw : Mount the filesystem as read-only or read-write.
+
+- noexec : Prevent direct execution of binaries on the filesystem.
+
+- nosuid : Ignore set-user-identifier or set-group-identifier bits.
+
+- nodev : Do not interpret character or block special devices.
+
+- noatime : Do not update inode access times (improves performance).
+
+- remount : Attempt to change mount flags of an already-mounted filesystem.
+
+- loop : Mount a file as a block device (e.g., ISO images).
+
+- bind : Remount part of the file hierarchy somewhere else (`--bind`).
+
+# THE /etc/fstab FILE
+. This file contains static information about filesystems to be mounted
+  at boot. It has six fields:
+
+| Device | Mount Point | Type | Options | Dump | Pass
+| :--- | :--- | :--- | :--- | :--- | :---
+| UUID=... | / | ext4 | defaults | 0 | 1
+| /dev/sdb1 | /data | xfs | noatime | 0 | 2
 
 # EXAMPLES
-. Mount a USB drive partition to `/mnt/usb`:
-$ sudo mount /dev/sdb1 /mnt/usb
-
-. Mount an ISO image file:
-$ sudo mount -o loop image.iso /mnt/iso
+. Mount a partition to `/mnt/data`:
+$ sudo mount /dev/sdb1 /mnt/data
 
 . Remount the root filesystem as read-write:
 $ sudo mount -o remount,rw /
 
+. Create a bind mount (mirror a directory):
+$ sudo mount --bind /source/dir /target/dir
+
+. Mount all filesystems listed in `fstab`:
+$ sudo mount -a
+
 # FILES
-- /etc/fstab : Static information about filesystems.
+- /etc/fstab : Static filesystem configuration.
+
 - /proc/mounts : List of currently mounted filesystems.
 
 # SEE ALSO
-. umount(8), fstab(5), fdisk(8)
+. umount(8), fstab(5), fdisk(8), lsblk(8)

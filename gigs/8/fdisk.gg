@@ -1,6 +1,6 @@
 @name    "fdisk"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,24 +8,56 @@
 . fdisk(8) - manipulate disk partition table
 
 # SYNOPSIS
-$ fdisk [options] <device>
-$ fdisk -l [device...]
+. fdisk [options] <device>
+. fdisk -l [device...]
 
 # DESCRIPTION
 . `fdisk` is a dialog-driven program for creation and manipulation of
-  partition tables. It understands GPT, MBR, Sun, SGI, and BSD tables.
-
-# OPTIONS
-- -l : List the partition tables for the specified devices and then exit.
-- -s <partition> : Display the size of a partition in blocks.
+  partition tables. It understands GPT, MBR (DOS), Sun, SGI, and BSD
+  tables.
 
 # INTERACTIVE COMMANDS
+. Once started, `fdisk` provides a command prompt. Commands are single
+  letters:
+
 - m : Print the help menu.
-- p : Print the partition table.
+
+- p : Print the partition table (shows in-memory state).
+
 - n : Add a new partition.
-- d : Delete a partition.
-- q : Quit without saving changes.
-- w : Write table to disk and exit (destructive).
+
+- d : Delete an existing partition.
+
+- t : Change a partition's system ID/type.
+
+- l : List all known partition types (hex codes or aliases).
+
+- g : Create a new empty GPT partition table (wipes existing).
+
+- o : Create a new empty DOS/MBR partition table (wipes existing).
+
+- v : Verify the partition table for errors.
+
+- q : Quit without saving changes (Safe Exit).
+
+- w : Write table to disk and exit. **(Destructive Action)**
+
+# PARTITION TABLES (MBR VS GPT)
+- MBR (Legacy) : Supports up to 2 TiB disks and 4 primary partitions.
+
+- GPT (Modern) : Supports disks up to 9.4 ZB and 128 partitions.
+  Required for UEFI boot and disks larger than 2 TiB.
+
+# COMMON PARTITION TYPES (MBR HEX)
+- 83 : Linux (Standard filesystem).
+
+- 82 : Linux swap.
+
+- 8e : Linux LVM.
+
+- fd : Linux RAID auto.
+
+- 07 : HPFS/NTFS/exFAT.
 
 # EXAMPLES
 . List all disks and partitions:
@@ -34,5 +66,9 @@ $ sudo fdisk -l
 . Start interactive partitioning for drive `sda`:
 $ sudo fdisk /dev/sda
 
+# NOTES
+> **WARNING:** `fdisk` operates on an in-memory copy. No changes are
+  written to the physical disk until you use the `w` command.
+
 # SEE ALSO
-. cfdisk(8), sfdisk(8), parted(8), mkfs(8)
+. cfdisk(8), sfdisk(8), parted(8), mkfs(8), lsblk(8)

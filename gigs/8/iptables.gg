@@ -1,6 +1,6 @@
 @name    "iptables"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,32 +8,75 @@
 . iptables(8) - IPv4 packet filtering and NAT administration
 
 # SYNOPSIS
-$ iptables [-t table] <command> [chain] [rule-spec]
+. iptables [-t table] <command> [chain] [rule-spec]
 
 # DESCRIPTION
-. `iptables` is used to set up, maintain, and inspect the tables of
-  IPv4 packet filter rules in the Linux kernel.
+. `iptables` is the administrative tool for Netfilter, the Linux kernel's
+  packet filtering framework. It organizes firewall logic into Tables,
+  Chains, and Rules.
 
-# CORE CONCEPTS
-- Tables : `filter` (default), `nat`, `mangle`.
-- Chains : `INPUT`, `OUTPUT`, `FORWARD`.
-- Targets : `ACCEPT`, `DROP`, `REJECT`, `LOG`.
+# TABLES
+. Tables categorize rules by their functional purpose.
 
-# COMMANDS
-- -L, --list : List all rules in the selected chain.
-- -A, --append : Append one or more rules to the end of the chain.
-- -D, --delete : Delete one or more rules from the chain.
-- -F, --flush : Delete all rules in the selected table.
+- filter : The default table. Used for basic firewalling (Allow/Drop).
+
+- nat : Used for Network Address Translation (Port Forwarding, SNAT).
+
+- mangle : Used for specialized packet alteration (TTL, TOS).
+
+- raw : Used for configuring exemptions from connection tracking.
+
+# CHAINS
+. Chains are checkpoints in a packet's journey through the stack.
+
+- PREROUTING : Packets arriving at the interface, before routing.
+
+- INPUT : Packets destined for a local process on the host.
+
+- FORWARD : Packets being routed through the host to another destination.
+
+- OUTPUT : Packets generated locally by the host.
+
+- POSTROUTING : Packets just before they leave the interface.
+
+# MATCHES & EXTENSIONS
+. Rules match packets based on specific criteria.
+
+- -p : Protocol (e.g., `tcp`, `udp`, `icmp`).
+
+- -s, -d : Source and Destination IP addresses.
+
+- -i, -o : Inbound and Outbound network interfaces.
+
+- -m conntrack --ctstate : Match connection state (NEW, ESTABLISHED).
+
+- -m tcp --dport : Match a specific destination port.
+
+# TARGETS
+. Targets specify the action to take when a rule matches.
+
+- ACCEPT : Let the packet through.
+
+- DROP : Silently discard the packet.
+
+- REJECT : Discard the packet and send an ICMP error back.
+
+- LOG : Log the packet details to syslog.
+
+- MASQUERADE : Special SNAT for dynamic IPs (nat table only).
 
 # EXAMPLES
-. List all current firewall rules:
+. List all current rules with verbose info:
 $ sudo iptables -L -n -v
 
-. Block all traffic from a specific IP address:
-$ sudo iptables -A INPUT -s 192.168.1.10 -j DROP
+. Allow established connections (prevent lockout):
+$ sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-. Allow incoming SSH traffic (port 22):
-$ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+. Block all traffic from a specific IP:
+$ sudo iptables -A INPUT -s 192.168.1.50 -j DROP
+
+. Forward port 80 to an internal server:
+$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.5:80
 
 # SEE ALSO
-. ip6tables(8), nft(8), ufw(8)
+. ip6tables(8), nft(8), ufw(8), firewalld(1)

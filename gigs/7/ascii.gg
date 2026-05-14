@@ -1,11 +1,14 @@
 @name    "ascii"
 @section "7"
-@version "1.0.2"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . ascii(7) - character set encoded in octal, decimal, and hexadecimal
+
+# SYNOPSIS
+. ascii(7)
 
 # DESCRIPTION
 . ASCII is the American Standard Code for Information Interchange. It

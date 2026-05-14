@@ -1,24 +1,48 @@
 @name    "re_format"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . re_format(7) - POSIX regular expression formats (BRE and ERE)
 
+# SYNOPSIS
+. re_format(7)
+
 # DESCRIPTION
 . POSIX regular expressions come in two flavors: **Basic (BRE)** and
-  **Extended (ERE)**.
+  **Extended (ERE)**. Regular expressions are used by tools like
+  `grep`, `sed`, and `awk` to match patterns in text.
 
 # CORE METACHARACTERS
-. These characters have special meaning in both BRE and ERE.
-
 - . : Matches any single character except newline.
+
 - ^ : Matches the beginning of a line.
+
 - $ : Matches the end of a line.
-- [ ] : Matches any one character in the brackets (e.g., `[a-z]`).
-- [^ ] : Matches any one character **not** in the brackets.
+
+- * : Matches 0 or more occurrences of the preceding element.
+
+# BRACKET EXPRESSIONS [...]
+. A bracket expression matches any single character in the set.
+
+- [abc] : Matches 'a', 'b', or 'c'.
+
+- [a-z] : Matches any character in the range.
+
+- [^abc] : Matches any character **not** in the set (negation).
+
+## Special Sequences (Locale-Aware)
+. Inside brackets, POSIX defines special sequences:
+
+- [:class:] : Character classes (e.g., `[:digit:]`, `[:alpha:]`, `[:space:]`).
+
+- [.symbol.] : Collating elements. Matches multi-character units
+  treated as one for sorting (e.g., Spanish `[[.ch.]]`).
+
+- [=char=] : Equivalence classes. Matches characters with the same
+  primary collation weight (e.g., `[[=a=]]` matches `a`, `á`, `à`).
 
 # BRE VS ERE
 . The primary difference is the use of metacharacters and escaping.
@@ -27,29 +51,29 @@
 | :--- | :--- | :---
 | Grouping | `\( \)` | `( )`
 | Alternation | (Unsupported) | `|`
-| 1 or more (+) | `\+` (Ext) | `+`
-| 0 or 1 (?) | `\?` (Ext) | `?`
-| Bounds | `\{n,m\}` | `{n,m}`
+| 1 or more (+) | `\+` (GNU ext) | `+`
+| 0 or 1 (?) | `\?` (GNU ext) | `?`
+| Intervals | `\{n,m\}` | `{n,m}`
+| Back-refs | `\1` to `\9` | (Supported in ERE as an extension)
 
-# CHARACTER CLASSES
-. Use these inside bracket expressions (e.g., `[[:digit:]]`).
+# BACK-REFERENCES (\n)
+. A back-reference `\n` matches the same string that was previously
+  matched by the n-th parenthesized subexpression.
 
-- [:alnum:] : Alphanumeric
-- [:alpha:] : Alphabetic
-- [:digit:] : Numeric digits
-- [:lower:] : Lowercase
-- [:upper:] : Uppercase
-- [:space:] : Whitespace
+. Example: `\([a-z]\)\1` matches "aa" or "bb", but not "ab".
 
 # EXAMPLES
 . Match a line starting with 'Hello':
 ! ^Hello
 
-. Match an email address (Simplified ERE):
-! [a-z0-9.]+@[a-z0-9.]+
+. Match an integer:
+! [0-9]+
 
 . Match either 'cat' or 'dog' (ERE):
 ! cat|dog
 
+. Find repeated words (Simplified):
+! \([a-z]+\) \1
+
 # SEE ALSO
-. grep(1), sed(1), glob(7)
+. grep(1), sed(1), awk(1), glob(7)

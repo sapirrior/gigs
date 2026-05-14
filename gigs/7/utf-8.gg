@@ -1,11 +1,14 @@
 @name    "utf-8"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . utf-8(7) - variable-width Unicode character encoding
+
+# SYNOPSIS
+. utf-8(7)
 
 # DESCRIPTION
 . UTF-8 is the standard character encoding for Unix-like systems. It
@@ -26,8 +29,10 @@
 # PROPERTIES
 - ASCII Compatibility : Code points U+0000 to U+007F are identical to
   ASCII.
+
 - Self-Synchronizing : It is easy to find the start of a character.
   Continuation bytes always start with `10`.
+
 - Safe for C : The NULL byte (`0x00`) and `/` (`0x2F`) never appear
   inside a multi-byte sequence.
 

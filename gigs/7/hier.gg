@@ -1,29 +1,67 @@
 @name    "hier"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . hier(7) - description of the filesystem hierarchy
 
+# SYNOPSIS
+. hier(7)
+
 # DESCRIPTION
-. This page outlines the structure of the filesystem for both standard
-  Linux systems and the Termux environment.
+. This page outlines the structure of the filesystem for standard Linux
+  systems following the Filesystem Hierarchy Standard (FHS) and the
+  specialized Termux environment.
 
-# STANDARD LINUX (FHS)
-. Standard Linux distributions follow the Filesystem Hierarchy Standard
-  (FHS), where the root directory is `/`.
-
+# THE ROOT HIERARCHY (/)
 - /bin : Essential command binaries for all users (e.g., `ls`, `cp`).
-- /sbin : Essential system binaries for administration (e.g., `fdisk`).
-- /etc : Host-specific system-wide configuration files.
-- /usr : Secondary hierarchy for user utilities and shared data.
-- /var : Variable data files such as logs and databases.
-- /home : Personal directories for users (e.g., `/home/username`).
-- /tmp : Temporary files, often cleared on reboot.
+
+- /boot : Static files for the boot loader (kernel, initrd).
+
 - /dev : Device files providing interfaces to hardware.
+
+- /etc : Host-specific system-wide configuration files.
+
+- /home : Personal directories for users (e.g., `/home/username`).
+
+- /lib : Essential shared libraries and kernel modules.
+
+- /media : Mount points for removable media (CD-ROMs, USB sticks).
+
+- /mnt : Mount point for temporarily mounted filesystems.
+
+- /opt : Optional add-on application software packages.
+
 - /proc : Virtual filesystem for process and kernel information.
+
+- /root : Home directory for the root user.
+
+- /run : Runtime volatile data (PIDs, sockets); cleared on boot.
+
+- /sbin : Essential system binaries (e.g., `fdisk`, `reboot`).
+
+- /srv : Data for services provided by the system (web, FTP).
+
+- /sys : Virtual filesystem for hardware and kernel subsystem info.
+
+- /tmp : Temporary files, often cleared on reboot.
+
+- /usr : Secondary hierarchy for read-only user data.
+
+- /var : Variable data files (logs, spools, databases).
+
+# THE /usr HIERARCHY
+- /usr/bin : Non-essential binaries for all users.
+
+- /usr/include : Standard C header files.
+
+- /usr/lib : Libraries for binaries in `/usr/bin`.
+
+- /usr/local : Tertiary hierarchy for locally installed software.
+
+- /usr/share : Architecture-independent shared data (man pages, icons).
 
 # TERMUX ENVIRONMENT
 . Termux operates within a private data directory on Android. It uses
@@ -31,14 +69,21 @@
 
 - $HOME : Your personal workspace.
   `/data/data/com.termux/files/home`
+
 - $PREFIX : The "system" root where all packages are installed.
   `/data/data/com.termux/files/usr`
 
 ## Termux Layout (Relative to $PREFIX)
 - .../bin : All binaries (equivalent to `/bin` and `/usr/bin`).
+
 - .../etc : Configuration files for packages.
+
+- .../include : Header files for development.
+
 - .../lib : Shared libraries.
+
 - .../tmp : Temporary files.
+
 - .../var : Caches and log files.
 
 # NOTES
@@ -46,4 +91,4 @@
   `` `termux-fix-shebang` `` tool or changed to point to `$PREFIX/bin/sh`.
 
 # SEE ALSO
-. file(1), find(1), mount(8)
+. file(1), find(1), mount(8), environ(7)

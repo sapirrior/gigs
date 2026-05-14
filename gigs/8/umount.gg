@@ -1,6 +1,6 @@
 @name    "umount"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,35 +8,43 @@
 . umount(8) - unmount filesystems
 
 # SYNOPSIS
-$ umount [-hV]
-$ umount [-flrv] <directory|device>
+. umount [-flrv] <directory|device>
 
 # DESCRIPTION
-. The `umount` command detaches the mentioned filesystem from the file
-  hierarchy. A filesystem is specified by giving the directory where it
-  has been mounted.
+. The `umount` command detaches the specified filesystem from the file
+  hierarchy.
 
 # OPTIONS
-- -a : Unmount all filesystems.
-- -f : Force unmount (in case of an unreachable NFS system).
-- -l : Lazy unmount. Detach the filesystem from the hierarchy now, and
-  clean up all references when it is no longer busy.
-- -r : In case unmounting fails, try to remount read-only.
+- -a, --all : Unmount all filesystems mentioned in `/proc/mounts`.
+
+- -f, --force : Force unmount (primarily for unreachable network
+  filesystems like NFS).
+
+- -l, --lazy : Lazy unmount. Detach the filesystem from the hierarchy
+  immediately, and clean up all references once it is no longer busy.
+
+- -r, --read-only : If unmounting fails, try to remount the filesystem
+  as read-only.
+
+# THE "BUSY" PROBLEM
+. A filesystem is "busy" if there are open files on it, or if a process
+  has its current working directory there. To diagnose and fix:
+
+- fuser : Use `` `sudo fuser -vm <mountpoint>` `` to see which PIDs are
+  accessing the disk.
+
+- lsof : Use `` `sudo lsof +D <mountpoint>` `` for a detailed list of
+  open files.
 
 # EXAMPLES
-. Unmount by mount point:
+. Unmount a USB drive:
 $ sudo umount /mnt/usb
 
-. Unmount by device:
-$ sudo umount /dev/sdb1
-
-. Perform a lazy unmount:
+. Perform a lazy unmount (detach now, clean up later):
 $ sudo umount -l /mnt/data
 
-# NOTES
-. A filesystem cannot be unmounted when it is 'busy' (e.g., when there
-  are open files on it, or when some process has its working directory
-  there).
+. Force unmount a hung NFS share:
+$ sudo umount -f /mnt/nfs_share
 
 # SEE ALSO
-. mount(8), fuser(1), lsof(8)
+. mount(8), fuser(1), lsof(8), lsblk(8)

@@ -1,22 +1,37 @@
 @name    "signals"
 @section "7"
-@version "1.0.0"
+@version "1.2.1"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
 # NAME
 . signals(7) - list of standard POSIX signals and their default actions
 
+# SYNOPSIS
+. signals(7)
+
 # DESCRIPTION
 . Signals are software interrupts sent to a process to notify it of
-  specific events.
+  specific events. When a signal is sent, the kernel interrupts the
+  process's normal flow of execution to deliver the signal.
 
-# DEFAULT ACTIONS
+# SIGNAL DISPOSITION
+. Each signal has a current **disposition**, which determines how the
+  process behaves when it receives the signal.
+
 - Term : Terminate the process.
-- Ign  : Ignore the signal.
-- Core : Terminate the process and dump core.
-- Stop : Stop the process.
+
+- Ign  : Ignore the signal (discarded immediately).
+
+- Core : Terminate the process and generate a core dump file.
+
+- Stop : Stop (suspend) the process.
+
 - Cont : Continue the process if it is currently stopped.
+
+. A process can change the disposition of most signals using
+  `sigaction(2)` or `signal(2)`. However, **SIGKILL** and **SIGSTOP**
+  cannot be caught, blocked, or ignored.
 
 # STANDARD SIGNALS
 . Below are the most common standard signals.
@@ -26,20 +41,47 @@
 | **SIGHUP** | 1 | Term | Hangup detected on controlling terminal.
 | **SIGINT** | 2 | Term | Interrupt from keyboard (`Ctrl+C`).
 | **SIGQUIT** | 3 | Core | Quit from keyboard (`Ctrl+\`).
-| **SIGKILL** | 9 | Term | Kill signal (cannot be caught or ignored).
+| **SIGILL** | 4 | Core | Illegal Instruction.
+| **SIGABRT** | 6 | Core | Abort signal from `abort(3)`.
+| **SIGFPE** | 8 | Core | Floating-point exception.
+| **SIGKILL** | 9 | Term | Kill signal (cannot be caught/ignored).
 | **SIGSEGV** | 11 | Core | Segmentation fault (invalid memory ref).
 | **SIGPIPE** | 13 | Term | Broken pipe: write to pipe with no readers.
 | **SIGALRM** | 14 | Term | Timer signal from `alarm(2)`.
 | **SIGTERM** | 15 | Term | Termination signal (request to exit).
+| **SIGUSR1** | 10 | Term | User-defined signal 1.
+| **SIGUSR2** | 12 | Term | User-defined signal 2.
 | **SIGCHLD** | 17 | Ign | Child stopped or terminated.
 | **SIGCONT** | 18 | Cont | Continue if stopped.
-| **SIGSTOP** | 19 | Stop | Stop process (cannot be caught or ignored).
+| **SIGSTOP** | 19 | Stop | Stop process (cannot be caught/ignored).
 | **SIGTSTP** | 20 | Stop | Stop typed at terminal (`Ctrl+Z`).
 | **SIGWINCH** | 28 | Ign | Window resize signal.
 
-# NOTES
-. Signals **SIGKILL** and **SIGSTOP** cannot be caught, blocked, or
-  ignored by the process.
+# ASYNC-SIGNAL-SAFETY
+. A signal can interrupt a process at any point. If a signal handler
+  calls a function that is partially through updating a global data
+  structure, the system state may become inconsistent.
+
+. Only **async-signal-safe** functions are guaranteed to be safe for
+  use within a signal handler.
+
+| Category | Safe Functions (Examples)
+| :--- | :---
+| I/O | `open`, `read`, `write`, `close`, `lseek`, `fstat`
+| Process | `fork`, `execve`, `_exit`, `wait`, `waitpid`, `getpid`
+| Signals | `sigaction`, `sigprocmask`, `sigpending`, `kill`, `raise`
+| Memory | `memcpy`, `memmove`, `memset`, `strlen`
+| Time | `time`, `clock_gettime`
+
+# SIGNAL MASK & PENDING SIGNALS
+. Each thread has a **signal mask**, a set of signals currently
+  **blocked** from delivery.
+
+. If a signal is generated while it is blocked, it becomes **pending**.
+  It will remain pending until it is unblocked, at which point it will
+  be delivered. Standard signals are not queued; if a blocked signal is
+  generated multiple times, it is typically delivered only once when
+  unblocked.
 
 # SEE ALSO
-. kill(1), ps(1), signal(2)
+. kill(1), ps(1), signal(2), sigaction(2), sigprocmask(2)

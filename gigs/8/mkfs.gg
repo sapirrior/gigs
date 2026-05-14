@@ -1,6 +1,6 @@
 @name    "mkfs"
 @section "8"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,29 +8,50 @@
 . mkfs(8) - build a Linux filesystem
 
 # SYNOPSIS
-$ mkfs [-t fstype] [options] <device>
+. mkfs [-t fstype] [options] <device>
 
 # DESCRIPTION
-. `mkfs` is used to create a filesystem on a device, usually a hard
-  disk partition. It is a front-end for various filesystem builders
-  like `mkfs.ext4`, `mkfs.vfat`, etc.
+. `mkfs` is a front-end wrapper for various filesystem-specific
+  builders. It creates a filesystem on a device, usually a hard disk
+  partition.
+
+. The wrapper identifies the type and executes the corresponding
+  `mkfs.<type>` utility (e.g., `mkfs.ext4`) found in the system path.
 
 # OPTIONS
 - -t, --type <type> : Specify the filesystem type (e.g., `ext4`, `vfat`,
-  `xfs`). Defaults to `ext2` if not specified.
-- -V, --verbose : Produce verbose output, showing underlying commands.
-- -L <label> : Set a volume label for the filesystem.
+  `xfs`, `btrfs`). Defaults to `ext2` if not specified.
+
+- -V, --verbose : Produce verbose output, showing the exact command
+  executed by the wrapper.
+
+- [fs-options] : Any options appearing after the device name are passed
+  directly to the underlying builder.
+
+# COMMON FILESYSTEM BUILDERS
+- mkfs.ext4 : Standard journaling filesystem for Linux.
+
+- mkfs.xfs : High-performance journaling filesystem.
+
+- mkfs.btrfs : Copy-on-write (CoW) filesystem with snapshot support.
+
+- mkfs.vfat : FAT32 filesystem (used for UEFI and USB drives).
+
+- mkfs.ntfs : Windows NT filesystem.
 
 # EXAMPLES
-. Format a partition as ext4:
-$ sudo mkfs -t ext4 /dev/sdb1
+. Format a partition as ext4 with a label:
+$ sudo mkfs -t ext4 -L "Storage" /dev/sdb1
 
 . Format a USB drive as FAT32:
 $ sudo mkfs -t vfat /dev/sdc1
+
+. Show the underlying command for an ext4 format:
+$ sudo mkfs -V -t ext4 /dev/sdb1
 
 # NOTES
 > **WARNING:** Running `mkfs` will destroy all existing data on the
   target device or partition. Always double-check the device path.
 
 # SEE ALSO
-. mount(8), fdisk(8), fsck(8)
+. mount(8), fdisk(8), fsck(8), lsblk(8)
