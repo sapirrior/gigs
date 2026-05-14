@@ -2,7 +2,7 @@
 @section "1"
 @version "1.0.0"
 @author  "sapirrior"
-@updated "2026-05-16"
+@updated "2026-05-14"
 ---
 # NAME
 . gig(1) - interactive terminal guide viewer and renderer

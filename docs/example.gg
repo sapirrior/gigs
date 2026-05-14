@@ -2,7 +2,7 @@
 @section "7"
 @version "1.0.0"
 @author  "gig"
-@updated "2026-05-16"
+@updated "2026-05-14"
 ---
 # NAME
 . example(7) - Demonstrates all gig syntax features
