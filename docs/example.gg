@@ -1,0 +1,89 @@
+@name    "example"
+@section "7"
+@version "1.0.0"
+@author  "Gemini CLI"
+@updated "2026-05-16"
+---
+# NAME
+. `example`(7) - Demonstrates all `gig` syntax features
+
+# SYNOPSIS
+$ gig view example.gg
+
+# DESCRIPTION
+. This `gig` page serves as a comprehensive demonstration of the various
+  syntax elements available when writing General Interactive Guides.
+  It showcases block types, inline styling, and table formatting to help
+  authors understand how to craft effective documentation.
+
+. Manual pages like this one are designed for quick reference, providing
+  **concise** and **structured** information.
+
+# BLOCK TYPES
+# Primary Section Header (Level 0)
+. Use `# ` for primary sections like `NAME`, `SYNOPSIS`, or `DESCRIPTION`.
+
+## Secondary Subsection Header (Level 1)
+. Use `## ` for sub-sections or categories, such as `OPTIONS` or `EXAMPLES`.
+
+## Body Text
+. Use `. ` for standard paragraphs of text. This text will automatically
+  wrap to fit the terminal width, maintaining readability.
+  The `gig` engine ensures that even very long lines are presented cleanly.
+
+## Literal Blocks
+! This is a literal block.
+! It uses the `! ` trigger.
+! It does *not* wrap. Any line exceeding terminal width will be truncated
+! with an ellipsis (...). This is useful for code snippets or raw data
+! where line breaks are semantically important.
+! E.g., `some_very_long_variable_name_that_should_not_wrap = another_long_value;`
+
+## Bulleted Lists
+*   Use `* ` for bullet points.
+*   These also support multi-line content:
+    This is a continuation of the bullet point above, using a leading space.
+
+## Definition Lists
+- `Term` : A definition of the term, which can be quite long and will
+           wrap automatically.
+- `Another Term` : Another definition here.
+
+## Tables
+. Tables are created using the `| ` trigger. The first row is the header.
+| Feature | Trigger | Example | Notes
+| :--- | :--- | :--- | :--- |
+| Header | `# ` | `# NAME` | Cream bold.
+| Body Text | `. ` | `. Paragraph` | 10% indent.
+| Literal | `! ` | `! Raw data` | No wrapping, truncates.
+| Bullet | `* ` | `* Item` | Grey bullet, 15% indent.
+| Command | `$ ` | `$ ls` | Sage green, 15% indent.
+| Quote | `> ` | `> Note` | Olive italic, 15% indent.
+
+## Shell Commands
+$ ls -laF /usr/local/bin
+$ git clone <repository_url> [destination]
+
+## Quotes / Notes
+> This is an important note or a quotation. It uses the `> ` trigger and is
+  rendered in an olive green, italicized style.
+
+# INLINE STYLING
+. The `gig` engine automatically highlights certain patterns:
+. For **strong emphasis**, use `**double asterisks**`.
+. Command names or binaries like `` `ls` `` or `` `gig` `` are rendered in sage green.
+. Placeholders or required arguments are shown with `<angle_brackets>`.
+. Optional flags or parameters appear in `[square_brackets]`.
+. Cross-references to *other `gig` pages* are created using `{link(section)}` syntax,
+  for example, see `{another_command(1)}` or `{file_format(5)}` for more details.
+. Double-quoted strings like `"hello world"` are also styled.
+. Command-line flags like `--help` or `-v` are automatically detected and highlighted.
+
+# SEE ALSO
+. For more details on writing `gig` pages, refer to the documentation in this project:
+. `docs/metadata.md`, `docs/block_types.md`, `docs/inline_styling.md`,
+. `docs/tables.md`, `docs/best_practices.md`
+. Related manual pages: `man`(1), `info`(1)
+
+# BUGS
+. No known bugs. Please report any issues on the project's GitHub page.
