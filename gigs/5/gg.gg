@@ -1,0 +1,73 @@
+@name    "gg"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. gg - General Interactive Guide file format
+
+# DESCRIPTION
+. `.gg` files are plain-text documentation files designed to be rendered by
+  the `gig` engine. The format emulates the structure of Unix manual pages
+  while providing interactive features, semantic highlighting, and
+  responsive layouts.
+
+. A `.gg` file is divided into two main parts: the **Metadata Zone** and
+  the **Content Zone**, separated by a triple-dash (`---`).
+
+# METADATA ZONE
+. The Metadata Zone must appear at the very top of the file. Each line
+  consists of a key starting with `@`, followed by whitespace, and a
+  double-quoted string value.
+
+- @name    : The lookup name of the guide.
+- @section : The manual section (1-9, n, l).
+- @version : The version of the guide (optional).
+- @author  : The author or organization (optional).
+- @updated : Last update date in YYYY-MM-DD (optional).
+
+# CONTENT ZONE
+. The Content Zone uses "first-character triggers" to define block types.
+
+## Block Triggers
+- `# ` : Primary Header (Level 0). Renders in bold cream.
+- `## ` : Secondary Header (Level 1). Renders in bold sand.
+- `. ` : Body Text. Standard paragraph with 10% indent and auto-wrap.
+- `! ` : Literal. Sage green, 15% indent, **no wrapping**.
+- `* ` : Bullet. Grey bullet point, 15% indent.
+- `- ` : Definition. `Term : Description` format.
+- `| ` : Table Row. Column separator is `|`. First row is the header.
+- `$ ` : Shell Command. Sage green, 15% indent.
+- `> ` : Quote/Note. Olive green, italicized, 15% indent.
+
+## The Continuation Rule
+. To continue a block (like a long paragraph or bullet point) on a new line,
+  start the line with at least one space. This appends the text to the
+  preceding block rather than starting a new one.
+
+# INLINE STYLING
+. The `gig` engine automatically highlights the following patterns:
+
+- **Strong Emphasis** : `**text**`
+- Commands : `` `command` `` (Sage Green)
+- Placeholders : `<variable>` (Terracotta)
+- Options : `[optional]` (Grey)
+- Links : `{link(section)}` (Slate Blue)
+- Strings : `"quoted string"` (Terracotta)
+- Flags : `--help` or `-v` (Sage Green)
+
+# EXAMPLES
+. A minimal valid `.gg` file:
+
+! @name    "test"
+! @section "1"
+! ---
+! # NAME
+! . test(1) - a simple test guide
+!
+! # DESCRIPTION
+! . This is a minimal example of a .gg file.
+
+# SEE ALSO
+. gig(1)

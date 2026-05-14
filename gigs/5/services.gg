@@ -1,0 +1,33 @@
+@name    "services"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. services - internet network services list
+
+# DESCRIPTION
+. The `services` file maps human-friendly service names to port
+  numbers and protocol types.
+
+# FORMAT
+. Each line has the following format:
+! service-name  port/protocol  [aliases...]
+
+- service-name : Case-sensitive name of the service (e.g., `ssh`).
+- port/protocol : Port number and protocol (e.g., `22/tcp`).
+- aliases : Optional alternative names for the service.
+
+# NOTES
+. Fields are separated by spaces or tabs.
+. Comments start with `#`.
+
+# EXAMPLES
+. Standard service entries:
+! ssh             22/tcp
+! http            80/tcp          www www-http
+! https           443/tcp         sslsrv
+
+# SEE ALSO
+. protocols(5), listen(2)

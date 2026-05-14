@@ -1,0 +1,34 @@
+@name    "shadow"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. shadow - shadowed password file
+
+# DESCRIPTION
+. The `/etc/shadow` file contains encrypted password information for
+  user accounts and optional aging information. This file is usually
+  readable only by the root user.
+
+# FORMAT
+. Each line consists of nine fields separated by colons (`:`):
+! name:password:lastchg:min:max:warn:inactive:expire:reserved
+
+- name : Login name (username).
+- password : The encrypted password (or lock string like `!` or `*`).
+- lastchg : Days since Jan 1, 1970, that password was last changed.
+- min : Minimum days before password can be changed.
+- max : Maximum days after which password must be changed.
+- warn : Days before expiration that user is warned.
+- inactive : Days after expiration before account is disabled.
+- expire : Absolute date (days since Epoch) when account expires.
+- reserved : Reserved for future use.
+
+# EXAMPLES
+. A typical shadow entry:
+! alice:$6$salt$hash:19850:0:90:7:30::
+
+# SEE ALSO
+. passwd(1), passwd(5), chage(1)

@@ -1,0 +1,30 @@
+@name    "nsswitch.conf"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. nsswitch.conf - name service switch configuration file
+
+# DESCRIPTION
+. The `nsswitch.conf` file determines the sources and order for
+  resolving system databases (users, hosts, etc.).
+
+# FORMAT
+. Each line consists of a database name and a list of sources:
+! database: source1 [action1] source2 ...
+
+- database : Category of info (e.g., `passwd`, `hosts`).
+- source : Service to query (e.g., `files`, `dns`).
+- action : Optional criteria to modify behavior (e.g., `[NOTFOUND=return]`).
+
+# EXAMPLES
+. Common configuration:
+! passwd:         files
+! group:          files
+! hosts:          files dns
+! networks:       files
+
+# SEE ALSO
+. hosts(5), passwd(5), resolv.conf(5)

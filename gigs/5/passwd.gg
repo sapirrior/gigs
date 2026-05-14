@@ -1,0 +1,32 @@
+@name    "passwd"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. passwd - password file
+
+# DESCRIPTION
+. The `/etc/passwd` file is a text file that contains a list of the
+  system's accounts, providing for each account the login name, user ID,
+  group ID, home directory, and shell.
+
+# FORMAT
+. Each line consists of seven fields separated by colons (`:`):
+! name:password:UID:GID:GECOS:directory:shell
+
+- name : Login name (username).
+- password : Usually `x` (password is in `/etc/shadow`).
+- UID : User ID number.
+- GID : Primary group ID number.
+- GECOS : User information (e.g., full name).
+- directory : Home directory.
+- shell : Login shell (e.g., `/bin/bash`).
+
+# EXAMPLES
+. A standard user entry:
+! alice:x:1001:1001:Alice Smith:/home/alice:/bin/bash
+
+# SEE ALSO
+. login(1), group(5), shadow(5)

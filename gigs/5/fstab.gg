@@ -1,0 +1,32 @@
+@name    "fstab"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. fstab - static information about the filesystems
+
+# DESCRIPTION
+. The `fstab` file contains descriptive information about the filesystems
+  the system can mount. It is typically read at boot time.
+
+# FORMAT
+. Each line has six fields separated by spaces or tabs:
+! Device  MountPoint  Type  Options  Dump  Pass
+
+- Device : The partition or storage device (e.g., `/dev/sda1`, `UUID=...`).
+- MountPoint : Where the partition is attached to the tree (e.g., `/`,
+  `none` for swap).
+- Type : Filesystem type (e.g., `ext4`, `xfs`, `vfat`, `swap`).
+- Options : Comma-separated list (e.g., `defaults`, `ro`, `noexec`).
+- Dump : Used by `dump` (usually `0`).
+- Pass : Used by `fsck` at boot (`1` for root, `2` for others, `0` to skip).
+
+# EXAMPLES
+. A standard fstab entry:
+! UUID=550e8400-e29b / ext4 defaults 0 1
+! /dev/sdb1 /mnt/data ntfs-3g defaults,nofail 0 2
+
+# SEE ALSO
+. mount(8), fsck(8), blkid(8)

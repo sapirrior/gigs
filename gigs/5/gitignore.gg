@@ -1,0 +1,39 @@
+@name    "gitignore"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. gitignore - specifies intentionally untracked files to ignore
+
+# DESCRIPTION
+. A `gitignore` file specifies patterns that Git uses to determine
+  which files and directories to ignore in a repository.
+
+# PATTERN FORMAT
+- # : Lines starting with `#` are comments.
+- * : Matches zero or more characters.
+- ? : Matches exactly one character.
+- [abc] : Matches any character inside the brackets.
+- ** : Matches nested directories (e.g., `**/logs` matches `logs` anywhere).
+- / : Leading `/` matches relative to the `.gitignore` location;
+  trailing `/` matches only directories.
+- ! : Negates a pattern (re-includes a file).
+
+# EXAMPLES
+. Ignore all .log files:
+! *.log
+
+. Do NOT ignore 'important.log' even if *.log is ignored:
+! !important.log
+
+. Ignore a specific directory:
+! build/
+
+. Ignore files in 'bin' but not 'bin/manual':
+! /bin/*
+! !/bin/manual
+
+# SEE ALSO
+. git(1), git-config(1)

@@ -1,0 +1,28 @@
+@name    "group"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. group - user group file
+
+# DESCRIPTION
+. The `/etc/group` file is a text file that defines the groups to which
+  users belong.
+
+# FORMAT
+. Each line consists of four fields separated by colons (`:`):
+! group_name:password:GID:user_list
+
+- group_name : The name of the group.
+- password : Encrypted password (rarely used, usually empty or `x`).
+- GID : Numeric Group ID.
+- user_list : Comma-separated list of usernames in the group.
+
+# EXAMPLES
+. A group with multiple members:
+! developers:x:1002:alice,bob,charlie
+
+# SEE ALSO
+. groups(1), passwd(5), gshadow(5)

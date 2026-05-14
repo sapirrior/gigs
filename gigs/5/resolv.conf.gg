@@ -1,0 +1,39 @@
+@name    "resolv.conf"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. resolv.conf - resolver configuration file
+
+# DESCRIPTION
+. The `resolv.conf` file is used by the C library resolver to translate
+  hostnames into IP addresses. It defines which DNS servers to query
+  and how to search for local domains.
+
+# DIRECTIVES
+- nameserver IP : The IPv4 or IPv6 address of a DNS server to query.
+  Up to three servers can be listed. They are queried in order.
+
+- search DOMAIN : Defines a search list for hostname lookups. If a name
+  is not fully qualified, it will be tried with these suffixes.
+
+- domain DOMAIN : Local domain name. Usually mutually exclusive with
+  the `search` directive.
+
+- options OPTIONS : Tweak resolver variables (e.g., `timeout:n`,
+  `attempts:n`, `rotate` for round-robin).
+
+# NOTES
+. On modern systems, this file is often managed by `systemd-resolved` or
+  `NetworkManager`. Manual changes may be overwritten.
+
+# EXAMPLES
+. A typical configuration:
+! nameserver 8.8.8.8
+! nameserver 1.1.1.1
+! search local.network example.com
+
+# SEE ALSO
+. gethostbyname(3), hosts(5), nsswitch.conf(5)

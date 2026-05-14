@@ -1,0 +1,30 @@
+@name    "protocols"
+@section "5"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. protocols - protocols definition file
+
+# DESCRIPTION
+. The `protocols` file describes the DARPA internet protocols available
+  in the TCP/IP subsystem.
+
+# FORMAT
+. Each line has the following format:
+! protocol  number  [aliases...]
+
+- protocol : Native name for the protocol (e.g., `tcp`, `udp`).
+- number : Official IANA-assigned number in the IP header.
+- aliases : Optional alternative names.
+
+# EXAMPLES
+. Standard protocol entries:
+! ip              0       IP
+! icmp            1       ICMP
+! tcp             6       TCP
+! udp             17      UDP
+
+# SEE ALSO
+. services(5), getprotoent(3)
