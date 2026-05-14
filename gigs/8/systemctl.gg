@@ -1,0 +1,42 @@
+@name    "systemctl"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. systemctl(8) - control the systemd system and service manager
+
+# SYNOPSIS
+$ systemctl [options] <command> [unit]
+
+# DESCRIPTION
+. `systemctl` is the central tool for managing services (units) and
+  controlling the overall state of the system.
+
+# SYSTEM COMMANDS
+- reboot : Restart the system.
+- poweroff : Shut down and power off the machine.
+- suspend : Put the system into sleep mode.
+- hibernate : Save state to disk and power off.
+
+# SERVICE COMMANDS
+- start <unit> : Start a service.
+- stop <unit> : Stop a service.
+- restart <unit> : Restart a service.
+- status <unit> : Check if a service is running and view logs.
+- enable <unit> : Configure a service to start at boot.
+- disable <unit> : Prevent a service from starting at boot.
+
+# EXAMPLES
+. Restart the system:
+$ systemctl reboot
+
+. Check the status of the SSH service:
+$ systemctl status sshd
+
+. Enable a service to start automatically:
+$ sudo systemctl enable nginx
+
+# SEE ALSO
+. journalctl(1), service(8), reboot(8)

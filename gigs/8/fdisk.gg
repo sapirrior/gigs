@@ -1,0 +1,38 @@
+@name    "fdisk"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. fdisk(8) - manipulate disk partition table
+
+# SYNOPSIS
+$ fdisk [options] <device>
+$ fdisk -l [device...]
+
+# DESCRIPTION
+. `fdisk` is a dialog-driven program for creation and manipulation of
+  partition tables. It understands GPT, MBR, Sun, SGI, and BSD tables.
+
+# OPTIONS
+- -l : List the partition tables for the specified devices and then exit.
+- -s <partition> : Display the size of a partition in blocks.
+
+# INTERACTIVE COMMANDS
+- m : Print the help menu.
+- p : Print the partition table.
+- n : Add a new partition.
+- d : Delete a partition.
+- q : Quit without saving changes.
+- w : Write table to disk and exit (destructive).
+
+# EXAMPLES
+. List all disks and partitions:
+$ sudo fdisk -l
+
+. Start interactive partitioning for drive `sda`:
+$ sudo fdisk /dev/sda
+
+# SEE ALSO
+. cfdisk(8), sfdisk(8), parted(8), mkfs(8)

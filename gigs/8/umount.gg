@@ -1,0 +1,42 @@
+@name    "umount"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. umount(8) - unmount filesystems
+
+# SYNOPSIS
+$ umount [-hV]
+$ umount [-flrv] <directory|device>
+
+# DESCRIPTION
+. The `umount` command detaches the mentioned filesystem from the file
+  hierarchy. A filesystem is specified by giving the directory where it
+  has been mounted.
+
+# OPTIONS
+- -a : Unmount all filesystems.
+- -f : Force unmount (in case of an unreachable NFS system).
+- -l : Lazy unmount. Detach the filesystem from the hierarchy now, and
+  clean up all references when it is no longer busy.
+- -r : In case unmounting fails, try to remount read-only.
+
+# EXAMPLES
+. Unmount by mount point:
+$ sudo umount /mnt/usb
+
+. Unmount by device:
+$ sudo umount /dev/sdb1
+
+. Perform a lazy unmount:
+$ sudo umount -l /mnt/data
+
+# NOTES
+. A filesystem cannot be unmounted when it is 'busy' (e.g., when there
+  are open files on it, or when some process has its working directory
+  there).
+
+# SEE ALSO
+. mount(8), fuser(1), lsof(8)

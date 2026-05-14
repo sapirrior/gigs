@@ -1,0 +1,34 @@
+@name    "chroot"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. chroot(8) - run command or shell with special root directory
+
+# SYNOPSIS
+$ chroot [option] <newroot> [command]
+
+# DESCRIPTION
+. `chroot` runs a command or interactive shell with the specified
+  directory as the root directory (`/`).
+
+# USAGE
+. The "New Root" directory must contain all necessary binaries and
+  libraries (e.g., `/bin/sh`, `/lib/...`) required to run the
+  specified command.
+
+# EXAMPLES
+. Enter a recovery environment mounted at `/mnt/sysimage`:
+$ sudo chroot /mnt/sysimage /bin/bash
+
+. Run a shell in an isolated directory:
+$ sudo chroot /path/to/jail
+
+# NOTES
+. While `chroot` provides environment isolation, it is not a complete
+  security sandbox for root users.
+
+# SEE ALSO
+. pivot_root(8), docker(1), systemd-nspawn(1)

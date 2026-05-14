@@ -1,0 +1,39 @@
+@name    "iptables"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. iptables(8) - IPv4 packet filtering and NAT administration
+
+# SYNOPSIS
+$ iptables [-t table] <command> [chain] [rule-spec]
+
+# DESCRIPTION
+. `iptables` is used to set up, maintain, and inspect the tables of
+  IPv4 packet filter rules in the Linux kernel.
+
+# CORE CONCEPTS
+- Tables : `filter` (default), `nat`, `mangle`.
+- Chains : `INPUT`, `OUTPUT`, `FORWARD`.
+- Targets : `ACCEPT`, `DROP`, `REJECT`, `LOG`.
+
+# COMMANDS
+- -L, --list : List all rules in the selected chain.
+- -A, --append : Append one or more rules to the end of the chain.
+- -D, --delete : Delete one or more rules from the chain.
+- -F, --flush : Delete all rules in the selected table.
+
+# EXAMPLES
+. List all current firewall rules:
+$ sudo iptables -L -n -v
+
+. Block all traffic from a specific IP address:
+$ sudo iptables -A INPUT -s 192.168.1.10 -j DROP
+
+. Allow incoming SSH traffic (port 22):
+$ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# SEE ALSO
+. ip6tables(8), nft(8), ufw(8)

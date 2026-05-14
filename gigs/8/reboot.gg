@@ -1,0 +1,31 @@
+@name    "reboot"
+@section "8"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. reboot(8) - restart the system
+
+# SYNOPSIS
+$ reboot [options]
+
+# DESCRIPTION
+. The `reboot` command is used to restart the system. On modern Linux
+  distributions, it is typically a symbolic link to `systemctl`.
+
+# OPTIONS
+- -f, --force : Force an immediate reboot without contacting the init
+  system. This can lead to data loss as it may skip unmounting.
+- -p, --poweroff : Power off the machine instead of rebooting.
+- -w, --wtmp-only : Only write the shutdown record; do not reboot.
+
+# EXAMPLES
+. Standard safe reboot:
+$ sudo reboot
+
+. Force an immediate reboot (Emergency only):
+$ sudo reboot -f
+
+# SEE ALSO
+. shutdown(8), systemctl(1), halt(8)
