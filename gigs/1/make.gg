@@ -1,0 +1,37 @@
+@name    "make"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. make(1) - GNU make utility to maintain groups of programs
+
+# SYNOPSIS
+$ make [options] [target] ...
+
+# DESCRIPTION
+. The `make` utility automatically determines which pieces of a large
+  program need to be recompiled, and issues commands to recompile them.
+
+# OPTIONS
+- -f <file> : Use <file> as a makefile.
+- -j <jobs> : Specifies the number of jobs (commands) to run
+  simultaneously.
+- -k, --keep-going : Continue as much as possible after an error.
+- -C <dir> : Change to directory <dir> before reading the makefiles.
+- -n, --just-print : Print the commands that would be executed, but do
+  not execute them.
+
+# EXAMPLES
+. Run the default target in the current directory's Makefile:
+$ make
+
+. Run a specific target (e.g., 'clean'):
+$ make clean
+
+. Use 4 parallel jobs to speed up compilation:
+$ make -j4
+
+# SEE ALSO
+. cmake(1), autoconf(1)

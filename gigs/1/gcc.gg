@@ -1,0 +1,35 @@
+@name    "gcc"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. gcc(1) - GNU project C and C++ compiler
+
+# SYNOPSIS
+$ gcc [options] <file...>
+
+# DESCRIPTION
+. `gcc` is the GNU project C and C++ compiler. It is the standard
+  compiler for most Linux distributions and is part of the GNU
+  Compiler Collection.
+
+# OPTIONS
+- -o <file> : Place output in file <file>.
+- -g : Produce debugging information.
+- -Wall : Enable all common compiler warnings.
+- -O<level> : Set optimization level (e.g., -O3).
+- -I <dir> : Add directory to include search path.
+- -L <dir> : Add directory to library search path.
+- -l<library> : Link with a library (e.g., -lm for math library).
+
+# EXAMPLES
+. Compile and link a C program:
+$ gcc -Wall main.c -o myapp
+
+. Compile with debug symbols for GDB:
+$ gcc -g main.c -o myapp_debug
+
+# SEE ALSO
+. clang(1), gdb(1), make(1)

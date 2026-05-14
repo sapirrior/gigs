@@ -1,0 +1,35 @@
+@name    "python"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. python(1) - an interpreted, interactive, object-oriented programming language
+
+# SYNOPSIS
+$ python [options] [-c cmd | -m mod | file | -] [arg]
+
+# DESCRIPTION
+. Python is an interpreted, high-level, general-purpose programming
+  language. Its design philosophy emphasizes code readability with its
+  notable use of significant whitespace.
+
+# OPTIONS
+- -c <command> : Specify the command to execute.
+- -m <module> : Run a library module as a script (e.g., `pip`, `venv`).
+- -i : Inspect interactively after running a script.
+- --version : Print the Python version number and exit.
+
+# EXAMPLES
+. Run a python script:
+$ python3 script.py
+
+. Start a simple HTTP server in the current directory:
+$ python3 -m http.server 8000
+
+. Run a one-liner:
+$ python3 -c "import os; print(os.getcwd())"
+
+# SEE ALSO
+. pip(1), python2(1)

@@ -1,0 +1,43 @@
+@name    "tmux"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. tmux(1) - terminal multiplexer
+
+# SYNOPSIS
+$ tmux [command]
+
+# DESCRIPTION
+. `tmux` is a terminal multiplexer: it enables a number of terminals to
+  be created, accessed, and controlled from a single screen. `tmux` may
+  be detached from a screen and continue running in the background,
+  then later reattached.
+
+# COMMANDS
+- new -s <name> : Create a new session with the specified name.
+- attach -t <target> : Attach to an existing session.
+- ls : List all running sessions.
+- kill-session -t <target> : Terminate a specific session.
+
+# KEY BINDINGS
+. Default prefix is `Ctrl+b`.
+
+- d : Detach from the current session.
+- c : Create a new window.
+- n / p : Next / Previous window.
+- % : Split pane vertically.
+- " : Split pane horizontally.
+- o : Switch to the next pane.
+
+# EXAMPLES
+. Start a new named session:
+$ tmux new -s dev
+
+. Attach to a session named "dev":
+$ tmux attach -t dev
+
+# SEE ALSO
+. screen(1)

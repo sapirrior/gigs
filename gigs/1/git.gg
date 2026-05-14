@@ -1,0 +1,45 @@
+@name    "git"
+@section "1"
+@version "1.0.0"
+@author  "sapirrior"
+@updated "2026-05-14"
+---
+# NAME
+. git(1) - distributed version control system
+
+# SYNOPSIS
+$ git [options] <command> [<args>]
+
+# DESCRIPTION
+. `git` is a fast, scalable, distributed revision control system with an
+  unusually rich set of commands that provide both high-level operations
+  and full access to internals.
+
+# COMMON COMMANDS
+- init : Create an empty Git repository or reinitialize an existing one.
+- clone : Clone a repository into a new directory.
+- add : Add file contents to the index (stage changes).
+- commit : Record changes to the repository.
+- status : Show the working tree status.
+- branch : List, create, or delete branches.
+- checkout : Switch branches or restore working tree files.
+- pull : Fetch from and integrate with another repository or branch.
+- push : Update remote refs along with associated objects.
+- log : Show commit logs.
+
+# EXAMPLES
+. Initialize a new repository:
+$ git init
+
+. Clone a remote repository:
+$ git clone https://github.com/user/repo.git
+
+. Commit changes with a message:
+$ git add .
+$ git commit -m "feat: add new feature"
+
+. Check current status:
+$ git status
+
+# SEE ALSO
+. git-commit(1), git-add(1), git-checkout(1)
