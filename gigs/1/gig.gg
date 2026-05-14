@@ -1,0 +1,45 @@
+@name    "gig"
+@section "1"
+@version "1.0.0"
+@author  "gig"
+@updated "2026-05-16"
+---
+# NAME
+. `gig`(1) - General Interactive Guide renderer
+
+# SYNOPSIS
+$ gig [OPTIONS] <section> <name>
+$ gig view <path/to/guide.gg>
+$ gig --help
+$ gig --version
+
+# DESCRIPTION
+. The `gig` engine renders General Interactive Guide (`.gg`) files directly in your terminal, providing a structured, interactive, and visually appealing alternative to traditional manual pages. It aims to simplify access to technical information and ease the creation of documentation.
+. `gig` interprets a simple, human-readable markdown-like syntax to display categorized content, shell commands, definitions, and more, all optimized for terminal viewing.
+
+# OPTIONS
+- `--help` : Display usage information and exit.
+- `--version` : Display `gig` engine version and exit.
+- `<section>` : A numerical or alphabetical section (e.g., `1`, `7`, `n`, `l`) to narrow down the search for a guide. If omitted, `gig` uses a tiered search order (see `{gigs-sections(7)}`).
+- `<name>` : The name of the `gig` page to view (e.g., `example`).
+
+# EXAMPLES
+. To view a guide, you can provide its section and name:
+$ gig 1 ls
+. If the section is known, `gig` can search its default path:
+$ gig ls
+. To view a local `.gg` file directly:
+$ gig view my_local_guide.gg
+. View the `example` guide in section 7:
+$ gig 7 example
+. Search for and view the `ls` command guide (if available in an installed `gigs` collection):
+$ gig ls
+. Display information about the `gig` engine itself:
+$ gig 1 gig
+
+# SEE ALSO
+. `{gigs-best_practices(7)}`, `{gigs-block_types(7)}`, `{gigs-inline_styling(7)}`, `{gigs-metadata(7)}`, `{gigs-sections(7)}`, `{gigs-tables(7)}`
+. `man`(1), `info`(1)
+
+# BUGS
+. Report bugs at <https://github.com/sapirrior/gigs/issues>
