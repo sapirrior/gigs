@@ -39,3 +39,8 @@ Please review our [Code of Conduct](CODE_OF_CONDUCT.md) (not yet implemented, wi
 ## Questions?
 
 If you have any questions or need clarification, please open an issue in the issue tracker.
+
+## Release Guidelines
+
+When creating a new release:
+* The release title must exactly match the Git tag name (e.g., for tag `v1.0.0`, the release title should be `v1.0.0`).
