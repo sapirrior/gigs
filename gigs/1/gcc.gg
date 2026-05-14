@@ -1,6 +1,6 @@
 @name    "gcc"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,25 +11,30 @@
 $ gcc [options] <file...>
 
 # DESCRIPTION
-. `gcc` is the GNU project C and C++ compiler. It is the standard
-  compiler for most Linux distributions and is part of the GNU
-  Compiler Collection.
+. `gcc` is the GNU project compiler for C and C++. It handles
+  preprocessing, compilation, assembly, and linking.
+
+# COMPILATION STAGES
+1. Preprocessing : Processes `#include` and `#define` directives.
+2. Compilation : Translates source code to assembly.
+3. Assembly : Translates assembly to machine code (object files).
+4. Linking : Joins object files and libraries into an executable.
 
 # OPTIONS
 - -o <file> : Place output in file <file>.
-- -g : Produce debugging information.
+- -g : Produce debugging information for use with GDB.
 - -Wall : Enable all common compiler warnings.
-- -O<level> : Set optimization level (e.g., -O3).
+- -O<n> : Optimization level (0: none, 1-3: varying degrees).
 - -I <dir> : Add directory to include search path.
 - -L <dir> : Add directory to library search path.
-- -l<library> : Link with a library (e.g., -lm for math library).
+- -l<lib> : Link with library `lib` (e.g., -lm for math).
 
 # EXAMPLES
-. Compile and link a C program:
+. Compile a single C file:
 $ gcc -Wall main.c -o myapp
 
-. Compile with debug symbols for GDB:
-$ gcc -g main.c -o myapp_debug
+. Compile with math library and optimization:
+$ gcc -O2 main.c -lm -o myapp
 
 # SEE ALSO
-. clang(1), gdb(1), make(1)
+. {clang(1)}, {gdb(1)}, {make(1)}, {ld(1)}

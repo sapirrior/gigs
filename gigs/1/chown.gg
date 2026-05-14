@@ -1,6 +1,6 @@
 @name    "chown"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -13,43 +13,26 @@ $ chown [OPTION]... --reference=RFILE FILE...
 
 # DESCRIPTION
 . Change the owner and/or group of each FILE to OWNER and/or GROUP.
-  Owner is unchanged if missing. Group is unchanged if missing, but
-  changed to login group if implied by a ':' following a symbolic OWNER.
 
 # OPTIONS
-- -c, --changes : Like verbose but report only when a change is made.
-
-- -f, --silent, --quiet : Suppress most error messages.
-
-- -v, --verbose : Output a diagnostic for every file processed.
-
-- --dereference : Affect the referent of each symbolic link (default).
-
-- -h, --no-dereference : Affect symbolic links instead of referenced files.
-
-- --from=CURRENT_OWNER:CURRENT_GROUP : Change ownership only if current
-  attributes match those specified here.
-
-- --reference=RFILE : Use RFILE's ownership rather than specifying values.
-
 - -R, --recursive : Operate on files and directories recursively.
+- -v, --verbose : Output a diagnostic for every file processed.
+- -h, --no-dereference : Affect symbolic links instead of their targets.
 
-# RECURSIVE TRAVERSAL OPTIONS
-- -H : Traverse symlinks to directories given on the command line.
-
-- -L : Traverse every symlink to a directory encountered.
-
-- -P : Do not traverse any symbolic links (default).
+# SYNTAX
+- OWNER : Change only the owner.
+- OWNER:GROUP : Change both owner and group.
+- :GROUP : Change only the group.
 
 # EXAMPLES
-. Change the owner of a file to "root":
-$ chown root /u
+. Change owner to "www-data":
+$ chown www-data index.html
 
-. Change the owner and group:
-$ chown root:staff /u
+. Change owner and group recursively:
+$ chown -R root:root /var/lib/myapp
 
-. Recursively change the owner, without dereferencing symlinks:
-$ chown -hR root /u
+. Change only the group:
+$ chown :developers script.sh
 
 # SEE ALSO
-. chmod(1), chgrp(1)
+. {chmod(1)}, {chgrp(1)}, {chown(2)}

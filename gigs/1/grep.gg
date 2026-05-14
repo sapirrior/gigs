@@ -1,6 +1,6 @@
 @name    "grep"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -14,74 +14,48 @@ $ grep [OPTION]... PATTERNS [FILE]...
 . Search for PATTERNS in each FILE or standard input.
 
 # PATTERN SELECTION
-- -E, --extended-regexp : PATTERNS are extended regular expressions.
+- -E, --extended-regexp : PATTERNS are extended regular expressions (ERE).
 
 - -F, --fixed-strings : PATTERNS are fixed strings (not regex).
 
-- -G, --basic-regexp : PATTERNS are basic regular expressions (default).
+- -G, --basic-regexp : PATTERNS are basic regular expressions (BRE, default).
 
-- -P, --perl-regexp : PATTERNS are Perl regular expressions.
-
-- -e, --regexp=PATTERNS : Use PATTERNS for matching.
-
-- -f, --file=FILE : Take PATTERNS from FILE.
+- -P, --perl-regexp : PATTERNS are Perl-compatible regular expressions (PCRE).
 
 - -i, --ignore-case : Ignore case distinctions.
 
+- -v, --invert-match : Select non-matching lines.
+
 - -w, --word-regexp : Match only whole words.
 
-- -x, --line-regexp : Match only whole lines.
-
 # OUTPUT CONTROL
-- -m, --max-count=NUM : Stop after NUM selected lines.
+- -c, --count : Print only a count of selected lines per FILE.
+
+- -l, --files-with-matches : Print only names of FILEs with selected lines.
 
 - -n, --line-number : Print line number with output lines.
-
-- -H, --with-filename : Print file name with output lines.
-
-- -h, --no-filename : Suppress the file name prefix on output.
 
 - -o, --only-matching : Show only the part of a line matching PATTERN.
 
 - -q, --quiet, --silent : Suppress all normal output.
 
-- -v, --invert-match : Select non-matching lines.
-
-- -c, --count : Print only a count of selected lines per FILE.
-
-- -l, --files-with-matches : Print only names of FILEs with selected lines.
-
-- -L, --files-without-match : Print only names of FILEs with no selected lines.
-
 # CONTEXT CONTROL
-- -B, --before-context=NUM : Print NUM lines of leading context.
-
-- -A, --after-context=NUM : Print NUM lines of trailing context.
-
-- -C, --context=NUM : Print NUM lines of output context.
-
-- --color[=WHEN] : Use markers to highlight matching strings (always, never, auto).
-
-# FILE AND DIRECTORY SEARCH
-- -r, --recursive : Search directories recursively.
-
-- -R, --dereference-recursive : Search recursively, following all symlinks.
-
-- --include=GLOB : Search only files that match GLOB.
-
-- --exclude=GLOB : Skip files that match GLOB.
-
-- --exclude-dir=GLOB : Skip directories that match GLOB.
+- -A NUM : Print NUM lines of trailing context.
+- -B NUM : Print NUM lines of leading context.
+- -C NUM : Print NUM lines of output context.
 
 # EXAMPLES
-. Search for "error" in a file (case-insensitive):
+. Search for "error" (case-insensitive):
 $ grep -i "error" /var/log/syslog
 
-. Search recursively for a pattern in all .txt files:
-$ grep -r --include="*.txt" "TODO" /path/to/project
+. Search recursively for "TODO" in .txt files:
+$ grep -r --include="*.txt" "TODO" .
 
-. Show only the lines that do NOT match the pattern:
-$ grep -v "DEBUG" output.log
+. Show 3 lines of context around matches:
+$ grep -C 3 "function_name" source.c
 
-. Count the number of matches in a file:
-$ grep -c "failed" logs.txt
+. Use PCRE for complex patterns:
+$ grep -P "\d{3}-\d{3}-\d{4}" contacts.txt
+
+# SEE ALSO
+. {sed(1)}, {awk(1)}, {find(1)}

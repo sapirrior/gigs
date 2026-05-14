@@ -1,6 +1,6 @@
 @name    "which"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -12,19 +12,22 @@ $ which [options] [--] COMMAND [...]
 
 # DESCRIPTION
 . `which` returns the pathnames of the files (or links) which would
-  be executed in the current environment, had its arguments been
-  given as commands in a strictly POSIX-conformant shell.
+  be executed in the current environment by searching the directories
+  listed in the PATH environment variable.
 
 # OPTIONS
 - -a, --all : Print all matching executables in PATH, not just the first.
 
-- --skip-dot : Skip directories in PATH that start with a dot.
-
-- --skip-tilde : Skip directories in PATH that start with a tilde.
+# NOTES
+> `which` does not identify shell builtins or aliases. Use {type(1)} or
+  {command(1)} in a shell for more comprehensive lookup.
 
 # EXAMPLES
-. Locate the path of the `ls` command:
+. Locate the `ls` command:
 $ which ls
 
-. Show all occurrences of `python` in PATH:
+. Find all versions of `python` in your path:
 $ which -a python
+
+# SEE ALSO
+. {whereis(1)}, {locate(1)}, {type(1)}

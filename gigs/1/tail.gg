@@ -1,6 +1,6 @@
 @name    "tail"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -31,25 +31,25 @@ $ tail [OPTION]... [FILE]...
 
 - --retry : Keep trying to open a file if it is inaccessible.
 
-- -s, --sleep-interval=N : With -f, sleep for approximately N seconds
-  between iterations.
-
 - -v, --verbose : Always output headers giving file names.
 
-- -z, --zero-terminated : Line delimiter is NUL, not newline.
+# REAL-TIME MONITORING
+. `tail` is indispensable for watching log files as they are updated.
+
+- -f : Follow by file descriptor. If the file is renamed or rotated,
+  `tail` will stop following it.
+- -F : Follow by name. If the file is rotated (deleted and recreated),
+  `tail` will pick up the new file.
 
 # EXAMPLES
-. View the last 20 lines of a file:
+. View the last 20 lines:
 $ tail -n 20 error.log
 
-. Follow a log file in real-time as it is written:
+. Follow a log file in real-time:
 $ tail -f /var/log/syslog
-
-. Follow a log file by name, tolerating log rotation:
-$ tail -F /var/log/nginx/access.log
 
 . Print starting from line 50 to the end:
 $ tail -n +50 document.txt
 
 # SEE ALSO
-. head(1), less(1)
+. {head(1)}, {less(1)}, {watch(1)}

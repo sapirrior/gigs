@@ -1,6 +1,6 @@
 @name    "cp"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -16,87 +16,39 @@ $ cp [OPTION]... -t DIRECTORY SOURCE...
 . Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
 
 # OPTIONS
-- -a, --archive : Same as -dR --preserve=all.
-
-- --attributes-only : Don't copy the file data, just the attributes.
-
-- --backup[=CONTROL] : Make a backup of each existing destination file.
-
-- -b : Like --backup but does not accept an argument.
-
-- --copy-contents : Copy contents of special files when recursive.
-
-- -d : Same as --no-dereference --preserve=links.
-
-- --debug : Explain how a file is copied. Implies -v.
+- -a, --archive : Same as -dR --preserve=all. This is the recommended
+  way to copy directories while preserving everything (links,
+  attributes, etc).
 
 - -f, --force : If an existing destination file cannot be opened, remove
   it and try again.
 
 - -i, --interactive : Prompt before overwrite.
 
-- -H : Follow command-line symbolic links in SOURCE.
-
 - -L, --dereference : Always follow symbolic links in SOURCE.
 
 - -P, --no-dereference : Never follow symbolic links in SOURCE.
 
-- --keep-directory-symlink : Follow existing symlinks to directories.
-
-- -l, --link : Hard link files instead of copying.
-
-- -n, --no-clobber : (deprecated) Silently skip existing files.
-
 - -p : Same as --preserve=mode,ownership,timestamps.
-
-- --preserve[=ATTR_LIST] : Preserve specified attributes (mode, ownership,
-  timestamps, links, context, xattr, all).
-
-- --no-preserve=ATTR_LIST : Don't preserve the specified attributes.
-
-- --parents : Use full source file name under DIRECTORY.
 
 - -R, -r, --recursive : Copy directories recursively.
 
-- --reflink[=WHEN] : Control clone/CoW copies (always, auto, never).
-
-- --remove-destination : Remove each existing destination file before
-  attempting to open it.
-
-- --sparse=WHEN : Control creation of sparse files (always, auto, never).
-
-- --strip-trailing-slashes : Remove any trailing slashes from each
-  SOURCE argument.
-
 - -s, --symbolic-link : Make symbolic links instead of copying.
 
-- -S, --suffix=SUFFIX : Override the usual backup suffix (~).
-
-- -t, --target-directory=DIRECTORY : Copy all SOURCE arguments
-  into DIRECTORY.
-
-- -T, --no-target-directory : Treat DEST as a normal file.
-
-- --update[=UPDATE] : Control which existing files are updated.
-  UPDATE={all, none, none-fail, older(default)}.
-
-- -u : Equivalent to --update[=older].
+- -u, --update : Copy only when the SOURCE file is newer than the
+  destination file or when the destination file is missing.
 
 - -v, --verbose : Explain what is being done.
 
-- -x, --one-file-system : Stay on this file system.
-
-- -Z, --context[=CTX] : Set SELinux or SMACK security context.
-
 # EXAMPLES
-. Copy a directory recursively:
-$ cp -r src_dir dest_dir
+. Copy a file:
+$ cp file.txt backup.txt
 
-. Create a hard link instead of copying:
-$ cp -l file1 link1
+. Copy a directory recursively while preserving attributes:
+$ cp -a src_dir dest_dir
 
-. Copy and preserve all attributes:
-$ cp -a source destination
+. Create a symbolic link instead of copying:
+$ cp -s source.txt link.txt
 
 # SEE ALSO
-. mv(1), install(1)
+. {mv(1)}, {install(1)}, {rsync(1)}

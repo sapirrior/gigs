@@ -1,6 +1,6 @@
 @name    "kill"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -17,16 +17,18 @@ $ kill -l [sigspec]
 
 # OPTIONS
 - -s sig : SIG is a signal name (e.g., KILL).
-
 - -n sig : SIG is a signal number (e.g., 9).
-
 - -l : List the signal names.
 
 # COMMON SIGNALS
-- 1 (HUP) : Hangup.
-- 2 (INT) : Interrupt (Ctrl+C).
-- 9 (KILL) : Kill (cannot be caught or ignored).
-- 15 (TERM) : Termination (default).
+| Num | Name | Action | Description
+| :--- | :--- | :--- | :---
+| 1 | HUP | Term | Hangup (often used to reload config)
+| 2 | INT | Term | Interrupt (sent by Ctrl+C)
+| 9 | KILL | Term | Hard kill (cannot be ignored)
+| 15 | TERM | Term | Software termination (default)
+| 18 | CONT | Cont | Continue if stopped
+| 19 | STOP | Stop | Stop process (cannot be ignored)
 
 # EXAMPLES
 . Terminate a process gracefully:
@@ -35,5 +37,8 @@ $ kill 1234
 . Forcefully kill a process:
 $ kill -9 1234
 
-. List all available signals:
-$ kill -l
+. Reload a service (send SIGHUP):
+$ kill -HUP 5678
+
+# SEE ALSO
+. {pkill(1)}, {killall(1)}, {signal(7)}

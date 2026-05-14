@@ -1,6 +1,6 @@
 @name    "curl"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,30 +11,29 @@
 $ curl [options] [url...]
 
 # DESCRIPTION
-. `curl` is a tool to transfer data from or to a server, using one of
-  the supported protocols (HTTP, HTTPS, FTP, FTPS, SCP, SFTP, etc.).
-  The command is designed to work without user interaction.
+. `curl` is a tool to transfer data from or to a server, supporting
+  protocols like HTTP, HTTPS, FTP, FTPS, SCP, SFTP, etc.
 
 # OPTIONS
-- -O, --remote-name : Write output to a local file named like the
-  remote file.
-- -o, --output <file> : Write output to <file> instead of stdout.
-- -L, --location : If the server reports that the requested page has
-  moved, redo the request on the new place.
+- -o <file> : Write output to <file>.
+- -O : Write output to a local file named like the remote file.
+- -L, --location : Follow HTTP redirects.
 - -I, --head : Fetch the HTTP-header only.
-- -X, --request <command> : Specify request command to use (e.g., POST).
-- -H, --header <header> : Extra header to include in the request.
-- -d, --data <data> : Sends the specified data in a POST request.
+- -v, --verbose : Make the operation more talkative.
+- -u <user:password> : Server user and password for authentication.
+- -X <command> : Specify request command to use (e.g., POST, DELETE).
+- -H <header> : Extra header to include in the request.
+- -d <data> : Sends the specified data in a POST request.
 
 # EXAMPLES
-. Download a file and save it with the same name:
+. Download a file:
 $ curl -O https://example.com/file.zip
 
 . Fetch headers only:
 $ curl -I https://example.com
 
-. Send a POST request with data:
-$ curl -X POST -d "name=val" https://api.example.com/v1/resource
+. Send a POST request with JSON data:
+$ curl -X POST -H "Content-Type: application/json" -d '{"key":"val"}' https://api.com
 
 # SEE ALSO
-. wget(1), ssh(1)
+. {wget(1)}, {ssh(1)}, {tcpdump(1)}

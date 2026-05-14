@@ -1,6 +1,6 @@
 @name    "wc"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -34,3 +34,9 @@ $ wc -wc file.txt
 
 . Count lines in all .log files:
 $ wc -l *.log
+
+. Use in a pipe to count files in a directory:
+$ ls | wc -l
+
+# SEE ALSO
+. {du(1)}, {stat(1)}

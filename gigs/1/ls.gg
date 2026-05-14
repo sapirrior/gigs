@@ -1,6 +1,6 @@
 @name    "ls"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -14,138 +14,77 @@ $ ls [OPTION]... [FILE]...
 . List information about the FILEs (the current directory by default).
   Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
 
+. By default, output is multi-column if terminal is detected, or
+  single-column if redirected to a pipe or file.
+
 # OPTIONS
 - -a, --all : Do not ignore entries starting with .
 
 - -A, --almost-all : Do not list implied . and ..
 
-- --author : With -l, print the author of each file.
-
-- -b, --escape : Print C-style escapes for nongraphic characters.
-
-- --block-size=SIZE : Scale sizes by SIZE when printing them.
-
-- -B, --ignore-backups : Do not list implied entries ending with ~.
-
 - -c : Sort by, and show, ctime (metadata change time).
-
-- -C : List entries by columns.
-
-- --color[=WHEN] : Color the output. WHEN is 'always', 'auto', or 'never'.
 
 - -d, --directory : List directories themselves, not their contents.
 
-- -D, --dired : Generate output designed for Emacs' dired mode.
+- -F, --classify : Append indicator (one of */=>@|) to entries.
 
-- -f : Same as -a -U (do not sort, list all).
-
-- -F, --classify[=WHEN] : Append indicator (one of */=>@|) to entries.
-
-- --file-type : Like -F, except do not append '*'.
-
-- --format=WORD : cross, horizontal (-x), commas (-m), long (-l),
-  single-column (-1), verbose (-l), vertical (-C).
-
-- --full-time : Like -l --time-style=full-iso.
-
-- -g : Like -l, but do not list owner.
-
-- --group-directories-first : Group directories before files.
-
-- -G, --no-group : In a long listing, don't print group names.
-
-- -h, --human-readable : With -l and -s, print sizes like 1K 234M 2G etc.
-
-- --si : Likewise, but use powers of 1000 not 1024.
-
-- -H, --dereference-command-line : Follow symbolic links listed on the
-  command line.
-
-- --hide=PATTERN : Do not list implied entries matching shell PATTERN.
-
-- --hyperlink[=WHEN] : Hyperlink file names.
-
-- --indicator-style=WORD : none (default), slash (-p), file-type, classify.
+- -h, --human-readable : With -l and -s, print sizes like 1K 234M 2G.
 
 - -i, --inode : Print the index number of each file.
 
-- -I, --ignore=PATTERN : Do not list implied entries matching shell PATTERN.
-
-- -k, --kibibytes : Default to 1024-byte blocks for file system usage.
-
-- -l : Use a long listing format.
-
-- -L, --dereference : Show information for the file the link references.
-
-- -m : Fill width with a comma separated list of entries.
-
-- -n, --numeric-uid-gid : Like -l, but list numeric user and group IDs.
-
-- -N, --literal : Print entry names without quoting.
-
-- -o : Like -l, but do not list group information.
-
-- -p, --indicator-style=slash : Append / indicator to directories.
-
-- -q, --hide-control-chars : Print ? instead of nongraphic characters.
-
-- -Q, --quote-name : Enclose entry names in double quotes.
-
-- --quoting-style=WORD : literal, locale, shell, shell-always, shell-escape,
-  shell-escape-always, c, escape.
-
-- -r, --reverse : Reverse order while sorting.
+- -l : Use a long listing format. Shows type, permissions, links, owner,
+  group, size, timestamp, and name.
 
 - -R, --recursive : List subdirectories recursively.
 
-- -s, --size : Print the allocated size of each file, in blocks.
-
 - -S : Sort by file size, largest first.
-
-- --sort=WORD : none (-U), size (-S), time (-t), version (-v),
-  extension (-X), name, width.
-
-- --time=WORD : access (-u), ctime (-c), mtime (default), birth.
-
-- --time-style=STYLE : full-iso, long-iso, iso, locale, or +FORMAT.
 
 - -t : Sort by time, newest first.
 
-- -T, --tabsize=COLS : Assume tab stops at each COLS instead of 8.
-
-- -u : Sort by, and show, access time.
-
-- -U : Do not sort directory entries.
-
 - -v : Natural sort of (version) numbers within text.
-
-- -w, --width=COLS : Set output width to COLS.
-
-- -x : List entries by lines instead of by columns.
-
-- -X : Sort alphabetically by entry extension.
-
-- -Z, --context : Print any security context of each file.
-
-- --zero : End each output line with NUL, not newline.
 
 - -1 : List one file per line.
 
+- --color[=WHEN] : Color the output. WHEN is 'always', 'auto', or 'never'.
+
+# LONG LISTING FORMAT
+. When -l is used, each line contains the following fields:
+
+| Field | Meaning | Example
+| :--- | :--- | :---
+| Type/Perms | File type and permissions | drwxr-xr-x
+| Links | Number of hard links | 2
+| Owner | User name of the owner | root
+| Group | Group name of the owner | root
+| Size | File size in bytes (or -h) | 4096
+| Mtime | Last modification time | May 14 12:00
+| Name | The name of the file | docs/
+
+## File Type Indicators
+- - : Regular file
+- d : Directory
+- l : Symbolic link
+- c : Character special file
+- b : Block special file
+- p : Named pipe (FIFO)
+- s : Socket
+
 # EXAMPLES
-. List all files including hidden ones with details:
-$ ls -al
+. List all files (including hidden) with human-readable sizes:
+$ ls -alh
 
-. List files sorted by size, largest first:
-$ ls -lS
+. List files sorted by time (newest first) in long format:
+$ ls -lt
 
-. List files and classify them with indicators:
-$ ls -F
+. List only directories in the current path:
+$ ls -d */
 
-. List subdirectories recursively:
-$ ls -R
+. Recursively list all files matching a pattern:
+$ ls -R | grep ".gg"
 
 # ENVIRONMENT
 - LS_COLORS : Controls the colors used by the --color option.
+- PWD : Used by shell to track current directory.
 
 # EXIT STATUS
 - 0 : if OK.
@@ -153,4 +92,4 @@ $ ls -R
 - 2 : if serious trouble (e.g., cannot access command-line argument).
 
 # SEE ALSO
-. dir(1), vdir(1)
+. {dir(1)}, {vdir(1)}, {stat(1)}

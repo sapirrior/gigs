@@ -1,6 +1,6 @@
 @name    "vim"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,33 +11,36 @@
 $ vim [options] [file...]
 
 # DESCRIPTION
-. `vim` is a text editor that is upwards compatible to Vi. It can be
-  used to edit all kinds of plain text. It is especially useful for
-  editing programs.
+. `vim` is a highly configurable text editor built to enable efficient
+  text editing. It is an improved version of the `vi` editor.
 
 # MODES
-- Normal : Navigation and commands (press `Esc` to return here).
-- Insert : For typing text (press `i`).
-- Visual : For selecting blocks of text (press `v`).
-- Command-line : For complex commands (press `:`).
+- Normal : The default mode for navigation and manipulation.
+- Insert : For inserting text. Enter with `i`, `a`, `o`.
+- Visual : For selecting text. Enter with `v` (char), `V` (line), `Ctrl+v` (block).
+- Command : For running commands. Enter with `:`.
 
-# BASIC COMMANDS
-- :w : Save (write) the file.
-- :q : Quit.
+# NAVIGATION (Normal Mode)
+- h, j, k, l : Left, Down, Up, Right.
+- w / b : Next / Previous word.
+- 0 / $ : Start / End of line.
+- gg / G : Top / Bottom of file.
+
+# COMMON COMMANDS
+- :w : Save the current file.
+- :q : Quit (fails if there are unsaved changes).
 - :wq : Save and quit.
-- :q! : Quit without saving changes.
-- /pattern : Search forward for a pattern.
-- u : Undo last change.
-- dd : Delete (cut) the current line.
-- yy : Yank (copy) the current line.
-- p : Paste after the cursor.
+- :q! : Quit and discard changes.
+- /pattern : Search forward for pattern.
+- u : Undo.
+- Ctrl+r : Redo.
 
 # EXAMPLES
-. Open a file at a specific line:
-$ vim +42 main.c
+. Open a file:
+$ vim script.sh
 
-. Open a file in read-only mode:
-$ vim -R config.json
+. Open multiple files in split view:
+$ vim -o file1.txt file2.txt
 
 # SEE ALSO
-. vi(1), nvim(1), emacs(1)
+. {vi(1)}, {nvim(1)}, {nano(1)}

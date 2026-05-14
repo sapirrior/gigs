@@ -1,6 +1,6 @@
 @name    "cd"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -8,48 +8,50 @@
 . cd(1) - change the working directory
 
 # SYNOPSIS
-$ cd [-L|[-P [-e]] [-@]] [DIRECTORY]
+$ cd [-L|[-P [-e]] [-@]] [dir]
 
 # DESCRIPTION
-. Change the current working directory to DIRECTORY. The default
-  DIRECTORY is the value of the HOME environment variable.
+. Change the current working directory of the shell to `dir`.
+  If `dir` is not supplied, the value of the `HOME` shell variable
+  is the default.
 
-. The variable CDPATH defines the search path for the directory
-  containing DIRECTORY. Alternative directory names in CDPATH are
-  separated by a colon (:).
+. If the directory change is successful, the shell variables `PWD`
+  and `OLDPWD` are updated accordingly.
 
 # OPTIONS
-- -L : Force symbolic links to be followed (default).
+- -L : Force symbolic links to be followed (logical path). This is the
+  default behavior.
 
 - -P : Use the physical directory structure instead of following
   symbolic links.
 
-- -e : If the -P option is supplied, and the current working directory
-  cannot be successfully determined after a successful directory change,
-  exit with a non-zero status.
+- -e : If -P is used and the current working directory cannot be
+  successfully determined after a successful directory change, exit
+  with a non-zero status.
 
-- -@ : On systems that support it, present a file with extended attributes
-  as a directory containing the attributes.
+- - : Equivalent to `$ cd "$OLDPWD"`. Switches back to the previous
+  directory.
+
+# SPECIAL PATHS
+- ~ : Refers to the current user's home directory.
+- ~user : Refers to the home directory of `user`.
+- - : Refers to the previous working directory (`OLDPWD`).
+
+# ENVIRONMENT
+- HOME : The default directory used if no argument is provided.
+- CDPATH : A colon-separated list of directories used as a search path
+  for the `dir` argument.
+- OLDPWD : The previous working directory.
+- PWD : The current working directory.
+
+# EXIT STATUS
+- 0 : Directory successfully changed.
+- non-zero : Failed to change directory.
 
 # NOTES
-. An argument of `-` is equivalent to `$OLDPWD`.
-
-. If a non-empty directory name from CDPATH is used, or if `-` is the
-  first argument, and the directory change is successful, the absolute
-  pathname of the new working directory is written to the standard output.
-
-# EXAMPLES
-. Change to the home directory:
-$ cd
-
-. Change to a specific path:
-$ cd /usr/local/bin
-
-. Move up one directory level:
-$ cd ..
-
-. Return to the previous working directory:
-$ cd -
+> `cd` is a shell builtin. It must be a builtin because it changes the
+  state of the shell process itself. A separate executable could not
+  change the parent shell's directory.
 
 # SEE ALSO
-. pwd(1), pushd(1), popd(1)
+. {pwd(1)}, {pushd(1)}, {popd(1)}

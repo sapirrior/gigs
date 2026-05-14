@@ -1,6 +1,6 @@
 @name    "clang"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,25 +11,24 @@
 $ clang [options] <filename>
 
 # DESCRIPTION
-. `clang` is a C, C++, and Objective-C compiler which encompasses
-  preprocessing, parsing, optimization, code generation, assembly, and
-  linking.
+. `clang` is a high-performance C/C++ compiler front-end for the LLVM
+  compiler infrastructure. It is known for its fast compilation and
+  expressive diagnostics.
 
 # OPTIONS
 - -o <file> : Write output to <file>.
 - -Wall : Enable all standard warnings.
 - -g : Generate debug information.
-- -O<level> : Optimization level (0, 1, 2, 3, s, z).
-- -std=<standard> : Language standard to compile for (e.g., `c11`, `c++17`).
+- -O<n> : Optimization level (0, 1, 2, 3, s: size, z: tiny).
+- -std=<std> : Use a specific language standard (e.g., c11, c++20).
 - -I <dir> : Add directory to include search path.
-- -L <dir> : Add directory to library search path.
 
 # EXAMPLES
-. Compile a C program with warnings and optimization:
+. Compile with warnings and O2 optimization:
 $ clang -Wall -O2 main.c -o myprog
 
-. Compile a C++ program with a specific standard:
-$ clang++ -std=c++20 main.cpp -o app
+. Check a file for errors without compiling:
+$ clang -fsyntax-only main.c
 
 # SEE ALSO
-. gcc(1), llvm(1), make(1)
+. {gcc(1)}, {llvm(1)}, {lld(1)}

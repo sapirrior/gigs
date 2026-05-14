@@ -1,6 +1,6 @@
 @name    "echo"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -9,7 +9,6 @@
 
 # SYNOPSIS
 $ echo [SHORT-OPTION]... [STRING]...
-$ echo LONG-OPTION
 
 # DESCRIPTION
 . Echo the STRING(s) to standard output.
@@ -25,26 +24,25 @@ $ echo LONG-OPTION
 . If -e is in effect, the following sequences are recognized:
 
 - \\ : Backslash
-- \a : Alert (BEL)
-- \b : Backspace
-- \c : Produce no further output
-- \e : Escape
-- \f : Form feed
 - \n : New line
-- \r : Carriage return
 - \t : Horizontal tab
-- \v : Vertical tab
+- \r : Carriage return
+- \b : Backspace
 
-# NOTES
-. Your shell usually has its own built-in version of `echo`, which
-  may behave differently (e.g., handling of `-e`).
+# BUILTIN VS BINARY
+> Most shells (bash, zsh, etc.) have a builtin `echo` that overrides the
+  binary at `/bin/echo`. Behavior of flags like -e can vary between shells.
+  For maximum portability, consider using {printf(1)}.
 
 # EXAMPLES
-. Print a simple message:
-$ echo "Hello, World!"
+. Print a message:
+$ echo "Hello World"
 
-. Print a message without a trailing newline:
-$ echo -n "Prompt: "
+. Print without newline:
+$ echo -n "Loading..."
 
-. Print a message interpreting backslash escapes (e.g., newlines):
-$ echo -e "Line 1\nLine 2"
+. Interpret tabs and newlines:
+$ echo -e "Col1\tCol2\nVal1\tVal2"
+
+# SEE ALSO
+. {printf(1)}, {cat(1)}

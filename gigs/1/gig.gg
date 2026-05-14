@@ -1,6 +1,6 @@
 @name    "gig"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -12,73 +12,31 @@ $ gig [section] <name>
 $ gig view <file.gg>
 $ gig path
 $ gig version
-$ gig sections
-$ gig help
 
 # DESCRIPTION
-. The `gig` engine is a specialized documentation renderer that transforms
-  General Interactive Guide (.gg) files into structured, visually
-  enhanced manual pages directly in your terminal.
+. The `gig` engine is a documentation renderer that transforms
+  General Interactive Guide (.gg) files into high-fidelity,
+  structured manual pages for the terminal.
 
-. It is designed to modernize the traditional `man` page experience, making
-  it more **interactive** and **engaging** while strictly adhering to
-  familiar Unix documentation conventions.
+# METADATA ZONE
+. Every `.gg` file begins with a metadata block, separated by `---`:
 
-. `gig` features automatic text wrapping, semantic highlighting, and
-  responsive table layouts that adapt to your terminal width.
+- @name : The lookup name of the guide.
+- @section : The manual section (e.g., 1, 5, 7).
+- @version : Version of the content.
 
 # COMMANDS
-- gig [section] <name> : Searches for and displays the guide with the
-  given name. If a section is provided, it narrows the search to
-  that specific category.
-
-- gig view <file.gg> : Directly renders the specified .gg file from
-  the local filesystem.
-
-- gig path : Displays the search paths used by the `gig` engine to
-  locate its guide collections.
-
-- gig version : Displays the current version of the installed `gig` engine.
-
-- gig sections : Lists all supported manual page sections and categories
-  available to the engine.
-
-- gig help : Displays a brief usage summary and list of available commands.
-
-# SECTIONS
-. Documentation is organized into sections to aid in categorization and
-  discovery. Use `gig sections` to see the full list of supported types.
-
-| Section | Category | Description
-| :--- | :--- | :---
-| 1 | User Commands | Executable programs and shell tools.
-| 5 | File Formats | Specifications and data formats (e.g., .gg).
-| 7 | Miscellaneous | Overviews, standards, and specifications.
-| n | New / Pending | Drafts or recently added documentation.
-| l | Local | Project-specific or local guides.
+- gig [section] <name> : Search and display a guide.
+- gig view <file.gg> : Render a local .gg file.
+- gig path : Show guide search paths.
+- gig sections : List all available categories.
 
 # EXAMPLES
-. View the `ls` guide from any available section:
+. Read the `ls` guide:
 $ gig ls
 
-. View the `example` guide specifically from section 7:
-$ gig 7 example
-
-. Render a guide file you are currently editing:
-$ gig view ./draft.gg
-
-. Show all supported sections:
-$ gig sections
-
-# FILES
-. The default directory for system-wide guides varies by platform:
-
-- Termux : `/data/data/com.termux/files/usr/share/gig`
-- Unix / Linux : `/usr/share/gig` or `/usr/local/share/gig`
+. View a local draft:
+$ gig view ./draft.txt
 
 # SEE ALSO
-. man(1), info(1)
-
-# BUGS
-. Report issues, suggest features, or provide feedback at:
-. <https://github.com/sapirrior/gigs/issues>
+. {man(1)}, {info(1)}

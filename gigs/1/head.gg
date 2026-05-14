@@ -1,6 +1,6 @@
 @name    "head"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -27,6 +27,14 @@ $ head [OPTION]... [FILE]...
 
 - -z, --zero-terminated : Line delimiter is NUL, not newline.
 
+# LINE/BYTE NOTATION
+. The NUM argument can have a multiplier suffix:
+- b : 512
+- k : 1024
+- m : 1048576
+
+. If NUM starts with a '-', `head` prints all but the **last** NUM items.
+
 # EXAMPLES
 . Print the first 20 lines of a file:
 $ head -n 20 script.sh
@@ -38,4 +46,4 @@ $ head -n -5 summary.txt
 $ head -c 100 binary.dat
 
 # SEE ALSO
-. tail(1), cat(1)
+. {tail(1)}, {cat(1)}, {sed(1)}

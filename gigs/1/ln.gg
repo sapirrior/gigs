@@ -1,6 +1,6 @@
 @name    "ln"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -27,6 +27,17 @@ $ ln [OPTION]... TARGET... DIRECTORY
 
 - -v, --verbose : Print name of each linked file.
 
+# HARD VS SYMBOLIC LINKS
+## Hard Links
+. A hard link is another name for an existing file on the same device.
+  It points to the same inode as the original. If the original name is
+  deleted, the data remains until all hard links are gone.
+
+## Symbolic Links (Symlinks)
+. A symlink (or soft link) is a special type of file that points to
+  another file or directory by name. It can cross file system boundaries
+  and point to directories.
+
 # EXAMPLES
 . Create a symbolic link to a file:
 $ ln -s source.txt link.txt
@@ -36,3 +47,6 @@ $ ln source.txt hardlink.txt
 
 . Create a relative symbolic link:
 $ ln -sr ../source.txt link.txt
+
+# SEE ALSO
+. {cp(1)}, {readlink(1)}, {link(2)}, {symlink(2)}

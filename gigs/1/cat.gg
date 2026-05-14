@@ -1,6 +1,6 @@
 @name    "cat"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -27,24 +27,29 @@ $ cat [OPTION]... [FILE]...
 
 - -s, --squeeze-blank : Suppress repeated empty output lines.
 
-- -t : Equivalent to -vT.
-
 - -T, --show-tabs : Display TAB characters as ^I.
 
 - -v, --show-nonprinting : Use ^ and M- notation, except for LFD and TAB.
+
+# USAGE SCENARIOS
+## Concatenation
+. `cat` is primarily used to join multiple files into one.
+$ cat file1 file2 file3 > combined.txt
+
+## Creating Files
+. You can create a file directly from the terminal.
+$ cat > newfile.txt
+. (Type your content, then press Ctrl+D to save).
 
 # EXAMPLES
 . Display the contents of a file:
 $ cat file.txt
 
-. Concatenate multiple files into one:
-$ cat part1.txt part2.txt > full.txt
+. Number all lines in a file:
+$ cat -n document.txt
 
-. Number all output lines:
-$ cat -n file.txt
-
-. Create a new file from standard input (Ctrl+D to save):
-$ cat > newfile.txt
+. Squeeze multiple blank lines into one:
+$ cat -s file.txt
 
 # SEE ALSO
-. tac(1), more(1), less(1)
+. {tac(1)}, {more(1)}, {less(1)}, {read(2)}

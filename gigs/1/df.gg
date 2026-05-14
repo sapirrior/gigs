@@ -1,6 +1,6 @@
 @name    "df"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,31 +11,31 @@
 $ df [OPTION]... [FILE]...
 
 # DESCRIPTION
-. The `df` command displays the amount of disk space available on the
-  file system containing each file name argument. If no file name is
-  given, the space available on all currently mounted file systems is shown.
+. Display the amount of disk space available on the file system
+  containing each file name argument.
 
 # OPTIONS
-- -a : Show all (including /proc and friends).
+- -a, --all : Include pseudo, duplicate, and inaccessible file systems.
 
-- -h : Human readable (e.g., 1K 234M 2G).
+- -h, --human-readable : Print sizes in powers of 1024 (e.g., 1023M).
 
-- -H : Human readable (using powers of 1000 instead of 1024).
+- -H, --si : Print sizes in powers of 1000 (e.g., 1.1G).
 
-- -i : Show inodes instead of blocks.
+- -i, --inodes : List inode information instead of block usage.
 
-- -k : Sets units to 1024 bytes (default).
+- -T, --print-type : Print file system type.
 
-- -P : The SUSv3 "Pedantic" option for POSIX compliance.
-
-- -t type : Display only filesystems of this type.
+- -x, --exclude-type=TYPE : Limit listing to file systems not of type TYPE.
 
 # EXAMPLES
 . Show disk usage for all mounted filesystems:
-$ df
-
-. Show disk usage in human-readable format:
 $ df -h
 
-. Show disk usage for a specific directory:
+. Show file system type:
+$ df -T
+
+. Show disk usage for a specific path:
 $ df /home
+
+# SEE ALSO
+. {du(1)}, {mount(8)}, {statfs(2)}

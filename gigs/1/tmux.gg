@@ -1,6 +1,6 @@
 @name    "tmux"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,33 +11,36 @@
 $ tmux [command]
 
 # DESCRIPTION
-. `tmux` is a terminal multiplexer: it enables a number of terminals to
-  be created, accessed, and controlled from a single screen. `tmux` may
-  be detached from a screen and continue running in the background,
-  then later reattached.
+. `tmux` is a terminal multiplexer that allows multiple terminals to
+  be created, accessed, and controlled from a single screen.
+
+# CORE CONCEPTS
+- Session : A collection of windows. Can be detached and reattached later.
+- Window : A single screen within a session (like a browser tab).
+- Pane : A split section of a window.
 
 # COMMANDS
-- new -s <name> : Create a new session with the specified name.
+- new -s <name> : Create a new named session.
 - attach -t <target> : Attach to an existing session.
 - ls : List all running sessions.
-- kill-session -t <target> : Terminate a specific session.
+- kill-session -t <target> : Terminate a session.
 
 # KEY BINDINGS
-. Default prefix is `Ctrl+b`.
+. Default prefix is `Ctrl+b`. Press prefix, then the key below:
 
 - d : Detach from the current session.
 - c : Create a new window.
 - n / p : Next / Previous window.
-- % : Split pane vertically.
-- " : Split pane horizontally.
+- % / " : Split pane vertically / horizontally.
 - o : Switch to the next pane.
+- x : Kill the current pane.
 
 # EXAMPLES
-. Start a new named session:
-$ tmux new -s dev
+. Start a new session named "work":
+$ tmux new -s work
 
-. Attach to a session named "dev":
-$ tmux attach -t dev
+. Attach to a session named "work":
+$ tmux attach -t work
 
 # SEE ALSO
-. screen(1)
+. {screen(1)}, {terminfo(5)}

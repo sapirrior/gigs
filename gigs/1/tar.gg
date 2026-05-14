@@ -1,6 +1,6 @@
 @name    "tar"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,30 +11,29 @@
 $ tar [OPTION...] [FILE]...
 
 # DESCRIPTION
-. GNU `tar` saves many files together into a single tape or disk
-  archive, and can restore individual files from the archive.
+. `tar` (Tape Archive) saves multiple files into a single archive
+  file, often compressed.
 
-# OPERATION MODES
-- -A, --concatenate : Append tar files to an archive.
-- -c, --create : Create a new archive.
-- -d, --diff : Find differences between archive and file system.
-- -r, --append : Append files to the end of an archive.
-- -t, --list : List the contents of an archive.
-- -u, --update : Only append files newer than copy in archive.
-- -x, --extract : Extract files from an archive.
+# OPERATION MODES (choose one)
+- -c : Create a new archive.
+- -x : Extract files from an archive.
+- -t : List contents of an archive.
+- -r : Append files to an existing archive.
 
-# COMPRESSION OPTIONS
-- -a, --auto-compress : Use archive suffix to determine compression.
-- -j, --bzip2 : Filter the archive through bzip2.
-- -J, --xz : Filter the archive through xz.
-- -z, --gzip : Filter the archive through gzip.
+# COMPRESSION
+- -z : Filter through `gzip` (.tar.gz).
+- -j : Filter through `bzip2` (.tar.bz2).
+- -J : Filter through `xz` (.tar.xz).
 
 # EXAMPLES
-. Create a compressed archive:
-$ tar -czvf archive.tar.gz /path/to/dir
+. Create a compressed archive of a folder:
+$ tar -czvf backup.tar.gz ./my_data
 
-. Extract a compressed archive:
+. Extract an archive to the current directory:
 $ tar -xzvf archive.tar.gz
 
-. List the contents of an archive:
+. List files inside an archive:
 $ tar -tvf archive.tar
+
+# SEE ALSO
+. {gzip(1)}, {bzip2(1)}, {xz(1)}

@@ -1,6 +1,6 @@
 @name    "node"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,27 +11,26 @@
 $ node [options] [script.js] [arguments]
 
 # DESCRIPTION
-. Node.js is a JavaScript runtime built on Chrome's V8 JavaScript
-  engine. It uses an event-driven, non-blocking I/O model that makes it
-  lightweight and efficient.
+. Node.js is an asynchronous event-driven JavaScript runtime built on
+  Chrome's V8 engine. It is designed to build scalable network
+  applications.
 
 # OPTIONS
-- -e, --eval "script" : Evaluate the following argument as JavaScript.
-- -p, --print "script" : Evaluate script and print result.
-- -c, --check : Check syntax without executing.
-- -v, --version : Print node's version.
-- --watch : Watch for file changes and restart the process.
-- --inspect : Activate V8 inspector on a port (default 9229).
+- -e, --eval "script" : Evaluate the string as JavaScript.
+- -p, --print "script" : Evaluate script and print the result.
+- -c, --check : Syntax check the script without executing.
+- --watch : Automatically restart the process when files change.
+- --inspect : Enable the inspector (debugger).
 
 # EXAMPLES
-. Run a JavaScript file:
-$ node server.js
+. Run a local script:
+$ node app.js
 
-. Run a short snippet from the command line:
-$ node -e "console.log(1 + 2)"
+. Evaluate a one-liner:
+$ node -e "console.log(process.version)"
 
-. Start a web server and watch for changes:
+. Start a web server with auto-reload:
 $ node --watch index.js
 
 # SEE ALSO
-. npm(1), npx(1)
+. {npm(1)}, {npx(1)}

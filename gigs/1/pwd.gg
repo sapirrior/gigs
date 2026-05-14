@@ -1,6 +1,6 @@
 @name    "pwd"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -14,18 +14,26 @@ $ pwd [OPTION]...
 . Print the full filename of the current working directory.
 
 # OPTIONS
-- -L, --logical : Use PWD from environment, even if it contains symlinks.
+- -L, --logical : Use PWD from environment, even if it contains
+  symbolic links.
 
-- -P, --physical : Avoid all symlinks (print the physical directory).
+- -P, --physical : Avoid all symbolic links and print the physical
+  directory.
+
+- --help : Display help and exit.
+
+- --version : Output version information and exit.
 
 # NOTES
-. Your shell may have its own built-in version of `pwd` which
-  supersedes this version. Both versions generally support the `-L`
-  and `-P` flags.
+> If no option is specified, -L is assumed by default in most shells.
+> Note that `pwd` is often both a shell builtin and a standalone utility.
 
 # EXAMPLES
-. Print the current directory (default follows symlinks):
+. Print the logical current directory:
 $ pwd
 
-. Print the physical directory path, resolving any symlinks:
+. Print the actual physical path (resolving all symlinks):
 $ pwd -P
+
+# SEE ALSO
+. {cd(1)}, {getcwd(3)}

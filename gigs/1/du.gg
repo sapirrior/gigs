@@ -1,6 +1,6 @@
 @name    "du"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -16,8 +16,6 @@ $ du [OPTION]... [FILE]...
 # OPTIONS
 - -a, --all : Write counts for all files, not just directories.
 
-- -b, --bytes : Equivalent to `--apparent-size --block-size=1`.
-
 - -c, --total : Produce a grand total.
 
 - -d, --max-depth=N : Print the total for a directory only if it is N
@@ -27,16 +25,22 @@ $ du [OPTION]... [FILE]...
 
 - -s, --summarize : Display only a total for each argument.
 
-- --time : Show time of the last modification of any file in the directory.
-
 - -x, --one-file-system : Skip directories on different file systems.
 
+# DU VS DF
+> `du` (Disk Usage) estimates how much space files are taking up by
+  traversing the directory tree. `df` (Disk Free) reports the actual
+  available space on the file system by querying the kernel.
+
 # EXAMPLES
-. Show total size of the current directory:
+. Total size of current directory:
 $ du -sh
 
-. Show size of all files and directories in the current path:
+. Size of all files and directories:
 $ du -ah
 
-. Show size of directories up to 2 levels deep:
-$ du -h --max-depth=2
+. Size of directories 1 level deep:
+$ du -h --max-depth=1
+
+# SEE ALSO
+. {df(1)}, {stat(1)}, {ls(1)}

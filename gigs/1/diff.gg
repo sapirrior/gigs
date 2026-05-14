@@ -1,6 +1,6 @@
 @name    "diff"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -18,9 +18,8 @@ $ diff [OPTION]... FILES
 
 - -s, --report-identical-files : Report when two files are the same.
 
-- -c, -C NUM : Output NUM lines of copied context.
-
-- -u, -U NUM : Output NUM lines of unified context.
+- -u, -U NUM : Output NUM lines of unified context. This is the most
+  common format for creating software patches.
 
 - -y, --side-by-side : Output in two columns.
 
@@ -30,12 +29,24 @@ $ diff [OPTION]... FILES
 
 - -w, --ignore-all-space : Ignore all white space.
 
+# UNIFIED FORMAT
+. The unified format (-u) looks like this:
+! --- file1
+! +++ file2
+! @@ -1,3 +1,3 @@
+!  same line
+! -removed line
+! +added line
+
 # EXAMPLES
 . Compare two files:
 $ diff file1.txt file2.txt
 
-. Show differences in unified format:
-$ diff -u file1.txt file2.txt
+. Create a patch file in unified format:
+$ diff -u old_file.c new_file.c > change.patch
 
 . Compare two directories recursively:
-$ diff -r dir1 dir2
+$ diff -r project_v1/ project_v2/
+
+# SEE ALSO
+. {patch(1)}, {cmp(1)}, {comm(1)}

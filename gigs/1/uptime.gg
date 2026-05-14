@@ -1,6 +1,6 @@
 @name    "uptime"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -11,18 +11,30 @@
 $ uptime [options]
 
 # DESCRIPTION
-. `uptime` gives a one line display of the current time, how long
-  the system has been running, how many users are currently logged
-  on, and the system load averages for the past 1, 5, and 15 minutes.
+. `uptime` gives a one line display containing:
+- Current time
+- Uptime (how long the system has been running)
+- Number of logged-in users
+- System load averages for the past 1, 5, and 15 minutes.
+
+# LOAD AVERAGES
+. The load average represents the average number of processes that are
+  in the runnable or uninterruptible state.
+
+- 1 minute : Recent activity.
+- 5 minutes : Short-term trend.
+- 15 minutes : Long-term trend.
 
 # OPTIONS
-- -p, --pretty : Show uptime in a human-readable "pretty" format.
-
+- -p, --pretty : Show uptime in a human-readable format.
 - -s, --since : Show the time since the system has been up.
 
 # EXAMPLES
-. Show system uptime:
+. Show system uptime and load:
 $ uptime
 
-. Show uptime in a pretty format:
+. Show uptime only:
 $ uptime -p
+
+# SEE ALSO
+. {w(1)}, {top(1)}, {free(1)}

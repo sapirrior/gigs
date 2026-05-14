@@ -1,6 +1,6 @@
 @name    "uname"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -15,17 +15,11 @@ $ uname [OPTION]...
 
 # OPTIONS
 - -a, --all : Print all information.
-
 - -s, --kernel-name : Print the kernel name.
-
 - -n, --nodename : Print the network node hostname.
-
 - -r, --kernel-release : Print the kernel release.
-
 - -v, --kernel-version : Print the kernel version.
-
 - -m, --machine : Print the machine hardware name.
-
 - -o, --operating-system : Print the operating system.
 
 # EXAMPLES
@@ -34,3 +28,9 @@ $ uname -a
 
 . Print the kernel release version:
 $ uname -r
+
+. Print hardware architecture:
+$ uname -m
+
+# SEE ALSO
+. {arch(1)}, {hostname(1)}

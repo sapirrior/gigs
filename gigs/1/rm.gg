@@ -1,6 +1,6 @@
 @name    "rm"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -14,6 +14,9 @@ $ rm [OPTION]... [FILE]...
 . Remove (unlink) the specified FILEs. By default, `rm` does not
   remove directories.
 
+. **Warning:** On most file systems, removing a file with `rm` makes it
+  very difficult to recover. Use with caution.
+
 # OPTIONS
 - -f, --force : Ignore nonexistent files and arguments, never prompt.
 
@@ -22,7 +25,11 @@ $ rm [OPTION]... [FILE]...
 - -I : Prompt once before removing more than three files, or when
   removing recursively; less intrusive than -i.
 
-- --interactive[=WHEN] : Prompt according to WHEN (never, once, always).
+- -r, -R, --recursive : Remove directories and their contents recursively.
+
+- -d, --dir : Remove empty directories.
+
+- -v, --verbose : Explain what is being done.
 
 - --one-file-system : Skip any directory that is on a different file system.
 
@@ -30,29 +37,22 @@ $ rm [OPTION]... [FILE]...
 
 - --preserve-root[=all] : Do not remove '/' (default).
 
-- -r, -R, --recursive : Remove directories and their contents recursively.
-
-- -d, --dir : Remove empty directories.
-
-- -v, --verbose : Explain what is being done.
-
 # NOTES
-. Any attempt to remove a file whose last name component is '.' or '..'
-  is rejected.
+- Hidden Files : `rm *` does not remove files starting with a dot (.),
+  unless the shell's globbing behavior is changed.
 
-. To remove a file starting with '-', use `--` or a relative path:
+- Special Characters : To remove a file starting with '-', use `--`:
 $ rm -- -filename
-$ rm ./-filename
 
 # EXAMPLES
 . Remove a file:
 $ rm file.txt
 
-. Remove a directory and all its contents:
+. Recursively remove a directory and its contents (forcefully):
 $ rm -rf /path/to/directory/
 
-. Prompt before removing each file:
-$ rm -i *.log
+. Prompt before removing more than 3 files:
+$ rm -I *.log
 
 # SEE ALSO
-. shred(1), rmdir(1)
+. {shred(1)}, {rmdir(1)}, {unlink(2)}

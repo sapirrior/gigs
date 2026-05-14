@@ -1,6 +1,6 @@
 @name    "ps"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -13,28 +13,36 @@ $ ps [options]
 # DESCRIPTION
 . `ps` displays information about a selection of the active processes.
 
+# OPTION STYLES
+. `ps` accepts several kinds of options:
+- Unix options : Must be preceded by a dash (e.g., -e).
+- BSD options : Must not be preceded by a dash (e.g., aux).
+- GNU long options : Preceded by two dashes (e.g., --pid).
+
 # OPTIONS
 - -A, -e : Select all processes.
+- -f : Full-format listing.
+- -u [user] : Select by effective user ID or name.
+- aux : BSD style. `a` = all with tty, `u` = user-oriented, `x` = processes without tty.
 
-- -a : Select all processes except session leaders and processes not
-  associated with a terminal.
-
-- -d : Select all processes except session leaders.
-
-- -f : Do full-format listing.
-
-- -u [userlist] : Select by effective user ID (EUID) or name.
-
-- x : Select processes without controlling ttys.
+# OUTPUT COLUMNS
+| Column | Meaning
+| :--- | :---
+| PID | Process ID
+| TTY | Controlling terminal
+| STAT | Process state (R: running, S: sleeping, Z: zombie)
+| TIME | Cumulative CPU time
+| COMMAND | The command with all its arguments
 
 # EXAMPLES
-. See every process on the system:
-$ ps -e
+. See every process on the system (Unix style):
 $ ps -ef
-$ ps -eF
 
-. See every process running as root:
+. See every process with user/cpu/mem info (BSD style):
+$ ps aux
+
+. See processes for a specific user:
 $ ps -u root
 
-. See processes associated with this terminal:
-$ ps
+# SEE ALSO
+. {top(1)}, {htop(1)}, {kill(1)}, {pgrep(1)}

@@ -1,6 +1,6 @@
 @name    "chmod"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -18,31 +18,48 @@ $ chmod [OPTION]... --reference=RFILE FILE...
 # OPTIONS
 - -c, --changes : Like verbose but report only when a change is made.
 
-- -f, --silent, --quiet : Suppress most error messages.
+- -f, --silent : Suppress most error messages.
 
 - -v, --verbose : Output a diagnostic for every file processed.
 
-- --dereference : Affect the referent of each symbolic link.
-
-- -h, --no-dereference : Affect each symbolic link, rather than the referent.
+- -R, --recursive : Change files and directories recursively.
 
 - --reference=RFILE : Use RFILE's mode instead of specifying MODE values.
 
-- -R, --recursive : Change files and directories recursively.
-
 # MODES
+## Symbolic Modes
 . Each MODE is of the form `[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+`.
 
 - ugoa : User (owner), Group, Other, All.
 - -+= : Remove, Add, Set exactly.
 - rwxXst : Read, Write, Execute (or search for dir), Execute only if directory, Setuid/gid, Sticky bit.
 
+## Octal Modes
+. A numeric mode is from one to four octal digits (0-7), derived by adding
+  up the bits with values 4, 2, and 1.
+
+| Value | Permission | Description
+| :--- | :--- | :---
+| 7 | rwx | Read, write, and execute
+| 6 | rw- | Read and write
+| 5 | r-x | Read and execute
+| 4 | r-- | Read only
+| 0 | --- | No permissions
+
+## Special Bits
+- 4000 : Set user ID on execution (setuid).
+- 2000 : Set group ID on execution (setgid).
+- 1000 : Sticky bit.
+
 # EXAMPLES
-. Add execute permission for the user (owner):
+. Add execute permission for the user:
 $ chmod u+x script.sh
 
-. Set permissions for all to read and execute, but only owner to write:
+. Set permissions to 755 (rwxr-xr-x):
 $ chmod 755 program
 
-. Recursively give the owner full permissions, group and others read/execute:
-$ chmod -R u=rwx,go=rx my_directory
+. Recursively add read/write for group to a directory:
+$ chmod -R g+rw my_directory/
+
+# SEE ALSO
+. {chown(1)}, {chgrp(1)}, {umask(2)}, {chmod(2)}

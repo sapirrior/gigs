@@ -1,6 +1,6 @@
 @name    "whoami"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -12,8 +12,11 @@ $ whoami [OPTION]...
 
 # DESCRIPTION
 . Print the user name associated with the current effective user ID.
-  Same as `id -un`.
+  Equivalent to `` `id -un` ``.
 
 # EXAMPLES
 . Show current user:
 $ whoami
+
+# SEE ALSO
+. {id(1)}, {logname(1)}, {who(1)}, {getuid(2)}

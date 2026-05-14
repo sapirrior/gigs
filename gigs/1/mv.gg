@@ -1,6 +1,6 @@
 @name    "mv"
 @section "1"
-@version "1.0.0"
+@version "1.1.0"
 @author  "sapirrior"
 @updated "2026-05-14"
 ---
@@ -15,50 +15,25 @@ $ mv [OPTION]... -t DIRECTORY SOURCE...
 # DESCRIPTION
 . Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.
 
+. If SOURCE and DEST are on the same file system, the operation is
+  typically atomic (implemented via the `rename` system call).
+
 # OPTIONS
-- --backup[=CONTROL] : Make a backup of each existing destination file.
-
-- -b : Like --backup but does not accept an argument.
-
-- --debug : Explain how a file is copied. Implies -v.
-
-- --exchange : Exchange source and destination.
-
 - -f, --force : Do not prompt before overwriting.
 
 - -i, --interactive : Prompt before overwrite.
 
 - -n, --no-clobber : Do not overwrite an existing file.
 
-- --no-copy : Do not copy if renaming fails.
+- -u, --update : Move only when the SOURCE file is newer than the
+  destination file or when the destination file is missing.
 
-- --strip-trailing-slashes : Remove any trailing slashes from each
-  SOURCE argument.
-
-- -S, --suffix=SUFFIX : Override the usual backup suffix (~).
+- -v, --verbose : Explain what is being done.
 
 - -t, --target-directory=DIRECTORY : Move all SOURCE arguments
   into DIRECTORY.
 
 - -T, --no-target-directory : Treat DEST as a normal file.
-
-- --update[=UPDATE] : Control which existing files are updated.
-  UPDATE={all, none, none-fail, older(default)}.
-
-- -u : Equivalent to --update[=older].
-
-- -v, --verbose : Explain what is being done.
-
-- -Z, --context : Set SELinux security context of destination file.
-
-# BACKUP CONTROL
-. The version control method may be selected via the --backup option or
-  the VERSION_CONTROL environment variable:
-
-- none, off : Never make backups.
-- numbered, t : Make numbered backups.
-- existing, nil : Numbered if numbered backups exist, simple otherwise.
-- simple, never : Always make simple backups.
 
 # EXAMPLES
 . Rename a file:
@@ -67,8 +42,8 @@ $ mv old.txt new.txt
 . Move multiple files to a directory:
 $ mv a.txt b.txt /path/to/dir/
 
-. Exchange source and destination:
-$ mv --exchange file1 file2
+. Update existing files only if source is newer:
+$ mv -u *.c backup/
 
 # SEE ALSO
-. cp(1), rename(1)
+. {cp(1)}, {rename(1)}, {rename(2)}
