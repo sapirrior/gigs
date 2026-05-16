@@ -1,0 +1,76 @@
+@name    "dmesg"
+@section "8"
+@version "1.0.0"
+@author  "Linux-utils"
+@updated "2026-05-16"
+---
+# NAME
+. dmesg(8) - print or control the kernel ring buffer
+
+# SYNOPSIS
+$ dmesg [options]
+
+# DESCRIPTION
+. `dmesg` is a system administration utility used to inspect or manipulate the
+  kernel ring buffer. The kernel ring buffer is a fixed-size, cyclic
+  memory region that captures diagnostic logs, hardware detection traces, and system
+  events populated by the kernel and driver modules during and after boot.
+
+. By default, `dmesg` reads these messages directly from the `/dev/kmsg` or
+  `/proc/kmsg` virtual device files. When the allocated buffer size
+  is reached, older logs are wrapped over and overwritten by incoming messages.
+
+. Modern implementations automatically escape unprintable or unsafe terminal characters
+  to safeguard the command-line context, and they drop user privileges after validation
+  unless specific logging operations (like clearing buffers) are requested.
+
+# OPTIONS
+- -C, --clear : Clear the kernel ring buffer entirely. This operation requires administrative privileges.
+- -c, --read-clear : Clear the contents of the ring buffer atomically immediately after successfully printing them.
+- -D, --console-off : Suppress the direct printing of real-time kernel messages to the active system console.
+- -E, --console-on : Re-enable the direct printing of real-time kernel messages to the system console.
+- -F, --file=FILE : Read and parse kernel logs from a raw saved text file instead of querying the live runtime environment.
+- -f, --facility=LIST : Restrict the output to a comma-separated list of log facilities (e.g., `kern`, `user`, `daemon`, `auth`, `syslog`).
+- -H, --human : Enable human-friendly output styling, enabling colors automatically and piping execution context into a terminal pager.
+- -k, --kernel : Filter the output stream to capture messages generated strictly by the kernel, excluding userspace processes.
+- -L, --color=WHEN : Control metadata token colorization. Accepted options are `auto`, `never`, or `always`.
+- -l, --level=LIST : Restrict the output stream to a comma-separated list of message importance levels.
+- -P, --nopager : Force raw output directly to standard output, suppressing the automated pager binding triggered by options like `--human`.
+- -r, --raw : Output the unprocessed raw buffer entries, preserving the original explicit facility and log-level metadata prefixes.
+- -s, --buffer-size=SIZE : Specify the exact memory block size (in bytes) used to query the kernel ring buffer.
+- -T, --ctime : Translate delta uptime ticks into readable human dates. Note that timestamps may drift if the hardware undergoes suspend states.
+- -t, --notime : Completely suppress the presentation of time offsets at the start of log rows.
+- --time-format=FORMAT : Select explicit timestamp parsing layout. Supported schemes include `ctime`, `reltime`, `delta`, or `iso`.
+- -w, --follow : Suspend terminal control and poll the kernel buffer continuously for new system logs in real time.
+- -x, --decode : Extract and decode numeric log level and facility identifiers into human-readable text labels.
+
+## Log Severity Metrics
+. When filtering with the `-l` or `--level` flags, the kernel uses standard
+  numeric or textual severity tags:
+
+| Level | Severity | Explanation / Context |
+| :--- | :--- | :--- |
+| `0` | **emerg** | System is completely unusable. |
+| `1` | **alert** | Action must be taken immediately. |
+| `2` | **crit** | Critical system conditions. |
+| `3` | **err** | Standard software or driver error conditions. |
+| `4` | **warn** | Warning anomalies. |
+| `5` | **notice** | Normal but highly significant runtime state changes. |
+| `6` | **info** | General informational status messages. |
+| `7` | **debug** | Verbose system debugging trace streams. |
+
+# EXAMPLES
+. Monitor incoming kernel traces and hardware attachments in real-time:
+$ dmesg -w
+
+. Output only system errors and critical hardware alarms, removing timestamps:
+$ dmesg -l err,crit -t
+
+. Extract all persistent drive, file system mount, and block architecture entries:
+$ dmesg | grep -iE "sdX|ahci|ata|nvme|mount"
+
+. Dump raw driver logs to a local reference file, parsing precise ISO timestamps:
+$ dmesg --time-format=iso > kernel_boot.log
+
+# SEE ALSO
+. {journalctl(8)}, {mount(8)}, {fdisk(8)}
