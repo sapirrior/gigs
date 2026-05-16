@@ -1,0 +1,71 @@
+@name    "sudo"
+@section "8"
+@version "1.0.0"
+@author  "Sudo Project"
+@updated "2026-05-16"
+---
+# NAME
+. sudo(8) - execute a command as another user
+
+# SYNOPSIS
+$ sudo [options] command
+
+# DESCRIPTION
+. `sudo` allows a permitted user to execute a `<command>` as the superuser
+  (root) or another user, as defined by the security policy. The invoking
+  user's real (not effective) user ID is used to determine the username when
+  querying the system security configuration.
+
+. By default, `sudo` requires that users authenticate themselves with their
+  **own** password (not the target user's password). Once authenticated,
+  credentials are cached on a per-terminal basis (typically for 15 minutes),
+  allowing subsequent executions without re-authentication.
+
+. To prevent privilege escalation attacks, `sudo` automatically strips high-risk
+  environment variables from the execution context (such as `LD_PRELOAD`,
+  `LD_LIBRARY_PATH`, and `IFS`) unless explicitly permitted by the security
+  policy. It also closes all open file descriptors except for
+  standard input, standard output, and standard error.
+
+## The Sudoers Plugin
+. The default security policy engine is `sudoers`, which parses rules inside
+  `/etc/sudoers` or via LDAP directories. When modification is required,
+  administrators must utilize the `visudo(8)` tool. `visudo` locks the
+  configuration file and runs syntax integrity checks before parsing changes to
+  prevent locking users out of privilege elevation tools.
+
+# OPTIONS
+- -A, --askpass : Use a helper program (graphical or script) to read the user password from standard output rather than the active terminal.
+- -b, --background : Run the specified command in the background. Note that standard shell job control cannot manipulate this background process.
+- -E, --preserve-env : Override standard environment resets, preserving existing user environment variables if permitted by policy tags.
+- -h, --help : Display a concise usage summary message and exit.
+- -i, --login : Run the login shell of the target user, loading an environment identical to a fresh login session.
+- -k, --kill : Invalidate the user's cached credentials by setting the timestamp to the Unix Epoch, enforcing password entry on the next run.
+- -l, --list : List the allowed and explicitly forbidden commands for the invoking user on the current host machine.
+- -n, --non-interactive : Run in non-interactive mode; if a password prompt is required, `sudo` will fail immediately and log an error.
+- -u, --user=USER : Execute the command as a user other than root, using a clear text username or a numeric user ID (`#uid`).
+- -v, --validate : Update the user's cached credentials timestamp without actually executing a system command.
+
+# RETURN VALUE
+. Upon successful command execution, the exit status returned will be the exit
+  status of the program that was executed.
+
+. If the command terminates due to a system signal, `sudo` sends itself that
+  exact same signal. If an authentication failure occurs, configuration
+  integrity fails, or permissions are denied, `sudo` exits with a status of `1`.
+
+# EXAMPLES
+. Safely check or extend your cached sudo session token without executing code:
+$ sudo -v
+
+. Interactively look up your exact command privileges and constraints:
+$ sudo -l
+
+. Run a secure clean up operation as the system server user `www-data`:
+$ sudo -u www-data rm -rf /var/www/html/tmp/*
+
+. Run a command sequence using a dedicated root sub-shell for safe redirection:
+$ sudo sh -c "cd /root/secure_dir; archive_tool * > backup.tar"
+
+# SEE ALSO
+. {su(1)}, {systemctl(8)}
