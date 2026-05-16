@@ -26,42 +26,62 @@ $ ip [options] OBJECT { COMMAND | help }
 
 # PRIMARY OBJECTS
 - link (l) : Network device properties and states (e.g., MTU, MAC layer address).
+
 - address (a) : Protocol addresses (IPv4 or IPv6) bound to network device links.
+
 - route (r) : Matrix entries in kernel routing tables to guide outgoing packets.
+
 - neighbor (n) : Neighbor cache maps (replaces ARP tables and IPv6 ND caches).
+
 - rule (ru) : Database policies determining manual routing selection preference.
+
 - netns : Virtual network namespaces providing isolated networking stacks.
 
 # OPTIONS
 - -4 : Shortcut to restrict execution context strictly to the IPv4 protocol family.
+
 - -6 : Shortcut to restrict execution context strictly to the IPv6 protocol family.
+
 - -br, --brief : Display device attributes in a single-line format for high scannability.
+
 - -c, --color : Configure color-coded terminal tokens (`always`, `never`, or `auto`).
+
 - -d, --details : Output deep structural metadata attributes and extra driver arguments.
+
 - -j, --json : Output raw data parsed directly into a serialized JavaScript Object Notation data format.
+
 - -p, --pretty : Combine with `-j` to add indentation formatting for human legibility.
+
 - -s, --stats : Append telemetry analytics, including byte streams and drop counters.
 
 # EXIT STATUS
 . The `ip` command returns the following operational conditions:
+
 - 0 : Execution successful.
+
 - 1 : Syntax error or invalid object parameters passed.
+
 - 2 : An error condition reported directly back from the Linux kernel.
 
 # OBJECT COMMANDS
 
 ## ip link - Device States
 - ip link show [dev] : View layer-2 state, physical flags, and operational values.
+
 - ip link set dev <name> { up | down } : Alter the operational readiness of an interface link.
+
 - ip link set dev <name> mtu <bytes> : Manually change the Maximum Transmission Unit size.
 
 ## ip address - Protocol Scopes
 - ip address show [dev] : Audit protocol layers and scopes associated with devices.
+
 - ip address add <addr>/<prefix> dev <name> : Bind a runtime IP block to an interface.
+
 - ip address del <addr>/<prefix> dev <name> : Unbind an active address block from an interface.
 
 ## ip route - Table Handlers
 - ip route show : Display destinations handled by the primary routing matrix.
+
 - ip route add <net>/<prefix> via <gw> dev <name> : Append an explicit path to a gateway target.
 
 ## Routing Types
