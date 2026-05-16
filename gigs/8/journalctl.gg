@@ -1,0 +1,70 @@
+@name    "journalctl"
+@section "8"
+@version "1.0.0"
+@author  "systemd"
+@updated "2026-05-16"
+---
+# NAME
+. journalctl(8) - Query the systemd journal
+
+# SYNOPSIS
+$ journalctl [options] [matches]
+
+# DESCRIPTION
+. `journalctl` is used to query the contents of the systemd(1) journal, as
+  written by systemd-journald.service(8). It centralizes all system log data,
+  including kernel messages, core system logs, and standard output/error streams
+  from systemd services.
+
+. Output is interleaved from all accessible journal files, whether they are
+  stored persistently on disk or volatilely in memory. By default, access to the
+  system journal is restricted to the root user and members of the
+  `systemd-journal`, `adm`, and `wheel` groups.
+
+. If called without parameters, it displays the full contents of the journal
+  accessible to the calling user, starting with the oldest entry collected. The
+  output is paged through `less` by default, wrapping or truncating long lines
+  gracefully.
+
+## Filtering with Matches
+. The output can be filtered by specifying structured entry fields in the format
+  `FIELD=VALUE`. If multiple matches apply to different fields, they are
+  combined with a logical AND. If multiple matches apply to the same field, they
+  are combined with a logical OR. The separator `+` can be used to join separate
+  sets of matches with a logical OR.
+
+# OPTIONS
+- -b [offset], --boot=[offset] : Show messages from a specific boot. Use `0` for the current boot, `-1` for the previous boot, and so on.
+- --list-boots : Display a tabular list of boot numbers, IDs, and timestamps.
+- -u, --unit=UNIT : Show messages for the specified systemd unit or unit pattern.
+- -f, --follow : Continuously print new journal entries as they are appended.
+- -n [lines], --lines=[lines] : Limit the number of journal lines shown. Defaults to 10 if used with `-f`.
+- -r, --reverse : Reverse the output order so that the newest entries are displayed first.
+- -k, --dmesg : Show only kernel messages (equivalent to the traditional `dmesg` ring buffer).
+- -p, --priority=PRIO : Filter entries by numeric or textual priority level (0/emerg, 1/alert, 2/crit, 3/err, 4/warning, 5/notice, 6/info, 7/debug).
+- -S, --since=DATE, -U, --until=DATE : Filter entries newer or older than a specified date or relative time string.
+- -o, --output=FORMAT : Control journal entry styling (e.g., `short`, `short-precise`, `verbose`, `json`, `json-pretty`, `cat`).
+- -x, --catalog : Augment log lines with descriptive explanation texts from the system message catalog where available.
+- --disk-usage : Calculate and show the total disk space used by all archived and active journal files.
+
+# EXAMPLES
+. View all logs from the current boot session:
+$ journalctl -b
+
+. View only error-level logs or worse from the current boot:
+$ journalctl -b -p err
+
+. Follow incoming logs for the `sshd.service` unit in real-time:
+$ journalctl -f -u sshd
+
+. Check kernel logs from yesterday up to 2 hours ago:
+! journalctl -k --since "yesterday" --until "-2h"
+
+. Filter by structural metadata fields (Process ID, User ID, and Unit):
+! journalctl _PID=1039 _UID=1000 + _SYSTEMD_UNIT=avahi-daemon.service
+
+. Output logs generated within the last hour formatted as pretty-printed JSON:
+! journalctl --since "-1h" -o json-pretty
+
+# SEE ALSO
+. {systemctl(8)}, {timedatectl(1)}
