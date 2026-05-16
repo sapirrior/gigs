@@ -1,0 +1,92 @@
+@name    "malloc"
+@section "3"
+@version "1.0.0"
+@author  "Marcus Vance"
+@updated "2026-05-16"
+---
+# NAME
+. malloc(3) - allocate dynamic memory
+
+# SYNOPSIS
+$ void *malloc(size_t size);
+
+# DESCRIPTION
+. The `malloc` function allocates `<size>` bytes of uninitialized memory and
+  returns a pointer to the zeroth byte of the allocated block. The
+  memory is carved out from the process's virtual address space heap.
+
+. The contents of the allocated region are not initialized or cleared, meaning they
+  retain unpredictable residual raw data. Reading from it before
+  writing triggers an Uninitialized Memory Read bug.
+
+. If `<size>` is passed as `0`, `malloc` returns a unique pointer value that can
+  be safely passed to `free` later. Note that this size-zero allocation
+  behavior is specific to `glibc`; portable POSIX programs should anticipate that
+  other implementations might return `NULL`.
+
+## Chunk Alignment and Structures
+. Every memory chunk allocated by `malloc` contains internal management metadata.
+  The pointer returned to the user is guaranteed to be suitably aligned for any
+  built-in data type.
+
+. The allocator prepends hidden bytes (typically 8 or 16 bytes depending on the
+  architecture) right before the user's data block pointer. This tracking
+  chunk stores the internal block size and allocation flag status bits:
+
+- A (NON_MAIN_ARENA) : Indicates if the chunk resides within a non-primary thread allocation arena.
+
+- M (IS_MMAPPED) : Indicates if the chunk was obtained directly via an anonymous memory mapping system call.
+
+- P (PREV_INUSE) : Indicates if the immediately preceding chunk in memory is currently allocated.
+
+## Kernel Optimization Schemes
+. The GNU C Library (`glibc`) implementation employs an optimization matrix to
+  balance concurrency and reduce system call overcommit overhead:
+
+- Arenas & Mutexes : To mitigate lock contention in concurrent multithreaded applications, the allocator scales out by spawning extra memory arenas when thread resource contention is detected.
+
+- Optimistic Overcommitting : By default, Linux employs an optimistic strategy where `malloc` can return a valid pointer even if physical memory is exhausted. If the space is later accessed and missing, the kernel Out-Of-Memory (OOM) killer terminates the process.
+
+- Dynamic Threshold Allocation : For blocks below `MMAP_THRESHOLD` (128 KB by default), memory expands using `sbrk(2)` heap breaks. For transient allocations exceeding this metric, it requests an anonymous private mapping via `mmap(2)` to easily release empty segments back to the system.
+
+# RETURN VALUE
+. On success, `malloc` returns a pointer to the newly allocated memory space.
+
+. On error (such as attempting to allocate more than `PTRDIFF_MAX` bytes), it
+  returns `NULL` and assigns `errno` to indicate the fault.
+
+# ERRORS
+- ENOMEM : Insufficient virtual memory storage space is available to satisfy the requested block size.
+
+# EXAMPLES
+. Allocate an array of integers dynamically and validate the returned scope to prevent pointer null dereferencing:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! 
+! int main(void) {
+!     int *buffer;
+!     size_t elements = 10;
+! 
+!     /* Request heap memory block */
+!     buffer = (int *)malloc(elements * sizeof(int));
+! 
+!     /* Defensive error handling check */
+!     if (buffer == NULL) {
+!         perror("Critical: malloc allocation failed");
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Safe utilization block */
+!     for (size_t i = 0; i < elements; i++) {
+!         buffer[i] = (int)i * 10;
+!         printf("Index %zu: %d\n", i, buffer[i]);
+!     }
+! 
+!     /* Reclaim block context to avoid memory leaks */
+!     free(buffer);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {mmap(2)}, {brk(2)}, {calloc(3)}, {realloc(3)}, {free(3)}
