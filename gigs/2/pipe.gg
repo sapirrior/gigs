@@ -1,0 +1,92 @@
+@name    "pipe"
+@section "2"
+@version "1.0.0"
+@author  "POSIX"
+@updated "2026-05-16"
+---
+# NAME
+. pipe(2) - create an interprocess communication channel
+
+# SYNOPSIS
+$ int pipe(int pipefd[2]);
+
+# DESCRIPTION
+. The `pipe` system call creates a unidirectional data channel that can be
+  used for interprocess communication (IPC). The array `<pipefd>` is used to
+  return two file descriptors referring to the ends of the pipe.
+
+- pipefd[0] : Refers to the read end of the pipe.
+- pipefd[1] : Refers to the write end of the pipe.
+
+. Data written to the write end of the pipe is buffered by the kernel until
+  it is read from the read end of the pipe. If a process attempts to read from
+  an empty pipe, it blocks until data becomes available. If all file
+  descriptors referring to the write end of a pipe have been closed, a `read`
+  from the pipe returns `0` (End of File).
+
+. If a process writes to a pipe whose read end has been closed, the kernel
+  generates a `SIGPIPE` signal to the writing process. If the process ignores
+  or catches this signal, the `write` fails with the error `EPIPE`.
+
+## Pipe Capacity and I/O Operations
+. A pipe has a limited capacity (typically 64 KB on modern Linux systems).
+  If the pipe is full, a `write` operation blocks until sufficient data has
+  been read to allow the write to complete.
+
+. If the amount of data written is less than `PIPE_BUF` bytes (typically
+  4,096 bytes on Linux), the operation is atomic. This means the entire data
+  burst is written contiguously without being interleaved with data from
+  other concurrent writing processes.
+
+# RETURN VALUE
+. On success, zero is returned. On error, `-1` is returned, `errno` is set to
+  indicate the error, and the `<pipefd>` array is left unchanged.
+
+# ERRORS
+- EFAULT : `<pipefd>` points outside the process's allocated address space.
+- EINVAL : Invalid flags passed (applicable to the `pipe2` variant).
+- EMFILE : The per-process limit on the number of open file descriptors has been reached.
+- ENFILE : The system-wide limit on the total number of open files has been reached.
+- EPIPE : The read end of the pipe has been closed while trying to write data.
+
+# NOTES
+. On Linux, the closely related system call `pipe2` allows flags like
+  `O_CLOEXEC` (close-on-exec) and `O_NONBLOCK` (non-blocking I/O) to be
+  set atomically on the new file descriptors during creation.
+
+# EXAMPLES
+. The following example creates a pipe, forks a child process, and sends a
+  string from the parent to the child.
+
+! int pipefd[2];
+! pid_t cpid;
+! char buf;
+! 
+! if (pipe(pipefd) == -1) {
+!     perror("pipe");
+!     exit(EXIT_FAILURE);
+! }
+! 
+! cpid = fork();
+! if (cpid == -1) {
+!     perror("fork");
+!     exit(EXIT_FAILURE);
+! }
+! 
+! if (cpid == 0) {
+!     close(pipefd[1]); /* Close unused write end */
+!     while (read(pipefd[0], &buf, 1) > 0) {
+!         write(STDOUT_FILENO, &buf, 1);
+!     }
+!     close(pipefd[0]);
+!     _exit(EXIT_SUCCESS);
+! } else {
+!     close(pipefd[0]); /* Close unused read end */
+!     write(pipefd[1], "Hello from parent\n", 18);
+!     close(pipefd[1]); /* Reader will see EOF */
+!     wait(NULL);       /* Wait for child */
+!     exit(EXIT_SUCCESS);
+! }
+
+# SEE ALSO
+. {fork(2)}, {read(2)}, {write(2)}, {socket(2)}
