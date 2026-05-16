@@ -1,0 +1,92 @@
+@name    "ip"
+@section "8"
+@version "1.0.0"
+@author  "Alexey N. Kuznetsov"
+@updated "2026-05-16"
+---
+# NAME
+. ip(8) - show / manipulate routing, network devices, interfaces and tunnels
+
+# SYNOPSIS
+$ ip [options] OBJECT { COMMAND | help }
+
+# DESCRIPTION
+. `ip` is a unified system administration utility used to manage network
+  interfaces, protocol addresses, routing tables, and neighbor hardware caches.
+  It is part of the `iproute2` package and entirely replaces the legacy tools
+  `ifconfig`, `route`, `arp`, and `netstat`.
+
+. The utility communicates directly with the subsystem of the Linux kernel
+  via Netlink sockets, enabling real-time networking changes to take effect
+  instantly without requiring daemon restarts.
+
+. Every command requires a target `<OBJECT>`. Object keywords can be
+  abbreviated considerably down to their shortest unique prefix string (e.g.,
+  `address` can be truncated to `addr` or just `a`).
+
+# PRIMARY OBJECTS
+- link (l) : Network device properties and states (e.g., MTU, MAC layer address).
+- address (a) : Protocol addresses (IPv4 or IPv6) bound to network device links.
+- route (r) : Matrix entries in kernel routing tables to guide outgoing packets.
+- neighbor (n) : Neighbor cache maps (replaces ARP tables and IPv6 ND caches).
+- rule (ru) : Database policies determining manual routing selection preference.
+- netns : Virtual network namespaces providing isolated networking stacks.
+
+# OPTIONS
+- -4 : Shortcut to restrict execution context strictly to the IPv4 protocol family.
+- -6 : Shortcut to restrict execution context strictly to the IPv6 protocol family.
+- -br, --brief : Display device attributes in a single-line format for high scannability.
+- -c, --color : Configure color-coded terminal tokens (`always`, `never`, or `auto`).
+- -d, --details : Output deep structural metadata attributes and extra driver arguments.
+- -j, --json : Output raw data parsed directly into a serialized JavaScript Object Notation data format.
+- -p, --pretty : Combine with `-j` to add indentation formatting for human legibility.
+- -s, --stats : Append telemetry analytics, including byte streams and drop counters.
+
+# EXIT STATUS
+. The `ip` command returns the following operational conditions:
+- 0 : Execution successful.
+- 1 : Syntax error or invalid object parameters passed.
+- 2 : An error condition reported directly back from the Linux kernel.
+
+# OBJECT COMMANDS
+
+## ip link - Device States
+- ip link show [dev] : View layer-2 state, physical flags, and operational values.
+- ip link set dev <name> { up | down } : Alter the operational readiness of an interface link.
+- ip link set dev <name> mtu <bytes> : Manually change the Maximum Transmission Unit size.
+
+## ip address - Protocol Scopes
+- ip address show [dev] : Audit protocol layers and scopes associated with devices.
+- ip address add <addr>/<prefix> dev <name> : Bind a runtime IP block to an interface.
+- ip address del <addr>/<prefix> dev <name> : Unbind an active address block from an interface.
+
+## ip route - Table Handlers
+- ip route show : Display destinations handled by the primary routing matrix.
+- ip route add <net>/<prefix> via <gw> dev <name> : Append an explicit path to a gateway target.
+
+## Routing Types
+. When handling routing tables, the destination path behavior can be
+  customized with distinct structural types:
+
+| Type | Engine Action | Error Reaction |
+| :--- | :--- | :--- |
+| `unicast` | Real paths to destinations | Valid routing |
+| `blackhole` | Discard packet silently | Return `EINVAL` to local applications |
+| `unreachable` | Discard packet entirely | Trigger ICMP Host Unreachable, local `EHOSTUNREACH` |
+| `prohibit` | Discard packet entirely | Trigger ICMP Communication Prohibited, local `EACCES` |
+
+# EXAMPLES
+. Scan all layer-3 addresses briefly and cross-reference device status maps:
+$ ip -br a
+
+. Activate a disabled physical network device named `eth0`:
+$ ip link set dev eth0 up
+
+. Target a specific local network node and check the kernel ARP cache map:
+$ ip neighbor show dev wlan0
+
+. Drop all outbound traffic heading toward a specific bad tracking subnet:
+$ sudo ip route add blackhole 10.10.20.0/24
+
+# SEE ALSO
+. {iptables(8)}, {systemctl(8)}
