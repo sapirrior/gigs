@@ -13,16 +13,15 @@ gig 1 grep      # View 'grep' specifically from section 1
 gig view doc.gg # Render a local guide file
 ```
 
-## Installation (Automated)
+## Installation & Sync
 
-You can install the full `gigs` collection using the automated installation script. This script detects your platform (Termux or Linux/Unix) and places the guides in the appropriate system directory.
+You can install and synchronize the full `gigs` collection directly through the `gig` engine using the built-in `sync` command. This ensures your local guide library is up-to-date with the latest versions.
 
-**One-liner command:**
 ```bash
-curl -LO https://raw.githubusercontent.com/sapirrior/gigs/main/install.sh && sudo bash install.sh
+gig sync
 ```
 
-> **Warning:** Always review third-party scripts before execution. You can inspect the `install.sh` file locally after downloading it.
+This command performs an atomic update, downloading the latest guides and placing them in the appropriate system directory (`/usr/share/gig/` or the Termux equivalent).
 
 ## Structure
 

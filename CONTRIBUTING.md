@@ -27,7 +27,7 @@ We follow a standard GitHub Pull Request (PR) workflow:
 2.  **Clone** your fork locally.
 3.  **Create a new branch** for your feature or fix (e.g., `feat/add-new-command-gig`, `fix/fix-typo-in-example`).
 4.  **Add or modify** your `.gg` files in the appropriate `gigs/<section>/` directory.
-5.  **Test Locally:** Ensure your `gig` pages render correctly using the `gig` engine (e.g., `gig 7 mynewguide`).
+5.  **Test Locally:** Ensure your `gig` pages render correctly using the `gig` engine. You can use the `view` command to preview a local file: `gig view gigs/<section>/mynewguide.gg`.
 6.  **Commit your changes** using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (e.g., `docs(gigs/1): add new-command.gg`).
 7.  **Push** your branch to your fork.
 8.  **Open a Pull Request** against the `main` branch of this repository.

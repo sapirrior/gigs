@@ -14,7 +14,8 @@ Tables start with the `| ` trigger. The first line is always the header row. Col
 
 ## Rendering Features
 
-- **Auto-Header** : The first row is styled with a distinct background.
+- **Auto-Header** : The first row is styled with a distinct background and is automatically horizontally centered.
+- **Left-Aligned Data** : Cell data in subsequent rows remains left-aligned for maximum readability.
 - **Responsive Wrapping** : Cell content wraps automatically to fit column widths.
 - **Dynamic Sizing** : Column widths are calculated based on content.
 - **Narrow Adaptation** : On narrow terminals, tables stack into a vertical definition format.

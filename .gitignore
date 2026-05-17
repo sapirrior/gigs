@@ -3,3 +3,5 @@
 # Ignore the copied gig engine source, as it's an embedded repo
 # and not part of this project's direct source tracking.
 .gemini/gig/
+.gemini/
+.env

@@ -19,7 +19,7 @@ For multi-line blocks (paragraphs, lists), subsequent lines must start with at l
 | `# ` | **Header** | `# NAME` | Primary section title. Bold cream, 0% indent. |
 | `## ` | **Subheader** | `## DESCRIPTION` | Secondary title. Bold sand, partial indent. |
 | `. ` | **Body Text** | `. This is prose.` | General text. 10% indent, auto-wraps. |
-| `! ` | **Literal** | `! code snippet` | Technical text. Sage green, 15% indent, **no wrap**. |
+| ! | **Literal** | `! code snippet` | Technical text. Sage green, 15% indent, **no wrap**, smart truncation (...). |
 | `* ` | **Bullet** | `* Item one` | List item. Grey bullet, 15% indent. |
 | `- ` | **Definition** | `- Term : Description` | Term-description pair. Bold term, 15% indent. |
 | `| ` | **Table Row** | `| Header | Data` | Table construction. First row is the header. |
