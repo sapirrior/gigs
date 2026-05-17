@@ -1,0 +1,98 @@
+@name    "realloc"
+@section "3"
+@version "1.0.0"
+@author  "Dorian Finch"
+@updated "2026-05-17"
+---
+# NAME
+. realloc(3) - change the size of a dynamic memory allocation block
+
+# SYNOPSIS
+$ void *realloc(void *ptr, size_t size);
+
+# DESCRIPTION
+. The `realloc` function alters the size of a memory allocation block previously
+  obtained via `malloc`, `calloc`, or `realloc`. It drops, expands, or replaces
+  the storage region pointed to by `<ptr>` to precisely fit `<size>` bytes.
+
+. The content of the memory block is guaranteed to be preserved up to the lesser
+  of the old and new sizes. Any additional memory appended during an expansion
+  operation is left uninitialized, containing unpredictable residual raw data.
+
+## Edge Case Handling Matrix
+. The behavior of `realloc` changes dynamically depending on the state of its
+  arguments to mimic secondary allocation functions:
+
+- NULL Pointer : If `<ptr>` is passed as `NULL`, the execution context is completely equivalent to calling `malloc(size)`.
+
+- Size Zero : If `<size>` is passed as `0` and `<ptr>` is a valid active block, the behavior is implementation-dependent. On modern `glibc` environments, it acts as a cleanup utility, freeing the memory block and returning either `NULL` or a unique pointer suitable for `free`.
+
+# KERNEL HEAP ALTERATION STRATEGIES
+. The memory allocator attempts to complete the resizing operation with minimal overhead by following a strict sequential logic matrix:
+
+- In-Place Shrinking : When reducing a block's size significantly, the allocator leaves the pointer unchanged. It updates the chunk's internal size header metadata and splits off the remaining trailing space, cataloging it as a new free chunk in the recycling bins to mitigate memory waste.
+
+- In-Place Expansion : When growing a block, the allocator checks the physical memory directly ahead of the active chunk. If the adjacent block is currently unallocated and its capacity satisfies the requested increment, the allocator consumes it in place. The pointer remains identical, bypassing data copy cycles.
+
+- Relocation Allocation : If contiguous expansion is blocked by an adjacent active allocation, a new memory block of `<size>` bytes is requested elsewhere on the heap. The allocator copies the existing payload data to the new target space, triggers an implicit `free(ptr)` on the old block, and returns the fresh pointer.
+
+# RETURN VALUE
+. On success, `realloc` returns a pointer to the resized memory block. This block
+  may or may not have an identical address address string as `<ptr>`.
+
+. On error, it returns `NULL` and leaves the original memory block completely intact
+  and unmodified. It does **not** free or drop the source `<ptr>` context.
+
+# ERRORS
+- ENOMEM : Insufficient virtual storage space is available in the process heap to scale out the allocation block to the requested size.
+
+# NOTES
+. A critical anti-pattern when using this function is assigning the return value of
+  `realloc` directly back to the source pointer variable:
+
+! /* CRITICAL BUG: Memory leak if allocation fails */
+! ptr = realloc(ptr, new_size);
+
+. If the allocation fails, `realloc` returns `NULL` while leaving the old block active. Overwriting the tracking variable with `NULL` creates an orphan chunk on the heap, inducing a catastrophic **Memory Leak**.
+
+# EXAMPLES
+. Safely grow an allocated buffer block using a temporary storage placeholder to defend against memory exhaustion:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! 
+! int main(void) {
+!     int *buffer = (int *)malloc(2 * sizeof(int));
+!     int *tmp = NULL;
+! 
+!     if (buffer == NULL) {
+!         return EXIT_FAILURE;
+!     }
+! 
+!     buffer[0] = 100;
+!     buffer[1] = 200;
+! 
+!     /* Expand the buffer block safely to hold 4 integers */
+!     tmp = (int *)realloc(buffer, 4 * sizeof(int));
+! 
+!     /* Defensive verification step */
+!     if (tmp == NULL) {
+!         perror("Error: Expansion failed");
+!         free(buffer);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Re-bind tracking variable to the safe address */
+!     buffer = tmp;
+! 
+!     /* Use expanded indices */
+!     buffer[2] = 300;
+!     buffer[3] = 400;
+! 
+!     /* Cleanup memory lifecycle */
+!     free(buffer);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {malloc(3)}, {calloc(3)}, {free(3)}, {brk(2)}, {mmap(2)}
