@@ -1,0 +1,89 @@
+@name    "free"
+@section "3"
+@version "1.0.0"
+@author  "Julian Brooks"
+@updated "2026-05-17"
+---
+# NAME
+. free(3) - release dynamic memory allocation space
+
+# SYNOPSIS
+$ void free(void *ptr);
+
+# DESCRIPTION
+. The `free` function deallocates the memory space pointed to by `<ptr>`.
+  This action makes the storage space available for subsequent allocation requests
+  spawned by `malloc`, `calloc`, or `realloc`.
+
+. The argument `<ptr>` must match a pointer address previously returned by a
+  system memory allocation function. If the memory block has already
+  been cleared by a prior call to `free` or `realloc`, or if the address does not
+  point to a valid active chunk, Undefined Behavior (UB) occurs.
+
+. If `<ptr>` is passed as a `NULL` pointer, the engine performs no operation and
+  safely returns immediately without modifying system structures.
+
+## Core Recycling and Consolidation Mechanics
+. To maximize performance and prevent operating system overhead, the memory allocator
+  seldom gives memory back to the kernel immediately upon invoking `free`.
+  Instead, it repurposes the payload block of the freed memory to store recycling
+  pointers.
+
+. The allocator resolves a pointer back to its underlying tracking block by subtracting
+  the tracking chunk size metadata offset from the address passed by the user.
+  Once targeted, the allocator performs a sequential series of optimization checks:
+
+- Unmapping Large Chunks : If the chunk's internal `IS_MMAPPED` (M) status bit is set, the allocation bypasses standard heap tracking bins. The allocator invokes `munmap(2)` to release the virtual pages directly to the kernel right away.
+
+- The Cache Layer (Tcache) : For small memory fragments, the allocator bypasses thread locks entirely by staging the chunk into a thread-local cache ring (tcache bin). Each thread references an independent fast tcache list.
+
+- Bin Classification & Consolidation : If the cache threshold is exceeded, the allocator checks neighboring physical block statuses via boundary tags. If adjacent blocks are unallocated, they are consolidated into a larger single contiguous free chunk to mitigate fragmentation. The resulting block is cataloged within fast, unsorted, small, or large pointer bins.
+
+# RETURN VALUE
+. The `free` function returns no value.
+
+# NOTES
+. To ensure seamless diagnostic tracking across standard library boundaries, `free`
+  is explicitly guaranteed to preserve the current state of `errno`.
+
+. Modifying or referencing a block pointer after it has been passed to `free` yields
+  severe memory bugs known as **Use-After-Free** anomalies. It is recommended
+  to manually assign a pointer to `NULL` immediately after freeing it to minimize risk.
+
+# CRITICAL SECURITY ANOMALIES
+. Failure to handle the lifecycle of pointers correctly breaks internal memory alignment
+  matrices and triggers vulnerabilities:
+
+- Double Free : Invoking `free` twice on the identical pointer address without an intervening allocation manipulates the underlying bin list links. This corrupts the list, causing the allocator to return duplicate block references on subsequent allocation calls.
+
+- Heap Overflow Exploitation : Writing outside bounds overwrites the hidden chunk size or state flags of adjacent blocks. When `free` evaluates this adjacent block later, the corrupted headers cause a memory sub-system crash or arbitrary code redirection.
+
+# EXAMPLES
+. Dynamically generate an element block, check its viability, and securely discard the allocation:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! 
+! int main(void) {
+!     char *str = (char *)malloc(32 * sizeof(char));
+! 
+!     if (str == NULL) {
+!         perror("Allocation error");
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Use the allocated memory block safely */
+!     snprintf(str, 32, "GIG Manual standard");
+!     printf("Content: %s\n", str);
+! 
+!     /* Reclaim heap context and reset target pointer */
+!     free(str);
+!     str = NULL; 
+! 
+!     /* Redundant frees on NULL targets are safe */
+!     free(str); 
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {malloc(3)}, {calloc(3)}, {realloc(3)}, {munmap(2)}
