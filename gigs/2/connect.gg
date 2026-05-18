@@ -1,0 +1,97 @@
+@name    "connect"
+@section "2"
+@version "1.0.0"
+@author  "Julian Vance"
+@updated "2026-05-18"
+---
+# NAME
+. connect(2) - initiate a connection on a socket
+
+# SYNOPSIS
+$ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+# DESCRIPTION
+. The `connect` system call initiates a connection on a socket file descriptor
+  referenced by `<sockfd>` to a destination address specified by `<addr>`.
+
+. The behavioral mechanics of `connect` depend entirely on the underlying transport
+  protocol type associated with the socket descriptor:
+
+- SOCK_STREAM (TCP) : For stateful, connection-oriented protocols, this call actively initiates the standard TCP 3-way handshake sequence (`SYN`, `SYN-ACK`, `ACK`) with the listening remote host.
+
+- SOCK_DGRAM (UDP) : For stateless, connectionless protocols, no network handshake is performed. Instead, `connect` merely sets the default destination address metrics for future data transmission. Outbound datagrams can then use `write(2)` or `send(2)` instead of `sendto(2)`, and the socket will filter incoming packets to only accept those originating from this specified address.
+
+
+
+# PARAMETERS
+- sockfd : The open file descriptor referencing the local socket container.
+
+- addr : A pointer to a protocol-specific structure containing the target destination coordinates (e.g., IP address and port for internet sockets).
+
+- addrlen : The exact structural size, calculated in bytes, of the address object structure pointed to by `<addr>`.
+
+# RETURN VALUE
+. On success, `connect` returns a zero value.
+
+. On failure, it returns a negative code `-1` and populates the global thread `errno` variable to declare the error.
+
+# ERRORS
+- EACCES : For local Unix domain sockets, the process lacks write permissions on the target socket path file, or personal privacy rules block connection setup.
+
+- EADDRINUSE : The local address space or ephemeral port required to route the connection is already actively bound by another network path.
+
+- EBADF : The integer argument provided for `<sockfd>` is not recognized as a valid open file descriptor entry.
+
+- ECONNREFUSED : The remote host actively rejected the connection attempt (e.g., no server process is listening on the targeted destination port).
+
+- EINPROGRESS : The socket is set to non-blocking (`O_NONBLOCK`), and the network connection handshake cannot be completed immediately. The operation continues asynchronously in the background.
+
+- ETIMEDOUT : The system call timed out while attempting to establish the connection handshake because the remote host or intermediate routing path failed to respond.
+
+# EXAMPLES
+. Construct an IPv4 client stream socket and connect it to a remote server listening on port 8080:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! #include <string.h>
+! #include <sys/socket.h>
+! #include <netinet/in.h>
+! #include <arpa/inet.h>
+! #include <unistd.h>
+! 
+! int main(void) {
+!     int client_fd;
+!     struct sockaddr_in serv_addr;
+! 
+!     /* Create the outbound TCP socket */
+!     client_fd = socket(AF_INET, SOCK_STREAM, 0);
+!     if (client_fd == -1) {
+!         perror("Socket generation failed");
+!         return EXIT_FAILURE;
+!     }
+! 
+!     memset(&serv_addr, 0, sizeof(serv_addr));
+!     serv_addr.sin_family = AF_INET;
+!     serv_addr.sin_port = htons(8080);
+! 
+!     /* Convert target IP text string to binary representation */
+!     if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+!         perror("Invalid target network address representation");
+!         close(client_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Handshake with the remote listening host layout */
+!     if (connect(client_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) {
+!         perror("System call connect failed");
+!         close(client_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     printf("Successfully connected to the remote host.\n");
+!     close(client_fd);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {socket(2)}, {bind(2)}, {accept(2)}, {listen(2)}, {inet_pton(3)}

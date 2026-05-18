@@ -1,0 +1,118 @@
+@name    "accept"
+@section "2"
+@version "1.0.0"
+@author  "Kiran Vance"
+@updated "2026-05-18"
+---
+# NAME
+. accept, accept4(2) - accept a connection on a socket
+
+# SYNOPSIS
+$ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+$ int accept4(int sockfd, struct sockaddr *addr, socklen_t *addrlen, int flags);
+
+# DESCRIPTION
+. The `accept` system call is utilized with connection-based socket types, namely stream
+  (`SOCK_STREAM`) and sequential packet (`SOCK_SEQPACKET`) protocols. It extracts the first
+  connection request residing on the listening queue of pending connections for the target
+  descriptor `<sockfd>`.
+
+. Upon extraction, `accept` provisions a completely new, independent connected socket and returns a
+  non-negative file descriptor mapping directly to that endpoint. The new socket is taken out of
+  the passive listening state, while the original source `<sockfd>` remains completely unaffected and ready to
+  process subsequent client connections.
+
+## Value-Result Address Arguments
+. The `<addr>` parameter points to a generic `sockaddr` template structure. This block is populated
+  automatically by the communication subsystem layer with the protocol address coordinates of the inbound
+  peer node.
+
+. The `<addrlen>` argument operates under a strict **Value-Result** paradigm:
+
+- Entry State : The calling application must initialize the variable pointed to by `<addrlen>` to express the total byte capacity available within the structural buffer passed via `<addr>`.
+
+- Return State : Upon completion, the system call overwrites this integer value with the real, precise length (in bytes) of the address populated by the protocol layer. If the user buffer size capacity is too small, the returned address is truncated and the parameter outputs an integer higher than the initial storage input.
+
+## Blocking Behavior and Non-Inheritance
+. If no pending connection handles exist in the accept backlog, the processing loop behavior changes based
+  on descriptor flags:
+
+- Default Block : The calling thread halts execution immediately, shifting into a sleep state until a client node completes a handshake connection.
+
+- Non-Blocking Fail : If the passive listening socket is configured with the `O_NONBLOCK` status attribute, the call aborts instantly, returning an error status of `EAGAIN` or `EWOULDBLOCK`.
+
+- Flag Non-Inheritance : On Linux, the brand-new communication socket returned by `accept` explicitly does **not** inherit runtime status flags (such as `O_NONBLOCK` or `O_ASYNC`) from the passive listening socket. They must be set manually on the new descriptor using `fcntl(2)` or managed atomically via `accept4`.
+
+## The accept4() Extension
+. `accept4` behaves identically to `accept`, but eliminates multithreaded race conditions and structural overhead
+  by allowing atomic initialization flags to be passed during descriptor creation:
+
+- SOCK_NONBLOCK : Applies the `O_NONBLOCK` file status attribute directly onto the newborn file description, enabling instant async I/O loops without subsequent `fcntl` lookups.
+
+- SOCK_CLOEXEC : Enforces the close-on-exec attribute across the descriptor, ensuring the communication channel closes immediately if the process invokes an `execve(2)` replacement.
+
+# PARAMETERS
+- sockfd : The listening socket descriptor that has completed `socket`, `bind`, and `listen` cycles.
+
+- addr : A pointer to a protocol structure or `NULL` if the peer connection identity details are unneeded.
+
+- addrlen : A pointer to the length of the address space buffer, or `NULL` strictly when `<addr>` is passed as `null`.
+
+- flags : A bitwise OR combination of `SOCK_NONBLOCK` and `SOCK_CLOEXEC` to customize `accept4` behavior.
+
+# RETURN VALUE
+. On success, these calls return a non-negative integer representing the file descriptor of the accepted socket.
+
+. On error, they return a negative value `-1` and set `errno` appropriately without altering `<addrlen>` parameters.
+
+# ERRORS
+- EAGAIN : The socket is set to non-blocking and no pending connection handles are queued up.
+
+- EBADF : The integer argument provided for `<sockfd>` is not recognized as an open file descriptor.
+
+- ECONNABORTED : A pending connection request was abruptly dropped or aborted by the client node before `accept` finished processing.
+
+- EINTR : The blocking call was interrupted by an asynchronous system signal before a client node completed a handshake.
+
+- EINVAL : The listening socket has not been shifted into a passive state via an explicit call to `listen(2)`.
+
+- ENFILE : The host system configuration threshold for maximum simultaneously open files has been reached.
+
+- ENOTSOCK : The file descriptor targets a standard text node, directory, or pipe instead of a network socket.
+
+# EXAMPLES
+. Continuously accept incoming TCP client links on a passive port, fetching the client identity and creating an isolated communication stream:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! #include <sys/socket.h>
+! #include <netinet/in.h>
+! #include <unistd.h>
+! 
+! int main(void) {
+!     int server_fd, client_fd;
+!     struct sockaddr_in client_addr;
+!     socklen_t addr_len = sizeof(client_addr);
+! 
+!     /* Assume server_fd is initialized, bound to 8080, and listening */
+!     server_fd = socket(AF_INET, SOCK_STREAM, 0);
+! 
+!     /* Block execution waiting for an inbound network client */
+!     client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_len);
+!     if (client_fd == -1) {
+!         perror("System call accept failed");
+!         close(server_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Safe utilization block of the separate communication link */
+!     write(client_fd, "GIG Protocol Accepted\n", 22);
+! 
+!     /* Close connection to client node */
+!     close(client_fd);
+!     close(server_fd);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {socket(2)}, {bind(2)}, {listen(2)}, {connect(2)}, {fcntl(2)}

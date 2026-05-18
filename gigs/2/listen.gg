@@ -1,0 +1,98 @@
+@name    "listen"
+@section "2"
+@version "1.0.0"
+@author  "Reginald Vance"
+@updated "2026-05-18"
+---
+# NAME
+. listen(2) - listen for connections on a socket
+
+# SYNOPSIS
+$ int listen(int sockfd, int backlog);
+
+# DESCRIPTION
+. `listen` marks a connection-mode socket file descriptor referenced by `<sockfd>`
+  as a passive endpoint. This configuration signals the kernel network subsystem
+  that the socket is ready to accept incoming structural connection requests routed by
+  external clients using `accept(2)`.
+
+. The call applies strictly to stateful, reliable connection socket profiles, primarily
+  comprising stream types (`SOCK_STREAM`) and sequential packet layouts (`SOCK_SEQPACKET`).
+
+. Before triggering `listen`, the targeted descriptor must be successfully mapped to a local
+  hardware interface coordinate or port identifier via the `bind(2)` system call.
+
+## Kernel Backlog Processing Queues
+. Incoming connections transition through distinct verification boundaries inside the kernel network
+  stack before hitting application loops:
+
+
+
+- The SYN Queue : When a client initiates a connection, the subsystem registers an entry within an incomplete connection queue (tracked via the `tcp_max_syn_backlog` configuration parameter).
+
+- The Accept Queue : Once the standard TCP 3-way handshake completes, the kernel shifts the socket node into the fully established connection queue. The maximum storage length of this exact queue is explicitly bounded by the `<backlog>` parameter.
+
+- Tail-Drop Mitigation : If the queue fills up completely and a new client connection arrives, the kernel drops the packet silently. This triggers an implicit client timeout retransmission mechanism, ensuring that transient drops clear out seamlessly once the user application drains the queue.
+
+# PARAMETERS
+- sockfd : The open file descriptor referencing the local network or Unix socket container.
+
+- backlog : The absolute maximum number of fully established, unaccepted socket nodes permitted to queue inside memory waiting for an application `accept` pickup. If this parameter exceeds the system threshold `/proc/sys/net/core/somaxconn`, the kernel caps it silently.
+
+# RETURN VALUE
+. On success, `listen` returns a zero value.
+
+. On failure, it returns a negative code `-1` and assigns the global thread `errno` state to identify the restriction.
+
+# ERRORS
+- EADDRINUSE : Another active server socket descriptor is currently listening on the identical interface port.
+
+- EBADF : The integer argument provided for `<sockfd>` is not recognized as a valid open file descriptor.
+
+- ENOTSOCK : The file descriptor targets a standard text node or pipe channel instead of a network socket.
+
+- EOPNOTSUPP : The protocol structure associated with the socket type does not support passive listening capabilities.
+
+# EXAMPLES
+. Turn a bound TCP server socket into a passive listener with a backlog capacity of 128 elements:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! #include <sys/socket.h>
+! #include <netinet/in.h>
+! #include <unistd.h>
+! 
+! int main(void) {
+!     int server_fd;
+!     struct sockaddr_in addr;
+! 
+!     server_fd = socket(AF_INET, SOCK_STREAM, 0);
+!     if (server_fd == -1) {
+!         perror("Socket generation failed");
+!         return EXIT_FAILURE;
+!     }
+! 
+!     addr.sin_family = AF_INET;
+!     addr.sin_addr.s_addr = INADDR_ANY;
+!     addr.sin_port = htons(9090);
+! 
+!     if (bind(server_fd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+!         perror("Address assignment failed");
+!         close(server_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Shift the descriptor into a passive listen loop */
+!     if (listen(server_fd, 128) == -1) {
+!         perror("System call listen failed");
+!         close(server_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     printf("Server process is listening on port 9090.\n");
+!     close(server_fd);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {socket(2)}, {bind(2)}, {accept(2)}, {connect(2)}
