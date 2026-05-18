@@ -1,0 +1,79 @@
+@name    "rustc"
+@section "1"
+@version "1.0.0"
+@author  "Vance Sterling"
+@updated "2026-05-18"
+---
+# NAME
+. rustc - The official compiler front-end driver for the Rust language
+
+# SYNOPSIS
+$ rustc [OPTIONS] INPUT
+
+# DESCRIPTION
+. `rustc` is the core compiler binary responsible for translating Rust source text
+  files into machine-executable binaries, static archives, or dynamic libraries.
+
+. While developers typically interact with compilation loops via the `cargo(1)`
+  package manager, invoking `rustc` directly provides a granular interface to
+  control the intermediate LLVM pass optimizer and codegen generation.
+
+# OPTIONS
+- -o <filename> : Directs the compiler to write its output to the specified filename.
+
+- -O : Invokes an explicit alias shortcut for optimization level 2, prioritizing speed.
+
+- -g : Equivalent to passing `-C debuginfo=2`, generating complete debugging information.
+
+- --crate-type [bin|lib|rlib|dylib|cdylib|staticlib|proc-macro] : A comma-separated list of the explicit artifact formats the compiler is tasked to emit.
+
+- --crate-name <name> : Declares the structural identity name of the crate being compiled.
+
+- --emit [asm|llvm-bc|llvm-ir|obj|metadata|link|dep-info|mir] : Configures the exact output format types produced during compilation phases.
+
+- --target <triple> : Triggers cross-compilation pipeline structures targeting a specific foreign CPU architecture or OS tuple.
+
+- --explain <code > : Decodes a specific compiler error code, providing an informative, deep conceptual breakdown of the violation.
+
+- --edition <2015|2018|2021|2024> : Enforces explicit lexical analysis boundaries linked to a specified architectural language edition.
+
+- --cfg <spec> : Sets compile-time flags to configure conditional compilation attributes inside source blocks.
+
+- -L [KIND=]PATH : Appends an external folder path to the library search matrix to locate dependencies.
+
+- -l [KIND=]NAME : Explicitly links the output binary to a designated static or dynamic native library archive.
+
+## Codegen Flags (-C)
+. Advanced parameters are passed to the compiler via the `-C` (codegen) flag to direct
+  underlying compilation architectures:
+
+- opt-level= <0-3,s,z> : Sets the optimization matrix. `0` acts as a debug bypass. `3` enables aggressive speed optimization loops. `s` and `z` target assembly patterns strictly to minimize final binary size.
+
+- codegen-units= <n> : Controls how many parallel threads the backend splits processing text into. Lower values increase compilation time but allow the compiler to produce optimized, faster code.
+
+- lto= <true|false|thin> : Toggles Link-Time Optimization passes to eliminate dead code boundaries across multi-crate paths.
+
+- panic= <abort|unwind> : Dictates whether a thread unwinds the stack gracefully upon reaching a panic execution point or immediately aborts process lifecycle execution.
+
+- strip= <none|debuginfo|symbols> : Automatically instructs the toolchain to purge debug tracking lines or system symbol mappings from the final executable.
+
+# RETURN VALUE
+. On success, `rustc` returns a zero value.
+
+. On error (such as parsing illegal syntax layouts or breaking borrowing checks), it
+  emits diagnostic reports to `stderr` and exits with a non-zero code.
+
+# EXAMPLES
+. Compile a standalone source file into an optimized binary enforcing a modern language edition:
+
+! /* Direct optimization compilation of a single file */
+! rustc -O --edition 2021 main.rs
+! 
+! /* Cross-compile an application targeting a distinct 64-bit Linux kernel setup */
+! rustc --target x86_64-unknown-linux-gnu cluster.rs -o production_node
+! 
+! /* Compile a native static archive while minimizing code size footprints */
+! rustc --crate-type=staticlib -C opt-level=z -C panic=abort engine.rs
+
+# SEE ALSO
+. {cargo(1)}, {gcc(1)}, {clang(1)}
