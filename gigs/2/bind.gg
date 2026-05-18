@@ -1,0 +1,102 @@
+@name    "bind"
+@section "2"
+@version "1.0.0"
+@author  "Devon Sterling"
+@updated "2026-05-18"
+---
+# NAME
+. bind(2) - bind a name to a socket
+
+# SYNOPSIS
+$ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+
+# DESCRIPTION
+. When a network socket descriptor is newly provisioned via the `socket(2)` call,
+  it initializes solely within a specified namespace (address family) but lacks any
+  concrete identity or local address mapping.
+
+. `bind` assigns the physical address structure targeted by `<addr>` directly to
+  the reference endpoint file descriptor `<sockfd>`. Traditionally, this
+  low-level layer execution is defined as **assigning a name to a socket**.
+
+. For reliable stream endpoints (`SOCK_STREAM`), executing a structural `bind` operation
+  is mandatory before the endpoint can enter a passive state to listen for and
+  process incoming client connections.
+
+## Pointer Casting Constraints
+. The `sockaddr` definition passed into the second parameter is a generic protocol
+  template container structure:
+
+! struct sockaddr {
+!     sa_family_t sa_family;
+!     char        sa_data[14];
+! };
+
+. The single purpose of the universal `struct sockaddr` template is to let developers cast
+  specific, layout-dependent protocol variants (e.g., `sockaddr_in` for IPv4 or `sockaddr_un`
+  for local Unix sockets) into a standardized argument to satisfy the compiler.
+
+# PARAMETERS
+- sockfd : The active file descriptor referencing the target socket container.
+
+- addr : A pointer to a protocol-specific structure specifying the local binding coordinates.
+
+- addrlen : The structural size, calculated strictly in bytes, of the address object structure pointed to by `<addr>`.
+
+# RETURN VALUE
+. On success, `bind` returns a zero value.
+
+. On failure, it returns a negative code `-1` and populates the global thread `errno` variable to declare the error.
+
+# ERRORS
+- EACCES : The target port number or interface path is protected, and the executing user space process lacks root administrative privileges.
+
+- EADDRINUSE : The specified address coordinate or port number is already bound to a different active socket descriptor.
+
+- EBADF : The `<sockfd>` integer passed does not map to a valid open file descriptor entry.
+
+- EINVAL : The target socket descriptor is already bound to an active structural address profile.
+
+- ENOTSOCK : The resource mapped to `<sockfd>` tracks a standard file node instead of a network socket.
+
+# EXAMPLES
+. Construct an IPv4 communication socket, assign a wild-card layer interface, and bind it securely to port 8080:
+
+! #include <stdio.h>
+! #include <stdlib.h>
+! #include <string.h>
+! #include <sys/socket.h>
+! #include <netinet/in.h>
+! #include <unistd.h>
+! 
+! int main(void) {
+!     int server_fd;
+!     struct sockaddr_in address;
+! 
+!     /* Create the TCP socket descriptor */
+!     server_fd = socket(AF_INET, SOCK_STREAM, 0);
+!     if (server_fd == -1) {
+!         perror("Socket initialization failed");
+!         return EXIT_FAILURE;
+!     }
+! 
+!     /* Zero out the structure and configure fields */
+!     memset(&address, 0, sizeof(address));
+!     address.sin_family = AF_INET;
+!     address.sin_addr.s_addr = INADDR_ANY;
+!     address.sin_port = htons(8080);
+! 
+!     /* Cast address type and bind to the file descriptor */
+!     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) == -1) {
+!         perror("System call bind failed");
+!         close(server_fd);
+!         return EXIT_FAILURE;
+!     }
+! 
+!     printf("Socket mapped successfully to port 8080.\n");
+!     close(server_fd);
+!     return EXIT_SUCCESS;
+! }
+
+# SEE ALSO
+. {socket(2)}, {accept(2)}, {listen(2)}, {connect(2)}, {ip(7)}
